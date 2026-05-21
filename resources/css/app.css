@@ -1,0 +1,195 @@
+@import 'tailwindcss';
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+@source '../**/*.blade.php';
+@source '../**/*.js';
+
+/* ============================================
+   nuvion glass — Brandbook Design Tokens
+   ============================================ */
+
+@theme {
+    --color-primary:       #002F6D;
+    --color-primary-light: #003D8F;
+    --color-primary-dark:  #001F4D;
+    --color-secondary:     #3A8DDE;
+    --color-accent:        #5BA3E6;
+    --color-black:         #000000;
+    --color-bg:            #0A0E1A;
+    --color-bg-light:      #F4F6F9;
+    --color-text:          #FFFFFF;
+    --color-text-dark:     #1A1A2E;
+    --color-text-muted:    #4B5563;
+    --color-muted:         #E5E5E5;
+    --color-surface:       #111827;
+    --color-surface-light: #1F2937;
+    --color-border:        #1E3A5F;
+    --color-border-light:  #E2E8F0;
+    --color-success:       #10B981;
+    --color-warning:       #F59E0B;
+    --color-danger:        #EF4444;
+
+    --font-brand: 'Bai Jamjuree', sans-serif;
+    --font-body:  'IBM Plex Sans', 'DIN 2014', sans-serif;
+    --font-sans:  'IBM Plex Sans', ui-sans-serif, system-ui, sans-serif;
+}
+
+/* ============================================
+   @font-face — Bai Jamjuree (local)
+   ============================================ */
+
+@font-face {
+    font-family: 'Bai Jamjuree';
+    src: url('/fonts/BaiJamjureeRegular.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+/* ============================================
+   CSS custom properties (for non-utility usage)
+   ============================================ */
+
+:root {
+    --color-primary:    #002F6D;
+    --color-secondary:  #3A8DDE;
+    --color-black:      #000000;
+    --color-bg:         #0A0E1A;
+    --color-bg-light:   #F4F6F9;
+    --color-text:       #FFFFFF;
+    --color-text-dark:  #1A1A2E;
+    --color-text-muted: #4B5563;
+    --color-muted:      #E5E5E5;
+    --font-brand:       'Bai Jamjuree', sans-serif;
+    --font-body:        'IBM Plex Sans', 'DIN 2014', sans-serif;
+}
+
+/* ============================================
+   Base layer
+   ============================================ */
+
+@layer base {
+    html {
+        scroll-behavior: smooth;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+
+    body {
+        font-family: var(--font-body);
+        background-color: var(--color-bg);
+        color: var(--color-text);
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+        font-family: var(--font-brand);
+    }
+
+    [x-cloak] {
+        display: none !important;
+    }
+}
+
+/* =============================================
+   ANIMACIONES — nuvion - glass
+   Solo transform + opacity (GPU, sin layout)
+   ============================================= */
+
+/* Keyframes base */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(28px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeInRight {
+  from { opacity: 0; transform: translateX(28px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes fadeInLeft {
+  from { opacity: 0; transform: translateX(-28px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.93); }
+  to   { opacity: 1; transform: scale(1); }
+}
+@keyframes floatY {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-10px); }
+}
+@keyframes gradientShift {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+@keyframes shimmer {
+  from { left: -100%; }
+  to   { left: 100%; }
+}
+@keyframes pulseDot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.6; transform: scale(0.92); }
+}
+
+/* Hero title — word-by-word cascade reveal */
+.hero-word-wrap {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: bottom;
+  padding-bottom: 0.05em;          /* evita recorte de descendentes (g, j, p…) */
+}
+.hero-word {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(110%);
+  transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.hero-word.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Clases utilitarias de animación */
+.anim-fade-up    { animation: fadeInUp    0.6s cubic-bezier(0.4,0,0.2,1) both; }
+.anim-fade-right { animation: fadeInRight 0.6s cubic-bezier(0.4,0,0.2,1) both; }
+.anim-fade-left  { animation: fadeInLeft  0.6s cubic-bezier(0.4,0,0.2,1) both; }
+.anim-scale-in   { animation: scaleIn     0.5s cubic-bezier(0.34,1.56,0.64,1) both; }
+.anim-float      { animation: floatY      4s   cubic-bezier(0.4,0,0.2,1) infinite; }
+
+/* Delays escalonados */
+.delay-100 { animation-delay: 100ms; }
+.delay-200 { animation-delay: 200ms; }
+.delay-300 { animation-delay: 300ms; }
+.delay-400 { animation-delay: 400ms; }
+.delay-500 { animation-delay: 500ms; }
+.delay-600 { animation-delay: 600ms; }
+
+/* Scroll reveal — estado invisible por defecto */
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s cubic-bezier(0.4,0,0.2,1),
+              transform 0.6s cubic-bezier(0.4,0,0.2,1);
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.reveal.delay-150 { transition-delay: 150ms; }
+.reveal.delay-300 { transition-delay: 300ms; }
+.reveal.delay-450 { transition-delay: 450ms; }
+
+/* Shimmer del botón CTA */
+a.group:hover .shimmer-inner {
+  transform: translateX(100%) !important;
+}
+
+/* Respetar preferencias del usuario */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}

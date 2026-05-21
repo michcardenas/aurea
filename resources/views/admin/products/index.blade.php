@@ -1,0 +1,125 @@
+@extends('layouts.admin')
+
+@section('title', 'Productos')
+@section('page_title', 'Productos')
+
+@section('content')
+    <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-6">
+        <p class="text-gray-500">{{ $products->total() }} productos en total.</p>
+        <a href="{{ route('admin.products.create') }}" class="inline-flex items-center bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors">
+            <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.5v15m7.5-7.5h-15"/></svg>
+            Nuevo producto
+        </a>
+    </div>
+
+    {{-- Filters --}}
+    <form method="GET" class="bg-white rounded-xl shadow-sm border border-gray-200 p-4 mb-6">
+        <div class="grid grid-cols-1 sm:grid-cols-4 gap-4">
+            <input type="text" name="search" value="{{ request('search') }}" placeholder="Buscar por nombre..."
+                   class="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <select name="category" class="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <option value="">Todas las categorías</option>
+                @foreach($categories as $cat)
+                    <option value="{{ $cat->id }}" {{ request('category') == $cat->id ? 'selected' : '' }}>{{ $cat->name }}</option>
+                @endforeach
+            </select>
+            <select name="status" class="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <option value="">Todos los estados</option>
+                <option value="active" {{ request('status') === 'active' ? 'selected' : '' }}>Activos</option>
+                <option value="inactive" {{ request('status') === 'inactive' ? 'selected' : '' }}>Inactivos</option>
+            </select>
+            <div class="flex gap-2">
+                <button type="submit" class="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-lg text-sm font-medium transition-colors">Filtrar</button>
+                <a href="{{ route('admin.products.index') }}" class="px-4 py-2 text-sm text-gray-500 hover:text-gray-700">Limpiar</a>
+            </div>
+        </div>
+    </form>
+
+    {{-- Products table --}}
+    <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+        @if($products->isEmpty())
+            <div class="p-8 text-center text-gray-500">No se encontraron productos.</div>
+        @else
+            <div class="overflow-x-auto">
+                <table class="w-full">
+                    <thead class="bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <tr>
+                            <th class="px-6 py-3">Producto</th>
+                            <th class="px-6 py-3">Categoría</th>
+                            <th class="px-6 py-3">Precio</th>
+                            <th class="px-6 py-3">Stock</th>
+                            <th class="px-6 py-3">Estado</th>
+                            <th class="px-6 py-3 text-right">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200">
+                        @foreach($products as $product)
+                            <tr class="hover:bg-gray-50">
+                                <td class="px-6 py-4">
+                                    <div class="flex items-center space-x-3">
+                                        <div class="w-10 h-10 bg-gray-100 rounded-lg overflow-hidden flex-shrink-0">
+                                            @if($product->images && count($product->images) > 0)
+                                                <img src="{{ asset('storage/' . $product->images[0]) }}" alt="" class="w-full h-full object-cover">
+                                            @else
+                                                <div class="w-full h-full flex items-center justify-center text-gray-400">
+                                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909M3 3h18"/></svg>
+                                                </div>
+                                            @endif
+                                        </div>
+                                        <div>
+                                            <a href="{{ route('admin.products.show', $product) }}" class="text-sm font-medium text-gray-900 hover:text-blue-600">{{ $product->name }}</a>
+                                            @if($product->is_featured)
+                                                <span class="ml-1 text-xs text-yellow-600">★</span>
+                                            @endif
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 text-sm text-gray-500">{{ $product->category->name }}</td>
+                                <td class="px-6 py-4 text-sm">
+                                    <span class="font-medium">${{ number_format($product->price, 2) }}</span>
+                                    @if($product->compare_price)
+                                        <span class="text-gray-400 line-through text-xs ml-1">${{ number_format($product->compare_price, 2) }}</span>
+                                    @endif
+                                </td>
+                                @php
+                                    $totalStock = $product->availableStock();
+                                    $hasVariants = $product->variants->where('is_active', true)->count() > 0;
+                                @endphp
+                                <td class="px-6 py-4 text-sm {{ $totalStock < 10 ? 'text-red-600 font-medium' : 'text-gray-700' }}">
+                                    {{ $totalStock }}
+                                    @if($hasVariants)
+                                        <span class="text-xs text-gray-400 font-normal block">({{ $product->variants->where('is_active', true)->count() }} variantes)</span>
+                                    @endif
+                                </td>
+                                <td class="px-6 py-4">
+                                    <form method="POST" action="{{ route('admin.products.toggle', $product) }}" class="inline">
+                                        @csrf @method('PATCH')
+                                        <button type="submit" class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium {{ $product->is_active ? 'bg-green-100 text-green-800 hover:bg-green-200' : 'bg-gray-100 text-gray-600 hover:bg-gray-200' }} transition-colors">
+                                            {{ $product->is_active ? 'Activo' : 'Inactivo' }}
+                                        </button>
+                                    </form>
+                                </td>
+                                <td class="px-6 py-4 text-right">
+                                    <div class="flex items-center justify-end space-x-2">
+                                        <a href="{{ route('admin.products.edit', $product) }}" class="text-gray-500 hover:text-blue-600" title="Editar">
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125"/></svg>
+                                        </a>
+                                        <form method="POST" action="{{ route('admin.products.destroy', $product) }}" onsubmit="return confirm('¿Eliminar este producto?')">
+                                            @csrf @method('DELETE')
+                                            <button type="submit" class="text-gray-500 hover:text-red-600" title="Eliminar">
+                                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0"/></svg>
+                                            </button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+            <div class="px-6 py-4 border-t border-gray-200">
+                {{ $products->links() }}
+            </div>
+        @endif
+    </div>
+@endsection
