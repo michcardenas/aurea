@@ -41,8 +41,16 @@ class ProductImportController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
+        // Subir límites de PHP en runtime — algunos exports de Excel traen
+        // imágenes embebidas y pesan 100+ MB.
+        @ini_set('upload_max_filesize', '200M');
+        @ini_set('post_max_size', '200M');
+        @ini_set('memory_limit', '1024M');
+        @ini_set('max_execution_time', '600');
+        set_time_limit(600);
+
         $validated = $request->validate([
-            'file' => 'required|file|mimes:xlsx,xls,csv|max:10240',
+            'file' => 'required|file|mimes:xlsx,xls,csv|max:204800', // 200 MB
             'default_type' => 'required|string|in:sin_graduacion,toallitas',
             'default_stock' => 'required|integer|min:0',
             'fallback_pv_when_no_venta' => 'sometimes|boolean',
