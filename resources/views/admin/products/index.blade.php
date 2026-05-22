@@ -6,10 +6,24 @@
 @section('content')
     <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-6">
         <p class="text-gray-500">{{ $products->total() }} productos en total.</p>
-        <a href="{{ route('admin.products.create') }}" class="inline-flex items-center bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors">
-            <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.5v15m7.5-7.5h-15"/></svg>
-            Nuevo producto
-        </a>
+        <div class="flex items-center gap-2">
+            <a href="{{ route('admin.products.import') }}"
+               class="inline-flex items-center px-4 py-2 rounded-lg text-sm font-medium transition-colors"
+               style="background:#FBF4E6;color:#BE9A53;border:1px solid #E8CC92;"
+               onmouseover="this.style.background='#E8CC92';this.style.color='#2E2A26'"
+               onmouseout="this.style.background='#FBF4E6';this.style.color='#BE9A53'">
+                <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3"/></svg>
+                Importar Excel
+            </a>
+            <a href="{{ route('admin.products.create') }}"
+               class="inline-flex items-center text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors"
+               style="background:#D9B56D;"
+               onmouseover="this.style.background='#BE9A53'"
+               onmouseout="this.style.background='#D9B56D'">
+                <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.5v15m7.5-7.5h-15"/></svg>
+                Nuevo producto
+            </a>
+        </div>
     </div>
 
     {{-- Filters --}}

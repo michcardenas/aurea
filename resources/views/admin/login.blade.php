@@ -16,12 +16,12 @@
 <body class="bg-bg text-text font-body min-h-screen flex items-center justify-center antialiased">
     <div class="w-full max-w-md px-6">
         <div class="text-center mb-8">
-            <img src="{{ asset('img/isotipo.png') }}" alt="Belleza Áurea" class="h-14 w-14 object-contain mx-auto mb-3">
+            <img src="{{ asset('img/brand/logo-transparent.png') }}" alt="Belleza Áurea" class="h-20 w-20 object-contain mx-auto mb-3">
             <div>
-                <span class="font-brand text-3xl text-secondary">nuvion</span>
-                <span class="font-brand text-sm text-muted uppercase tracking-[0.3em] ml-1">glass</span>
+                <span style="font-family:'Playfair Display',serif;font-size:30px;font-weight:600;color:#2E2A26;letter-spacing:0.02em;">Belleza</span>
+                <span style="font-family:'Playfair Display',serif;font-size:30px;font-weight:600;color:#D9B56D;font-style:italic;margin-left:6px;">Áurea</span>
             </div>
-            <p class="mt-2 text-sm text-muted/50">Panel de administración</p>
+            <p class="mt-2 text-sm" style="color:#6B6157;">Panel de administración</p>
         </div>
 
         <div class="bg-surface border border-border rounded-2xl p-8">

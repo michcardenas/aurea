@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ProductAdminController;
+use App\Http\Controllers\Admin\ProductImportController;
 use App\Http\Controllers\Admin\OrderAdminController;
 use App\Http\Controllers\Admin\LeadAdminController;
 use App\Http\Controllers\Admin\BlogAdminController;
@@ -39,6 +40,8 @@ Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 Route::resource('categories', CategoryAdminController::class)->except(['show']);
 
 // Products CRUD
+Route::get('products/import', [ProductImportController::class, 'show'])->name('products.import');
+Route::post('products/import', [ProductImportController::class, 'store'])->name('products.import.store');
 Route::resource('products', ProductAdminController::class);
 Route::patch('products/{product}/toggle', [ProductAdminController::class, 'toggle'])->name('products.toggle');
 
