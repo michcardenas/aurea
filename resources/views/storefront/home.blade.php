@@ -2,16 +2,16 @@
 
 @section('body_class', 'bg-bg-light text-text-dark')
 
-@section('title', $seoSettings->meta_title ?? 'Nuvion Glass | Protege tus ojos de la luz azul')
+@section('title', $seoSettings->meta_title ?? 'Belleza Áurea | Protege tus ojos de la luz azul')
 @section('meta_description', $seoSettings->meta_description ?? 'Lentes con protección de luz azul. Con o sin graduación. Diseño moderno que querrás usar todo el día. Envío gratis a todo México.')
 @section('robots', $seoSettings->robots ?? 'index, follow')
 @section('canonical', $seoSettings->canonical_url ?? url()->current())
 @section('og_type', $seoSettings->og_type ?? 'website')
-@section('og_title', $seoSettings->og_title ?? $seoSettings->meta_title ?? 'Nuvion Glass | Lentes con protección de luz azul')
+@section('og_title', $seoSettings->og_title ?? $seoSettings->meta_title ?? 'Belleza Áurea | Lentes con protección de luz azul')
 @section('og_description', $seoSettings->og_description ?? $seoSettings->meta_description ?? 'Protege tus ojos de las pantallas. Lentes con filtro de luz azul, con o sin graduación. Envío gratis.')
 @section('og_image', $seoSettings->og_image_url ?? asset('images/og-default.jpg'))
 @section('twitter_card', $seoSettings->twitter_card ?? 'summary_large_image')
-@section('twitter_title', $seoSettings->twitter_title ?? $seoSettings->meta_title ?? 'Nuvion Glass | Lentes con protección de luz azul')
+@section('twitter_title', $seoSettings->twitter_title ?? $seoSettings->meta_title ?? 'Belleza Áurea | Lentes con protección de luz azul')
 @section('twitter_description', $seoSettings->twitter_description ?? $seoSettings->meta_description ?? 'Protege tus ojos de las pantallas. Lentes con filtro de luz azul, con o sin graduación. Envío gratis.')
 @section('twitter_image', $seoSettings->twitter_image_url ?? $seoSettings->og_image_url ?? asset('images/og-default.jpg'))
 
@@ -334,7 +334,7 @@
             <div style="position:absolute;top:0;left:0;width:100%;height:100%;transition:opacity .8s ease;{{ $i === 0 ? 'opacity:1;z-index:2;' : 'opacity:0;z-index:1;' }}"
                  :style="current === {{ $i }} ? 'opacity:1;z-index:2;' : 'opacity:0;z-index:1;'">
                 <img src="{{ asset('storage/'.$img) }}"
-                     alt="nuvion glass lentes filtro luz azul"
+                     alt="Belleza Áurea lentes filtro luz azul"
                      loading="{{ $i === 0 ? 'eager' : 'lazy' }}"
                      class="hero-carousel-img"
                      style="position:absolute !important;top:0 !important;left:0 !important;width:100% !important;height:100% !important;object-fit:cover !important;object-position:center center !important;display:block !important;"
@@ -461,7 +461,7 @@
         @else
         {{-- Imagen única full width --}}
         <img src="{{ asset('storage/'.$heroImages[0]) }}"
-             alt="nuvion glass lentes filtro luz azul"
+             alt="Belleza Áurea lentes filtro luz azul"
              style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;">
 
         {{-- Overlay izquierda --}}
@@ -621,7 +621,7 @@
             <div class="h-split-right h-img-anim" style="position:relative;overflow:hidden;background:linear-gradient(135deg,#e0f2fe 0%,#dbeafe 50%,#ede9fe 100%);min-height:580px;height:100%;">
                 @if($heroProduct && $heroProduct->featured_image)
                 <img src="{{ asset('storage/'.$heroProduct->featured_image) }}"
-                     alt="{{ $heroProduct->name }} nuvion glass filtro luz azul"
+                     alt="{{ $heroProduct->name }} Belleza Áurea filtro luz azul"
                      style="position:absolute;inset:0;width:100%;height:100%;object-fit:contain;object-position:center;padding:40px;transition:transform .4s ease;"
                      onmouseover="this.style.transform='scale(1.03)'"
                      onmouseout="this.style.transform='scale(1)'">
@@ -689,7 +689,7 @@
 
                 {{-- Eyebrow --}}
                 <div class="h-anim-1" style="font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#378ADD;font-weight:500;margin-bottom:14px;">
-                    {{ $hero->eyebrow_text ?? 'nuvion glass · protección visual' }}
+                    {{ $hero->eyebrow_text ?? 'Belleza Áurea · protección visual' }}
                 </div>
 
                 {{-- Título --}}
@@ -816,14 +816,14 @@
                     @endforeach
                 </div>
 
-                {{-- Columna CON nuvion glass --}}
+                {{-- Columna CON Belleza Áurea --}}
                 <div class="reveal" style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:16px;padding:28px 32px;">
                     {{-- Header col --}}
                     <div style="display:flex;align-items:center;gap:8px;margin-bottom:20px;">
                         <div style="width:22px;height:22px;border-radius:50%;background:#dcfce7;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
                             <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M1.5 5l2.5 2.5 4.5-4.5" stroke="#16a34a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
                         </div>
-                        <span style="font-size:14px;font-weight:600;color:#16a34a;">{{ $homePage->comparison_with_label ?? 'Con nuvion glass' }}</span>
+                        <span style="font-size:14px;font-weight:600;color:#16a34a;">{{ $homePage->comparison_with_label ?? 'Con Belleza Áurea' }}</span>
                     </div>
                     {{-- Items --}}
                     @foreach($cmpWithItems as $item)

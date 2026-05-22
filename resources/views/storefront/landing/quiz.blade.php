@@ -2,8 +2,8 @@
 
 @section('body_class', 'bg-bg text-text')
 
-@section('title', $quizPage->meta_title ?? '¿Qué lentes necesitas? — Quiz | Nuvion Glass')
-@section('meta_description', $quizPage->meta_description ?? 'Responde algunas preguntas y descubre qué lentes con protección de luz azul son perfectos para ti. Quiz interactivo de Nuvion Glass.')
+@section('title', $quizPage->meta_title ?? '¿Qué lentes necesitas? — Quiz | Belleza Áurea')
+@section('meta_description', $quizPage->meta_description ?? 'Responde algunas preguntas y descubre qué lentes con protección de luz azul son perfectos para ti. Quiz interactivo de Belleza Áurea.')
 
 @section('content')
 

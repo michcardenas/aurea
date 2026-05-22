@@ -6,8 +6,8 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     {{-- SEO Meta (overridable per page) --}}
-    <title>@yield('title', 'Nuvion Glass | Lentes con protección de luz azul')</title>
-    <meta name="description" content="@yield('meta_description', 'Protege tus ojos de la luz azul con lentes nuvion glass. Con o sin graduación. Diseño moderno, envío gratis.')">
+    <title>@yield('title', 'Belleza Áurea | Cosmética natural, elegante y atemporal')</title>
+    <meta name="description" content="@yield('meta_description', 'Belleza natural, elegante y atemporal. Skincare, fragancias y rituales de belleza premium en Belleza Áurea.')">
     <meta name="robots" content="@yield('robots', 'index, follow')">
 
     {{-- Canonical --}}
@@ -15,26 +15,32 @@
 
     {{-- Open Graph --}}
     <meta property="og:type" content="@yield('og_type', 'website')">
-    <meta property="og:title" content="@yield('og_title', 'Nuvion Glass')">
-    <meta property="og:description" content="@yield('og_description', 'Lentes con protección de luz azul')">
+    <meta property="og:title" content="@yield('og_title', 'Belleza Áurea')">
+    <meta property="og:description" content="@yield('og_description', 'Belleza natural, elegante y atemporal')">
     <meta property="og:url" content="@yield('canonical', url()->current())">
-    <meta property="og:image" content="@yield('og_image', asset('images/og-default.jpg'))">
-    <meta property="og:site_name" content="Nuvion Glass">
-    <meta property="og:locale" content="es_MX">
+    <meta property="og:image" content="@yield('og_image', asset('img/brand/logo-principal.png'))">
+    <meta property="og:site_name" content="Belleza Áurea">
+    <meta property="og:locale" content="es_ES">
 
     {{-- Twitter Card --}}
     <meta name="twitter:card" content="@yield('twitter_card', 'summary_large_image')">
-    <meta name="twitter:title" content="@yield('twitter_title', 'Nuvion Glass')">
-    <meta name="twitter:description" content="@yield('twitter_description', 'Lentes con protección de luz azul')">
-    <meta name="twitter:image" content="@yield('twitter_image', asset('images/og-default.jpg'))">
+    <meta name="twitter:title" content="@yield('twitter_title', 'Belleza Áurea')">
+    <meta name="twitter:description" content="@yield('twitter_description', 'Belleza natural, elegante y atemporal')">
+    <meta name="twitter:image" content="@yield('twitter_image', asset('img/brand/logo-principal.png'))">
+
+    {{-- Theme color --}}
+    <meta name="theme-color" content="#F7F3ED">
 
     {{-- Favicon --}}
-    <link rel="icon" type="image/png" href="{{ asset('img/isotipo.png') }}">
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('img/brand/favicon-32.png') }}">
+    <link rel="icon" type="image/png" sizes="192x192" href="{{ asset('img/brand/favicon-192.png') }}">
+    <link rel="apple-touch-icon" href="{{ asset('img/brand/favicon-192.png') }}">
 
-    {{-- Google Fonts: IBM Plex Sans + Bai Jamjuree --}}
+    {{-- Google Fonts: Playfair Display + Montserrat (Belleza Áurea) --}}
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@400;500;600;700&family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     {{-- Vite Assets --}}
     @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -46,9 +52,9 @@
     @stack('head')
 </head>
 
-<body class="font-body min-h-screen flex flex-col antialiased @yield('body_class', 'bg-bg-light text-text-dark')">
+<body class="font-body min-h-screen flex flex-col antialiased @yield('body_class', 'bg-cream text-ink')">
     {{-- Skip to content (accessibility) --}}
-    <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:bg-primary focus:text-white focus:px-4 focus:py-2 focus:rounded">
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:bg-gold focus:text-white focus:px-4 focus:py-2 focus:rounded">
         Saltar al contenido
     </a>
 

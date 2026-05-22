@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Pedido confirmado | Nuvion Glass')
+@section('title', 'Pedido confirmado | Belleza Áurea')
 
 @section('content')
     <section class="py-16">

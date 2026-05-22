@@ -4,7 +4,7 @@
             {{-- Brand --}}
             <div class="md:col-span-1">
                 <a href="{{ route('home') }}">
-                    <img src="{{ asset('img/logo.png') }}" alt="Nuvion Glass" style="height:56px;width:auto;">
+                    <img src="{{ asset('img/logo.png') }}" alt="Belleza Áurea" style="height:56px;width:auto;">
                 </a>
                 <p class="mt-4 text-sm text-muted/70 leading-relaxed">
                     Protege tus ojos de la luz azul. Diseño moderno, tecnología que cuida tu visión.
@@ -48,7 +48,7 @@
         </div>
 
         <div class="mt-12 pt-8 border-t border-border flex flex-col sm:flex-row justify-between items-center">
-            <p class="text-xs text-muted/50">&copy; {{ date('Y') }} Nuvion Glass. Todos los derechos reservados.</p>
+            <p class="text-xs text-muted/50">&copy; {{ date('Y') }} Belleza Áurea. Todos los derechos reservados.</p>
             <p class="text-xs text-muted/50 mt-2 sm:mt-0">Desarrollado por MyTech Solutions</p>
         </div>
     </div>

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="robots" content="noindex, nofollow">
-    <title>Admin Login | Nuvion Glass</title>
+    <title>Admin Login | Belleza Áurea</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -16,7 +16,7 @@
 <body class="bg-bg text-text font-body min-h-screen flex items-center justify-center antialiased">
     <div class="w-full max-w-md px-6">
         <div class="text-center mb-8">
-            <img src="{{ asset('img/isotipo.png') }}" alt="Nuvion Glass" class="h-14 w-14 object-contain mx-auto mb-3">
+            <img src="{{ asset('img/isotipo.png') }}" alt="Belleza Áurea" class="h-14 w-14 object-contain mx-auto mb-3">
             <div>
                 <span class="font-brand text-3xl text-secondary">nuvion</span>
                 <span class="font-brand text-sm text-muted uppercase tracking-[0.3em] ml-1">glass</span>
@@ -63,7 +63,7 @@
             </form>
         </div>
 
-        <p class="mt-6 text-center text-xs text-muted/30">&copy; {{ date('Y') }} Nuvion Glass</p>
+        <p class="mt-6 text-center text-xs text-muted/30">&copy; {{ date('Y') }} Belleza Áurea</p>
     </div>
 </body>
 </html>

@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
-@section('title', $seoSettings->meta_title ?? 'Envíos y devoluciones | Nuvion Glass')
-@section('meta_description', $seoSettings->meta_description ?? 'Información sobre envíos, devoluciones y garantía de Nuvion Glass. Envío gratis en compras mayores a $999.')
+@section('title', $seoSettings->meta_title ?? 'Envíos y devoluciones | Belleza Áurea')
+@section('meta_description', $seoSettings->meta_description ?? 'Información sobre envíos, devoluciones y garantía de Belleza Áurea. Envío gratis en compras mayores a $999.')
 
 @section('content')
 

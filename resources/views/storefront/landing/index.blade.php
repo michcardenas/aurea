@@ -2,9 +2,9 @@
 
 @section('body_class', 'bg-bg text-text')
 
-@section('title', 'Lentes anti luz azul — Envío gratis | Nuvion Glass')
+@section('title', 'Lentes anti luz azul — Envío gratis | Belleza Áurea')
 @section('meta_description', 'Protege tus ojos de las pantallas. Lentes con filtro de luz azul, con o sin graduación. Envío gratis en pedidos mayores a $99.')
-@section('og_title', 'Lentes anti luz azul — Envío gratis | Nuvion Glass')
+@section('og_title', 'Lentes anti luz azul — Envío gratis | Belleza Áurea')
 @section('og_description', 'Protege tus ojos de las pantallas. Lentes con filtro de luz azul. Envío gratis.')
 
 @section('content')

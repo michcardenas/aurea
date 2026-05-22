@@ -285,7 +285,7 @@
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">Meta título</label>
                     <input type="text" name="meta_title" value="{{ $page->meta_title }}"
-                           placeholder="¿Qué lentes necesitas? — Quiz | Nuvion Glass"
+                           placeholder="¿Qué lentes necesitas? — Quiz | Belleza Áurea"
                            class="w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm">
                 </div>
                 <div>

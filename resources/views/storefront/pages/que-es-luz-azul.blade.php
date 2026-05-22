@@ -1,11 +1,11 @@
 @extends('layouts.app')
 
-@section('title', $seoSettings->meta_title ?? '¿Qué es la luz azul? | Nuvion Glass')
-@section('meta_description', $seoSettings->meta_description ?? '¿Qué es la luz azul y por qué es dañina? Aprende cómo proteger tus ojos de pantallas, focos LED y más. Guía completa de Nuvion Glass.')
+@section('title', $seoSettings->meta_title ?? '¿Qué es la luz azul? | Belleza Áurea')
+@section('meta_description', $seoSettings->meta_description ?? '¿Qué es la luz azul y por qué es dañina? Aprende cómo proteger tus ojos de pantallas, focos LED y más. Guía completa de Belleza Áurea.')
 @section('canonical', $seoSettings->canonical_url ?? route('blue-light'))
-@section('og_title', $seoSettings->og_title ?? $seoSettings->meta_title ?? '¿Qué es la luz azul? | Nuvion Glass')
+@section('og_title', $seoSettings->og_title ?? $seoSettings->meta_title ?? '¿Qué es la luz azul? | Belleza Áurea')
 @section('og_description', $seoSettings->og_description ?? 'Aprende cómo la luz azul afecta tus ojos y cómo protegerte con lentes especializados.')
-@section('twitter_title', $seoSettings->twitter_title ?? $seoSettings->meta_title ?? '¿Qué es la luz azul? | Nuvion Glass')
+@section('twitter_title', $seoSettings->twitter_title ?? $seoSettings->meta_title ?? '¿Qué es la luz azul? | Belleza Áurea')
 @section('twitter_description', $seoSettings->twitter_description ?? 'Aprende cómo la luz azul afecta tus ojos y cómo protegerte con lentes especializados.')
 
 @push('schema')
@@ -346,7 +346,7 @@
                     <button id="toggle-btn-on" role="tab" aria-selected="false" aria-controls="panel-on"
                             class="flex-1 py-3.5 px-4 text-sm font-bold uppercase tracking-wide text-center transition-all duration-250"
                             style="background:transparent;color:rgba(255,255,255,0.35);">
-                        Con nuvion glass
+                        Con Belleza Áurea
                     </button>
                 </div>
 
@@ -376,7 +376,7 @@
                         </ul>
                     </div>
 
-                    {{-- Panel: Con nuvion glass --}}
+                    {{-- Panel: Con Belleza Áurea --}}
                     <div id="panel-on" role="tabpanel"
                          class="absolute inset-0 rounded-xl p-6 transition-all duration-250"
                          style="background:rgba(23,52,4,0.15);border:1px solid rgba(52,211,153,0.2);opacity:0;transform:translateY(6px);pointer-events:none;">
@@ -405,7 +405,7 @@
             @php
                 $compareMetrics = $blueLightPage->compare_metrics ?? [
                     ['number' => '66%', 'description' => 'menos parpadeos frente a pantalla', 'label' => 'sin protección', 'type' => 'red'],
-                    ['number' => '3h', 'description' => 'más de sueño profundo recuperado', 'label' => 'con nuvion glass', 'type' => 'green'],
+                    ['number' => '3h', 'description' => 'más de sueño profundo recuperado', 'label' => 'con Belleza Áurea', 'type' => 'green'],
                     ['number' => '90%', 'description' => 'de usuarios con fatiga visual digital', 'label' => 'tras 2h de pantalla sin filtro', 'type' => 'red'],
                     ['number' => '40%', 'description' => 'reducción de fatiga ocular reportada', 'label' => 'con filtro de luz azul activo', 'type' => 'green'],
                 ];
@@ -439,7 +439,7 @@
             <div class="mt-10 text-center reveal delay-450">
                 <a href="{{ route('products.index') }}"
                    class="inline-flex items-center justify-center bg-secondary hover:bg-secondary/90 text-white px-8 py-3.5 rounded-lg font-bold transition-colors shadow-lg">
-                    {{ $blueLightPage->compare_btn_text ?? 'Ver lentes nuvion glass' }}
+                    {{ $blueLightPage->compare_btn_text ?? 'Ver lentes Belleza Áurea' }}
                 </a>
             </div>
         </div>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', 'Nuvion Glass')</title>
+    <title>@yield('title', 'Belleza Áurea')</title>
 </head>
 <body style="margin:0;padding:0;background-color:#F4F6F9;font-family:Arial,Helvetica,sans-serif;-webkit-font-smoothing:antialiased;">
     {{-- Wrapper --}}
@@ -16,7 +16,7 @@
                     <tr>
                         <td align="center" style="padding:24px 0;">
                             <a href="{{ url('/') }}" style="text-decoration:none;">
-                                <img src="{{ asset('img/logo.png') }}" alt="Nuvion Glass" width="160" style="width:160px;height:auto;display:block;margin:0 auto;">
+                                <img src="{{ asset('img/logo.png') }}" alt="Belleza Áurea" width="160" style="width:160px;height:auto;display:block;margin:0 auto;">
                             </a>
                         </td>
                     </tr>
@@ -51,7 +51,7 @@
                     <tr>
                         <td align="center" style="padding:0 0 32px;">
                             <p style="margin:0;font-size:12px;color:#9CA3AF;">
-                                &copy; {{ date('Y') }} Nuvion Glass. Todos los derechos reservados.
+                                &copy; {{ date('Y') }} Belleza Áurea. Todos los derechos reservados.
                             </p>
                         </td>
                     </tr>
