@@ -28,7 +28,7 @@
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">Subtítulo</label>
                     <input type="text" name="catalog_subtitle" value="{{ $page->catalog_subtitle }}"
-                           placeholder="Todos los lentes con filtro de luz azul · 2×1 combinables"
+                           placeholder="Todos los lentes con cosmética natural · 2×1 combinables"
                            class="w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm">
                 </div>
             </div>

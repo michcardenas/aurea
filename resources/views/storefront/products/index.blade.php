@@ -21,15 +21,15 @@
         <div style="max-width:1200px;margin:0 auto;">
             {{-- Breadcrumb --}}
             <nav style="display:flex;align-items:center;gap:6px;font-size:13px;color:#aaa;margin-bottom:20px;">
-                <a href="{{ route('home') }}" style="color:#aaa;text-decoration:none;" onmouseover="this.style.color='#378ADD'" onmouseout="this.style.color='#aaa'">Inicio</a>
+                <a href="{{ route('home') }}" style="color:#aaa;text-decoration:none;" onmouseover="this.style.color='#D9B56D'" onmouseout="this.style.color='#aaa'">Inicio</a>
                 <svg style="width:12px;height:12px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m9 5 7 7-7 7"/></svg>
                 <span style="color:#666;">Catálogo</span>
             </nav>
-            <h1 style="font-family:'Bai Jamjuree',sans-serif;font-size:28px;font-weight:600;color:#1a1a2e;margin:0;">
+            <h1 style="font-family:'Playfair Display',serif;font-size:28px;font-weight:600;color:#2E2A26;margin:0;">
                 {{ $lentesPage->catalog_title ?? 'Catálogo' }}
             </h1>
             <p style="font-size:14px;color:#888;margin-top:6px;">
-                {{ $lentesPage->catalog_subtitle ?? 'Todos los lentes con filtro de luz azul · 2×1 combinables' }}
+                {{ $lentesPage->catalog_subtitle ?? 'Todos los lentes con cosmética natural · 2×1 combinables' }}
             </p>
         </div>
     </section>
@@ -57,13 +57,13 @@
                             style="display:flex;align-items:center;gap:6px;background:#fff;border:1px solid #ddd;
                                    border-radius:8px;padding:8px 14px;font-size:13px;color:#555;cursor:pointer;
                                    font-family:inherit;transition:all .2s;white-space:nowrap;"
-                            :style="filtersOpen ? 'border-color:#378ADD;color:#378ADD;background:#EBF4FF' : ''">
+                            :style="filtersOpen ? 'border-color:#D9B56D;color:#D9B56D;background:#FBF4E6' : ''">
                         <svg style="width:16px;height:16px;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.5 6h9.75M10.5 6a1.5 1.5 0 1 1-3 0m3 0a1.5 1.5 0 1 0-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-9.75 0h9.75"/>
                         </svg>
                         Filtros
                         @if($activeFilterCount > 0)
-                        <span style="background:#378ADD;color:#fff;font-size:11px;font-weight:600;
+                        <span style="background:#D9B56D;color:#fff;font-size:11px;font-weight:600;
                                      width:18px;height:18px;border-radius:50%;display:flex;
                                      align-items:center;justify-content:center;">{{ $activeFilterCount }}</span>
                         @endif
@@ -74,21 +74,21 @@
                     <div style="display:flex;align-items:center;gap:6px;overflow-x:auto;flex:1;min-width:0;
                                 scrollbar-width:none;-ms-overflow-style:none;">
                         @if($tipoFiltro !== 'todos')
-                        <span style="background:#EBF4FF;color:#185FA5;font-size:11px;padding:4px 10px;
+                        <span style="background:#FBF4E6;color:#BE9A53;font-size:11px;padding:4px 10px;
                                      border-radius:20px;white-space:nowrap;display:flex;align-items:center;gap:4px;">
                             {{ $tipos[$tipoFiltro] ?? $tipoFiltro }}
                             <span onclick="setFilter('type','todos')" style="cursor:pointer;font-size:13px;line-height:1;">&times;</span>
                         </span>
                         @endif
                         @if($graduacionFiltro)
-                        <span style="background:#EBF4FF;color:#185FA5;font-size:11px;padding:4px 10px;
+                        <span style="background:#FBF4E6;color:#BE9A53;font-size:11px;padding:4px 10px;
                                      border-radius:20px;white-space:nowrap;display:flex;align-items:center;gap:4px;">
                             {{ $graduacionFiltro }}
                             <span onclick="setFilter('graduation','')" style="cursor:pointer;font-size:13px;line-height:1;">&times;</span>
                         </span>
                         @endif
                         @if($colorFiltro)
-                        <span style="background:#EBF4FF;color:#185FA5;font-size:11px;padding:4px 10px;
+                        <span style="background:#FBF4E6;color:#BE9A53;font-size:11px;padding:4px 10px;
                                      border-radius:20px;white-space:nowrap;display:flex;align-items:center;gap:4px;">
                             <span style="width:10px;height:10px;border-radius:50%;background:{{ $colorHexMap[$colorFiltro] ?? \App\Helpers\ColorHelper::hex($colorFiltro) }};
                                          display:inline-block;border:1px solid rgba(0,0,0,0.1);"></span>
@@ -119,13 +119,13 @@
                             $isActive = $tipoFiltro === $value;
                         @endphp
                         <button onclick="setFilter('type','{{ $value }}')"
-                                style="border:1px solid {{ $isActive ? '#378ADD' : '#ddd' }};
-                                       background:{{ $isActive ? '#378ADD' : '#fff' }};
+                                style="border:1px solid {{ $isActive ? '#D9B56D' : '#ddd' }};
+                                       background:{{ $isActive ? '#D9B56D' : '#fff' }};
                                        color:{{ $isActive ? '#fff' : '#555' }};
                                        border-radius:20px;padding:5px 14px;font-size:13px;
                                        cursor:pointer;transition:all .2s;font-family:inherit;
                                        white-space:nowrap;"
-                                onmouseover="@if(!$isActive)this.style.borderColor='#378ADD';this.style.color='#378ADD'@endif"
+                                onmouseover="@if(!$isActive)this.style.borderColor='#D9B56D';this.style.color='#D9B56D'@endif"
                                 onmouseout="@if(!$isActive)this.style.borderColor='#ddd';this.style.color='#555'@endif">
                             {{ $label }}
                         </button>
@@ -137,8 +137,8 @@
                 <div style="display:flex;align-items:center;flex-wrap:wrap;gap:6px;margin-bottom:14px;">
                     <span style="font-size:12px;color:#888;margin-right:4px;">Graduación:</span>
                     <button onclick="setFilter('graduation','')"
-                            style="border:1px solid {{ !$graduacionFiltro ? '#378ADD' : '#ddd' }};
-                                   background:{{ !$graduacionFiltro ? '#378ADD' : '#fff' }};
+                            style="border:1px solid {{ !$graduacionFiltro ? '#D9B56D' : '#ddd' }};
+                                   background:{{ !$graduacionFiltro ? '#D9B56D' : '#fff' }};
                                    color:{{ !$graduacionFiltro ? '#fff' : '#555' }};
                                    border-radius:20px;padding:4px 12px;font-size:12px;
                                    cursor:pointer;transition:all .2s;font-family:inherit;">
@@ -149,8 +149,8 @@
                             $isActiveGrad = $graduacionFiltro === $grad;
                         @endphp
                         <button onclick="setFilter('graduation','{{ $grad }}')"
-                                style="border:1px solid {{ $isActiveGrad ? '#378ADD' : '#ddd' }};
-                                       background:{{ $isActiveGrad ? '#378ADD' : '#fff' }};
+                                style="border:1px solid {{ $isActiveGrad ? '#D9B56D' : '#ddd' }};
+                                       background:{{ $isActiveGrad ? '#D9B56D' : '#fff' }};
                                        color:{{ $isActiveGrad ? '#fff' : '#555' }};
                                        border-radius:20px;padding:4px 12px;font-size:12px;
                                        cursor:pointer;transition:all .2s;font-family:inherit;">
@@ -168,7 +168,7 @@
                     <button onclick="setFilter('color','')"
                             title="Todos los colores"
                             style="width:24px;height:24px;border-radius:50%;
-                                   border:2px solid {{ !$colorFiltro ? '#378ADD' : '#ddd' }};
+                                   border:2px solid {{ !$colorFiltro ? '#D9B56D' : '#ddd' }};
                                    background:#fff;cursor:pointer;display:flex;
                                    align-items:center;justify-content:center;
                                    font-size:11px;color:#999;transition:all .2s;
@@ -184,7 +184,7 @@
                                 title="{{ $color }}"
                                 style="width:24px;height:24px;border-radius:50%;
                                        background-color:{{ $hex }};cursor:pointer;
-                                       border:2px solid {{ $isActiveColor ? '#378ADD' : 'rgba(0,0,0,0.1)' }};
+                                       border:2px solid {{ $isActiveColor ? '#D9B56D' : 'rgba(0,0,0,0.1)' }};
                                        transition:all .2s;
                                        {{ $isActiveColor ? 'box-shadow:0 0 0 2px rgba(55,138,221,0.3);' : '' }}">
                         </button>
@@ -196,7 +196,7 @@
                 <p class="filters-count-desktop" style="font-size:13px;color:#888;margin-top:12px;">
                     {{ $products->count() }} producto{{ $products->count() !== 1 ? 's' : '' }} encontrado{{ $products->count() !== 1 ? 's' : '' }}
                     @if($tipoFiltro !== 'todos' || $colorFiltro || $graduacionFiltro)
-                        <a href="{{ route('products.index') }}" style="color:#378ADD;margin-left:8px;text-decoration:none;font-size:12px;"
+                        <a href="{{ route('products.index') }}" style="color:#D9B56D;margin-left:8px;text-decoration:none;font-size:12px;"
                            onmouseover="this.style.textDecoration='underline'" onmouseout="this.style.textDecoration='none'">
                             Limpiar filtros
                         </a>
@@ -206,7 +206,7 @@
                 {{-- Limpiar filtros link (mobile, inside expanded panel) --}}
                 @if($tipoFiltro !== 'todos' || $colorFiltro || $graduacionFiltro)
                 <div class="filters-clear-mobile" style="display:none;margin-top:12px;">
-                    <a href="{{ route('products.index') }}" style="color:#378ADD;font-size:13px;text-decoration:none;">
+                    <a href="{{ route('products.index') }}" style="color:#D9B56D;font-size:13px;text-decoration:none;">
                         Limpiar todos los filtros
                     </a>
                 </div>
@@ -266,7 +266,7 @@
                             {{-- Badge 2x1 --}}
                             @if($product->badge_2x1)
                             <div style="position:absolute;top:10px;left:10px;
-                                background:#378ADD;color:#fff;font-size:11px;
+                                background:#D9B56D;color:#fff;font-size:11px;
                                 font-weight:600;padding:3px 10px;border-radius:20px;">
                                 2 × 1
                             </div>
@@ -283,7 +283,7 @@
 
                         {{-- Body --}}
                         <div style="padding:16px 18px 20px;">
-                            <h3 style="font-size:16px;font-weight:600;color:#1a1a2e;margin:0 0 6px;">
+                            <h3 style="font-size:16px;font-weight:600;color:#2E2A26;margin:0 0 6px;">
                                 {{ $product->name }}
                             </h3>
 
@@ -325,7 +325,7 @@
 
                             {{-- Badge texto 2x1 --}}
                             @if($product->badge_2x1)
-                            <div style="background:#EBF4FF;color:#185FA5;font-size:11px;
+                            <div style="background:#FBF4E6;color:#BE9A53;font-size:11px;
                                 padding:4px 10px;border-radius:6px;margin-bottom:12px;
                                 display:inline-block;font-weight:500;">
                                 Llévate uno y el siguiente gratis
@@ -334,7 +334,7 @@
 
                             {{-- Precio --}}
                             <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:14px;">
-                                <span style="font-size:20px;font-weight:700;color:#1a1a2e;">
+                                <span style="font-size:20px;font-weight:700;color:#2E2A26;">
                                     ${{ number_format($product->price, 2) }}
                                 </span>
                                 @if($product->compare_price)
@@ -347,11 +347,11 @@
                             {{-- Botón --}}
                             <a href="{{ route('products.show', $product->slug) }}"
                                onclick="event.stopPropagation()"
-                               style="display:block;text-align:center;background:#1a1a2e;
+                               style="display:block;text-align:center;background:#2E2A26;
                                       color:#fff;border-radius:8px;padding:10px;font-size:14px;
                                       font-weight:500;text-decoration:none;transition:background .2s;"
-                               onmouseover="this.style.background='#378ADD'"
-                               onmouseout="this.style.background='#1a1a2e'">
+                               onmouseover="this.style.background='#D9B56D'"
+                               onmouseout="this.style.background='#2E2A26'">
                                 Ver detalle →
                             </a>
                         </div>
@@ -367,7 +367,7 @@
                     <p style="font-size:16px;color:#888;margin-bottom:16px;">
                         No hay productos con esos filtros.
                     </p>
-                    <a href="{{ route('products.index') }}" style="color:#378ADD;font-size:14px;text-decoration:none;"
+                    <a href="{{ route('products.index') }}" style="color:#D9B56D;font-size:14px;text-decoration:none;"
                        onmouseover="this.style.textDecoration='underline'" onmouseout="this.style.textDecoration='none'">
                         Ver todos los productos
                     </a>
@@ -429,12 +429,12 @@
                         </div>
 
                         <div style="padding:16px 18px 20px;">
-                            <h3 style="font-size:16px;font-weight:600;color:#1a1a2e;margin:0 0 10px;">
+                            <h3 style="font-size:16px;font-weight:600;color:#2E2A26;margin:0 0 10px;">
                                 {{ $product->name }}
                             </h3>
 
                             <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:14px;">
-                                <span style="font-size:20px;font-weight:700;color:#1a1a2e;">
+                                <span style="font-size:20px;font-weight:700;color:#2E2A26;">
                                     ${{ number_format($product->price, 2) }}
                                 </span>
                                 @if($product->compare_price)
@@ -446,11 +446,11 @@
 
                             <a href="{{ route('products.show', $product->slug) }}"
                                onclick="event.stopPropagation()"
-                               style="display:block;text-align:center;background:#1a1a2e;
+                               style="display:block;text-align:center;background:#2E2A26;
                                       color:#fff;border-radius:8px;padding:10px;font-size:14px;
                                       font-weight:500;text-decoration:none;transition:background .2s;"
-                               onmouseover="this.style.background='#378ADD'"
-                               onmouseout="this.style.background='#1a1a2e'">
+                               onmouseover="this.style.background='#D9B56D'"
+                               onmouseout="this.style.background='#2E2A26'">
                                 Ver detalle →
                             </a>
                         </div>

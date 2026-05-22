@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', 'Belleza Áurea')</title>
 </head>
-<body style="margin:0;padding:0;background-color:#F4F6F9;font-family:Arial,Helvetica,sans-serif;-webkit-font-smoothing:antialiased;">
+<body style="margin:0;padding:0;background-color:#FBF8F2;font-family:Arial,Helvetica,sans-serif;-webkit-font-smoothing:antialiased;">
     {{-- Wrapper --}}
-    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color:#F4F6F9;">
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color:#FBF8F2;">
         <tr>
             <td align="center" style="padding:40px 16px;">
 
@@ -26,7 +26,7 @@
                 <table role="presentation" width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;background-color:#FFFFFF;border-radius:12px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,0.08);">
                     {{-- Accent bar --}}
                     <tr>
-                        <td style="height:4px;background:linear-gradient(90deg,#002F6D,#3A8DDE);font-size:0;line-height:0;">&nbsp;</td>
+                        <td style="height:4px;background:linear-gradient(90deg,#2E2A26,#D9B56D);font-size:0;line-height:0;">&nbsp;</td>
                     </tr>
                     <tr>
                         <td style="padding:40px 32px;">
@@ -40,11 +40,11 @@
                     <tr>
                         <td align="center" style="padding:32px 0 16px;">
                             <p style="margin:0;font-size:13px;color:#4B5563;">
-                                <a href="{{ route('products.index') }}" style="color:#3A8DDE;text-decoration:none;">Ver catálogo</a>
+                                <a href="{{ route('products.index') }}" style="color:#D9B56D;text-decoration:none;">Ver catálogo</a>
                                 &nbsp;&middot;&nbsp;
-                                <a href="{{ route('blog.index') }}" style="color:#3A8DDE;text-decoration:none;">Blog</a>
+                                <a href="{{ route('blog.index') }}" style="color:#D9B56D;text-decoration:none;">Blog</a>
                                 &nbsp;&middot;&nbsp;
-                                <a href="{{ route('blue-light') }}" style="color:#3A8DDE;text-decoration:none;">Luz azul</a>
+                                <a href="{{ route('blue-light') }}" style="color:#D9B56D;text-decoration:none;">Luz azul</a>
                             </p>
                         </td>
                     </tr>

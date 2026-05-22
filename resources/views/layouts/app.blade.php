@@ -97,6 +97,9 @@
         </svg>
     </a>
 
+    {{-- Activa el modo "reveal" solo cuando hay JS (evita contenido invisible si JS falla) --}}
+    <script>document.documentElement.classList.add('reveal-ready');</script>
+
     {{-- Alpine x-reveal directive + vanilla reveal observer --}}
     <script>
     document.addEventListener('alpine:init', () => {
@@ -132,6 +135,13 @@
             { threshold: 0.1, rootMargin: '0px 0px -30px 0px' }
         );
         items.forEach(el => obs.observe(el));
+    });
+    /* Failsafe: si por alguna razón el observer no dispara (crawler, no-scroll, etc.),
+       todos los elementos .reveal se muestran tras unos segundos. */
+    window.addEventListener('load', () => {
+        setTimeout(() => {
+            document.querySelectorAll('.reveal:not(.visible)').forEach(el => el.classList.add('visible'));
+        }, 1500);
     });
     </script>
 

@@ -530,9 +530,9 @@
         {{-- Botón guardar --}}
         <button type="submit"
                 class="w-full py-3 rounded-xl text-white font-medium text-base transition-colors"
-                style="background:#378ADD;"
-                onmouseover="this.style.background='#185FA5'"
-                onmouseout="this.style.background='#378ADD'">
+                style="background:#D9B56D;"
+                onmouseover="this.style.background='#BE9A53'"
+                onmouseout="this.style.background='#D9B56D'">
             Guardar cambios
         </button>
     </form>
@@ -586,8 +586,8 @@ function faqRepeater() {
                     { q: '¿Los lentes nuvion tienen graduación?', a: 'Sí, ofrecemos lentes con y sin graduación. Puedes elegir la opción que mejor se adapte a tus necesidades al momento de la compra.' },
                     { q: '¿Cuánta luz azul bloquean los lentes?', a: 'Nuestros lentes bloquean entre el 30% y 50% de la luz azul de alta energía (380-500 nm), que es el rango dañino emitido por pantallas y luces LED.' },
                     { q: '¿Puedo usarlos todo el día?', a: 'Por supuesto. Los lentes nuvion están diseñados para uso prolongado. Son ligeros, cómodos y no alteran significativamente la percepción del color.' },
-                    { q: '¿Son útiles si ya uso lentes de contacto?', a: 'Sí. Si usas lentes de contacto sin filtro de luz azul, nuestros lentes sin graduación te brindan una capa adicional de protección.' },
-                    { q: '¿Los niños pueden usar lentes con filtro de luz azul?', a: 'Sí, especialmente si pasan tiempo frente a pantallas para clases o entretenimiento. Consulta con un oftalmólogo para recomendaciones específicas según la edad.' },
+                    { q: '¿Son útiles si ya uso lentes de contacto?', a: 'Sí. Si usas lentes de contacto sin cosmética natural, nuestros lentes sin graduación te brindan una capa adicional de protección.' },
+                    { q: '¿Los niños pueden usar lentes con cosmética natural?', a: 'Sí, especialmente si pasan tiempo frente a pantallas para clases o entretenimiento. Consulta con un oftalmólogo para recomendaciones específicas según la edad.' },
                 ];
             }
         }
@@ -604,7 +604,7 @@ function metricsRepeater() {
                     { number: '66%', description: 'menos parpadeos frente a pantalla', label: 'sin protección', type: 'red' },
                     { number: '3h', description: 'más de sueño profundo recuperado', label: 'con nuvion glass', type: 'green' },
                     { number: '90%', description: 'de usuarios con fatiga visual digital', label: 'tras 2h de pantalla sin filtro', type: 'red' },
-                    { number: '40%', description: 'reducción de fatiga ocular reportada', label: 'con filtro de luz azul activo', type: 'green' },
+                    { number: '40%', description: 'reducción de fatiga ocular reportada', label: 'con cosmética natural activo', type: 'green' },
                 ];
             }
         }

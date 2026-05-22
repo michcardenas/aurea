@@ -21,16 +21,21 @@ use Illuminate\Support\Facades\Route;
 // Home
 Route::get('/', [StorefrontController::class, 'home'])->name('home');
 
-// Educational page
-Route::get('/que-es-la-luz-azul', [StorefrontController::class, 'blueLight'])->name('blue-light');
+// Página editorial — Rituales (antes "luz azul")
+Route::get('/rituales', [StorefrontController::class, 'blueLight'])->name('blue-light');
 
 // Info pages
 Route::get('/contacto', [StorefrontController::class, 'contact'])->name('contact');
 Route::get('/envios-y-devoluciones', [StorefrontController::class, 'shippingReturns'])->name('shipping-returns');
 
-// Product catalog
-Route::get('/lentes', [ProductController::class, 'index'])->name('products.index');
-Route::get('/lentes/{slug}', [ProductController::class, 'show'])->name('products.show');
+// Catálogo de productos
+Route::get('/productos', [ProductController::class, 'index'])->name('products.index');
+Route::get('/productos/{slug}', [ProductController::class, 'show'])->name('products.show');
+
+// Redirects 301 desde URLs legacy del esqueleto Nuvion
+Route::permanentRedirect('/lentes', '/productos');
+Route::get('/lentes/{slug}', fn (string $slug) => redirect()->route('products.show', ['slug' => $slug], 301));
+Route::permanentRedirect('/que-es-la-luz-azul', '/rituales');
 
 // Cart
 Route::get('/carrito', [CartController::class, 'index'])->name('cart.index');

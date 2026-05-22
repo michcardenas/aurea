@@ -198,7 +198,7 @@
                             <input type="text" name="title_highlight_word" value="{{ $hero->title_highlight_word }}"
                                    placeholder="Debe ser una palabra de la linea 3"
                                    class="w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm">
-                            <p class="text-xs text-gray-400 mt-1">Esta palabra aparecera en azul (#378ADD) en el titulo</p>
+                            <p class="text-xs text-gray-400 mt-1">Esta palabra aparecera en azul (#D9B56D) en el titulo</p>
                         </div>
 
                         <div>
@@ -346,9 +346,9 @@
                 {{-- Boton guardar --}}
                 <button type="submit"
                         class="w-full py-3 rounded-xl text-white font-medium text-base transition-colors"
-                        style="background:#378ADD;"
-                        onmouseover="this.style.background='#185FA5'"
-                        onmouseout="this.style.background='#378ADD'">
+                        style="background:#D9B56D;"
+                        onmouseover="this.style.background='#BE9A53'"
+                        onmouseout="this.style.background='#D9B56D'">
                     Guardar cambios
                 </button>
             </div>
@@ -365,23 +365,23 @@
                         <div style="padding:20px 16px;display:flex;flex-direction:column;justify-content:center;">
 
                             <div id="prev-eyebrow"
-                                 style="display:inline-flex;align-items:center;gap:4px;background:#EBF4FF;border:0.5px solid #B5D4F4;border-radius:12px;padding:2px 10px;font-size:7px;color:#185FA5;letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px;width:fit-content;">
+                                 style="display:inline-flex;align-items:center;gap:4px;background:#FBF4E6;border:0.5px solid #E8CC92;border-radius:12px;padding:2px 10px;font-size:7px;color:#BE9A53;letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px;width:fit-content;">
                                 {{ $hero->eyebrow_text }}
                             </div>
 
                             <div id="prev-title"
-                                 style="font-size:16px;font-weight:800;color:#0d1117;line-height:1.08;letter-spacing:-.02em;margin-bottom:6px;font-family:'Bai Jamjuree',sans-serif;">
+                                 style="font-size:16px;font-weight:800;color:#2E2A26;line-height:1.08;letter-spacing:-.02em;margin-bottom:6px;font-family:'Playfair Display',serif;">
                                 @php
                                     $prevLine3 = e($hero->title_line3);
                                     if ($hero->title_highlight_word && str_contains($hero->title_line3, $hero->title_highlight_word)) {
-                                        $prevLine3 = str_replace(e($hero->title_highlight_word), '<span style="color:#378ADD;">' . e($hero->title_highlight_word) . '</span>', $prevLine3);
+                                        $prevLine3 = str_replace(e($hero->title_highlight_word), '<span style="color:#D9B56D;">' . e($hero->title_highlight_word) . '</span>', $prevLine3);
                                     }
                                 @endphp
                                 {{ $hero->title_line1 }}<br>{{ $hero->title_line2 }}<br>{!! $prevLine3 !!}
                             </div>
 
                             <div id="prev-badge"
-                                 style="display:inline-block;background:#F0F7FF;border:0.5px solid #BFDBFE;border-radius:4px;padding:3px 8px;font-size:7px;color:#1e40af;margin-bottom:6px;width:fit-content;{{ !$hero->badge_text ? 'display:none;' : '' }}">
+                                 style="display:inline-block;background:#FBF8F2;border:0.5px solid #E8CC92;border-radius:4px;padding:3px 8px;font-size:7px;color:#BE9A53;margin-bottom:6px;width:fit-content;{{ !$hero->badge_text ? 'display:none;' : '' }}">
                                 {{ $hero->badge_text }}
                             </div>
 
@@ -392,7 +392,7 @@
 
                             <div style="display:flex;gap:4px;">
                                 <div id="prev-btn1"
-                                     style="background:#0d1117;color:#fff;border-radius:4px;padding:4px 10px;font-size:7px;font-weight:500;">
+                                     style="background:#2E2A26;color:#fff;border-radius:4px;padding:4px 10px;font-size:7px;font-weight:500;">
                                     {{ $hero->btn_primary_text }} →
                                 </div>
                                 <div id="prev-btn2"
@@ -403,7 +403,7 @@
                         </div>
 
                         {{-- Right: product image / video preview area --}}
-                        <div id="prev-media-area" style="position:relative;background:linear-gradient(135deg,#e0f2fe 0%,#dbeafe 50%,#ede9fe 100%);overflow:hidden;">
+                        <div id="prev-media-area" style="position:relative;background:linear-gradient(135deg,#e0f2fe 0%,#E8D1C5 50%,#ede9fe 100%);overflow:hidden;">
                             {{-- Overlay preview (for video mode) --}}
                             <div id="prev-overlay" style="display:none;position:absolute;inset:0;background:linear-gradient(to right,rgba(255,255,255,0.95) 0%,rgba(255,255,255,0.88) 30%,rgba(255,255,255,0.6) 55%,rgba(255,255,255,0.15) 80%,rgba(255,255,255,0.0) 100%);z-index:1;pointer-events:none;"></div>
 
@@ -414,24 +414,24 @@
 
                             {{-- Vertical line showing video focus point --}}
                             <div id="prev-focus-line" style="display:none;position:absolute;top:0;bottom:0;width:1px;background:rgba(55,138,221,0.5);z-index:2;left:{{ $hero->video_position ?? 50 }}%;pointer-events:none;">
-                                <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:8px;height:8px;border-radius:50%;background:#378ADD;border:1.5px solid #fff;"></div>
+                                <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:8px;height:8px;border-radius:50%;background:#D9B56D;border:1.5px solid #fff;"></div>
                             </div>
 
                             {{-- Float badges --}}
                             <div id="prev-stat1" style="position:absolute;left:6px;top:14%;background:#fff;border-radius:6px;padding:5px 8px;box-shadow:0 2px 8px rgba(0,0,0,0.08);z-index:2;{{ !$hero->stat1_number ? 'display:none;' : '' }}">
-                                <div style="font-size:12px;font-weight:700;color:#0d1117;line-height:1;" id="prev-stat1-num">{{ $hero->stat1_number }}</div>
+                                <div style="font-size:12px;font-weight:700;color:#2E2A26;line-height:1;" id="prev-stat1-num">{{ $hero->stat1_number }}</div>
                                 <div style="font-size:5px;margin-top:1px;color:#9ca3af;" id="prev-stat1-label">{{ $hero->stat1_label }}</div>
                             </div>
                             <div id="prev-stat2" style="position:absolute;right:8px;bottom:20%;background:#fff;border-radius:6px;padding:5px 8px;box-shadow:0 2px 8px rgba(0,0,0,0.08);z-index:2;{{ !$hero->stat2_number ? 'display:none;' : '' }}">
-                                <div style="font-size:12px;font-weight:700;color:#0d1117;line-height:1;" id="prev-stat2-num">{{ $hero->stat2_number }}</div>
+                                <div style="font-size:12px;font-weight:700;color:#2E2A26;line-height:1;" id="prev-stat2-num">{{ $hero->stat2_number }}</div>
                                 <div style="font-size:5px;margin-top:1px;color:#9ca3af;" id="prev-stat2-label">{{ $hero->stat2_label }}</div>
                             </div>
                             {{-- Product silhouette --}}
                             <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;">
                                 <svg width="80" height="40" viewBox="0 0 80 40" fill="none" style="opacity:0.2;">
-                                    <ellipse cx="40" cy="20" rx="38" ry="16" stroke="#0d1117" stroke-width="2"/>
-                                    <ellipse cx="26" cy="20" rx="14" ry="12" stroke="#0d1117" stroke-width="1.5"/>
-                                    <ellipse cx="54" cy="20" rx="14" ry="12" stroke="#0d1117" stroke-width="1.5"/>
+                                    <ellipse cx="40" cy="20" rx="38" ry="16" stroke="#2E2A26" stroke-width="2"/>
+                                    <ellipse cx="26" cy="20" rx="14" ry="12" stroke="#2E2A26" stroke-width="1.5"/>
+                                    <ellipse cx="54" cy="20" rx="14" ry="12" stroke="#2E2A26" stroke-width="1.5"/>
                                 </svg>
                             </div>
                         </div>
@@ -472,13 +472,13 @@ function toggleMediaMode(mode) {
         overlay.style.display = 'block';
         focusLine.style.display = 'block';
         posIndicator.style.display = 'block';
-        mediaArea.style.background = '#1a1a2e';
+        mediaArea.style.background = '#2E2A26';
         modeText.textContent = 'video';
     } else {
         overlay.style.display = 'none';
         focusLine.style.display = 'none';
         posIndicator.style.display = 'none';
-        mediaArea.style.background = 'linear-gradient(135deg,#e0f2fe 0%,#dbeafe 50%,#ede9fe 100%)';
+        mediaArea.style.background = 'linear-gradient(135deg,#e0f2fe 0%,#E8D1C5 50%,#ede9fe 100%)';
         modeText.textContent = 'split';
     }
 }
@@ -523,7 +523,7 @@ function updatePreview() {
 
     var titleHtml = escapeHtml(t1) + '<br>' + escapeHtml(t2) + '<br>';
     if (highlight && t3.includes(highlight)) {
-        titleHtml += escapeHtml(t3).replace(escapeHtml(highlight), '<span style="color:#378ADD;">' + escapeHtml(highlight) + '</span>');
+        titleHtml += escapeHtml(t3).replace(escapeHtml(highlight), '<span style="color:#D9B56D;">' + escapeHtml(highlight) + '</span>');
     } else {
         titleHtml += escapeHtml(t3);
     }

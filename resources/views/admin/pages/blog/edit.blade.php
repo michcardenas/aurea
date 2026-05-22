@@ -58,7 +58,7 @@
 
         {{-- Preview --}}
         <div class="bg-gray-900 rounded-xl p-8 mb-4 text-center">
-            <p class="text-xs font-semibold tracking-widest uppercase mb-4" style="color:#378ADD;">
+            <p class="text-xs font-semibold tracking-widest uppercase mb-4" style="color:#D9B56D;">
                 <span x-data x-text="$el.closest('form').querySelector('[name=hero_label]').value || 'NUVION GLASS · BLOG'">{{ $page->hero_label ?? 'NUVION GLASS · BLOG' }}</span>
             </p>
             <p class="text-2xl font-bold text-white">Vista previa del hero</p>

@@ -19,7 +19,7 @@
         ¡Te compartimos los datos para realizar la transferencia !
     </h1>
     <p style="margin:0 0 8px;font-size:15px;color:#4B5563;line-height:1.6;text-align:center;">
-        Hola <strong>{{ $order->customer->name }}</strong>, tu pedido <strong style="color:#002F6D;">#{{ $order->id }}</strong> ha sido recibido.
+        Hola <strong>{{ $order->customer->name }}</strong>, tu pedido <strong style="color:#2E2A26;">#{{ $order->id }}</strong> ha sido recibido.
     </p>
     <p style="margin:0 0 32px;font-size:14px;color:#9CA3AF;text-align:center;">
         {{ $order->created_at->format('d/m/Y') }} &middot; {{ $order->created_at->format('H:i') }} hrs
@@ -43,7 +43,7 @@
     {{-- Items --}}
     <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:4px;">
         <tr>
-            <td style="padding:12px 16px;background-color:#002F6D;border-radius:8px 8px 0 0;font-size:13px;font-weight:700;color:#FFFFFF;text-transform:uppercase;letter-spacing:0.5px;">
+            <td style="padding:12px 16px;background-color:#2E2A26;border-radius:8px 8px 0 0;font-size:13px;font-weight:700;color:#FFFFFF;text-transform:uppercase;letter-spacing:0.5px;">
                 Resumen del pedido
             </td>
         </tr>
@@ -107,8 +107,8 @@
                         <td colspan="2" style="padding:8px 0 0;"><hr style="border:none;border-top:1px solid #E5E7EB;margin:0;"></td>
                     </tr>
                     <tr>
-                        <td style="padding:8px 0 0;font-size:20px;font-weight:700;color:#002F6D;">Total</td>
-                        <td align="right" style="padding:8px 0 0;font-size:20px;font-weight:700;color:#002F6D;">${{ number_format($order->total, 2) }} MXN</td>
+                        <td style="padding:8px 0 0;font-size:20px;font-weight:700;color:#2E2A26;">Total</td>
+                        <td align="right" style="padding:8px 0 0;font-size:20px;font-weight:700;color:#2E2A26;">${{ number_format($order->total, 2) }} MXN</td>
                     </tr>
                 </table>
             </td>
@@ -118,8 +118,8 @@
     {{-- Payment method --}}
     <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:12px;">
         <tr>
-            <td style="padding:14px 16px;background-color:#F4F6F9;border-radius:8px;font-size:14px;color:#4B5563;">
-                <strong style="color:#002F6D;">Método de pago:</strong>
+            <td style="padding:14px 16px;background-color:#FBF8F2;border-radius:8px;font-size:14px;color:#4B5563;">
+                <strong style="color:#2E2A26;">Método de pago:</strong>
                 @switch($order->payment_method)
                     @case('card') Tarjeta de crédito/débito @break
                     @case('transfer') Transferencia bancaria @break
@@ -134,16 +134,16 @@
     @if($order->payment_method === 'transfer' && !empty($bankDetails['clabe']))
     <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:12px;">
         <tr>
-            <td style="padding:0;border-radius:8px;overflow:hidden;border:1px solid #B5D4F4;">
+            <td style="padding:0;border-radius:8px;overflow:hidden;border:1px solid #E8CC92;">
                 <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
                     <tr>
-                        <td style="background-color:#002F6D;padding:12px 16px;color:#FFFFFF;font-size:15px;font-weight:700;">
+                        <td style="background-color:#2E2A26;padding:12px 16px;color:#FFFFFF;font-size:15px;font-weight:700;">
                             Datos para transferencia bancaria
                         </td>
                     </tr>
                     <tr>
-                        <td style="background-color:#EBF4FF;padding:16px;">
-                            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="font-size:14px;color:#1a1a2e;">
+                        <td style="background-color:#FBF4E6;padding:16px;">
+                            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="font-size:14px;color:#2E2A26;">
                                 @if($bankDetails['bank_name'])
                                 <tr><td style="padding:4px 0;color:#6B7280;width:130px;">Banco:</td><td style="padding:4px 0;font-weight:600;">{{ $bankDetails['bank_name'] }}</td></tr>
                                 @endif
@@ -154,8 +154,8 @@
                                 @if($bankDetails['account_number'])
                                 <tr><td style="padding:4px 0;color:#6B7280;">No. cuenta:</td><td style="padding:4px 0;font-weight:600;">{{ $bankDetails['account_number'] }}</td></tr>
                                 @endif
-                                <tr><td style="padding:4px 0;color:#6B7280;">Referencia:</td><td style="padding:4px 0;font-weight:700;color:#002F6D;">Pedido #{{ $order->id }}</td></tr>
-                                <tr><td style="padding:4px 0;color:#6B7280;">Monto:</td><td style="padding:4px 0;font-weight:700;color:#002F6D;font-size:16px;">${{ number_format($order->total, 2) }} MXN</td></tr>
+                                <tr><td style="padding:4px 0;color:#6B7280;">Referencia:</td><td style="padding:4px 0;font-weight:700;color:#2E2A26;">Pedido #{{ $order->id }}</td></tr>
+                                <tr><td style="padding:4px 0;color:#6B7280;">Monto:</td><td style="padding:4px 0;font-weight:700;color:#2E2A26;font-size:16px;">${{ number_format($order->total, 2) }} MXN</td></tr>
                             </table>
                             @if($bankDetails['reference_instructions'])
                             <p style="margin:12px 0 0;font-size:13px;color:#4B5563;">{{ $bankDetails['reference_instructions'] }}</p>
@@ -174,8 +174,8 @@
     {{-- Shipping info --}}
     <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:32px;">
         <tr>
-            <td style="padding:14px 16px;background-color:#F4F6F9;border-radius:8px;font-size:14px;color:#4B5563;">
-                <strong style="color:#002F6D;">Envío a:</strong>
+            <td style="padding:14px 16px;background-color:#FBF8F2;border-radius:8px;font-size:14px;color:#4B5563;">
+                <strong style="color:#2E2A26;">Envío a:</strong>
                 {{ $order->shipping_address }}
                 @if($order->notes)
                     <br><span style="font-size:13px;color:#9CA3AF;"><strong>Notas:</strong> {{ $order->notes }}</span>
@@ -189,7 +189,7 @@
         <tr>
             <td align="center">
                 <a href="{{ route('order.track', $order->tracking_token) }}"
-                   style="display:inline-block;background-color:#002F6D;color:#FFFFFF;font-size:16px;font-weight:700;text-decoration:none;padding:16px 40px;border-radius:8px;letter-spacing:0.3px;">
+                   style="display:inline-block;background-color:#2E2A26;color:#FFFFFF;font-size:16px;font-weight:700;text-decoration:none;padding:16px 40px;border-radius:8px;letter-spacing:0.3px;">
                     {{ $order->payment_method === 'transfer' ? 'Ya hice mi transferencia' : 'Seguir mi pedido' }}
                 </a>
             </td>
@@ -200,7 +200,7 @@
         <tr>
             <td align="center">
                 <a href="{{ route('products.index') }}"
-                   style="display:inline-block;color:#3A8DDE;font-size:14px;font-weight:600;text-decoration:none;padding:8px 24px;">
+                   style="display:inline-block;color:#D9B56D;font-size:14px;font-weight:600;text-decoration:none;padding:8px 24px;">
                     Seguir comprando &rarr;
                 </a>
             </td>
@@ -213,7 +213,7 @@
             <td align="center" style="border-top:1px solid #E5E7EB;padding:20px 0 0;">
                 <p style="margin:0 0 4px;font-size:13px;color:#9CA3AF;">¿Tienes dudas sobre tu pedido?</p>
                 <p style="margin:0;font-size:13px;">
-                    <a href="mailto:contacto@nuvionglass.com.mx" style="color:#3A8DDE;text-decoration:none;font-weight:600;">contacto@nuvionglass.com.mx</a>
+                    <a href="mailto:contacto@nuvionglass.com.mx" style="color:#D9B56D;text-decoration:none;font-weight:600;">contacto@nuvionglass.com.mx</a>
                 </p>
             </td>
         </tr>

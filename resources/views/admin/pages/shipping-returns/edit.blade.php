@@ -120,9 +120,9 @@
         {{-- Botón guardar --}}
         <button type="submit"
                 class="w-full py-3 rounded-xl text-white font-medium text-base transition-colors"
-                style="background:#378ADD;"
-                onmouseover="this.style.background='#185FA5'"
-                onmouseout="this.style.background='#378ADD'">
+                style="background:#D9B56D;"
+                onmouseover="this.style.background='#BE9A53'"
+                onmouseout="this.style.background='#D9B56D'">
             Guardar cambios
         </button>
     </form>

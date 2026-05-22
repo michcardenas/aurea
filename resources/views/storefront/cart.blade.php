@@ -3,13 +3,13 @@
 @section('title', 'Carrito de compras | Belleza Áurea')
 
 @section('content')
-<section class="py-12" style="background:#F4F6F9;min-height:100vh;" x-data="cartPage()">
+<section class="py-12" style="background:#FBF8F2;min-height:100vh;" x-data="cartPage()">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
 
         {{-- Header --}}
         <div class="flex items-center justify-between mb-8">
-            <h1 class="font-brand text-3xl font-bold" style="color:#1a1a2e;">Tu carrito</h1>
-            <a href="{{ route('products.index') }}" class="text-sm font-medium transition-colors" style="color:#378ADD;" onmouseover="this.style.color='#185FA5'" onmouseout="this.style.color='#378ADD'">
+            <h1 class="font-brand text-3xl font-bold" style="color:#2E2A26;">Tu carrito</h1>
+            <a href="{{ route('products.index') }}" class="text-sm font-medium transition-colors" style="color:#D9B56D;" onmouseover="this.style.color='#BE9A53'" onmouseout="this.style.color='#D9B56D'">
                 ← Seguir comprando
             </a>
         </div>
@@ -20,9 +20,9 @@
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-20 w-20 mx-auto mb-6" style="color:#d1d5db;" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5V6a3.75 3.75 0 1 0-7.5 0v4.5m11.356-1.993 1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 0 1-1.12-1.243l1.264-12A1.125 1.125 0 0 1 5.513 7.5h12.974c.576 0 1.059.435 1.119 1.007ZM8.625 10.5a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm7.5 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
                 </svg>
-                <h2 class="text-xl font-semibold mb-2" style="color:#1a1a2e;">Tu carrito está vacío</h2>
+                <h2 class="text-xl font-semibold mb-2" style="color:#2E2A26;">Tu carrito está vacío</h2>
                 <p class="mb-6" style="color:#9ca3af;">Agrega productos para comenzar tu compra</p>
-                <a href="{{ route('products.index') }}" class="inline-block text-white px-8 py-3 rounded-lg font-medium transition-colors" style="background:#378ADD;" onmouseover="this.style.background='#185FA5'" onmouseout="this.style.background='#378ADD'">
+                <a href="{{ route('products.index') }}" class="inline-block text-white px-8 py-3 rounded-lg font-medium transition-colors" style="background:#D9B56D;" onmouseover="this.style.background='#BE9A53'" onmouseout="this.style.background='#D9B56D'">
                     Explorar lentes
                 </a>
             </div>
@@ -51,31 +51,31 @@
                                         <img :src="'/storage/' + item.image" :alt="item.name" class="w-full h-full object-cover">
                                     </template>
                                     <template x-if="!item.image">
-                                        <div class="w-full h-full flex items-center justify-center" style="background:linear-gradient(135deg,#EBF4FF,#dbeafe);">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" style="color:#93c5fd;" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
+                                        <div class="w-full h-full flex items-center justify-center" style="background:linear-gradient(135deg,#FBF4E6,#E8D1C5);">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" style="color:#B8A999;" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
                                                 <path stroke-linecap="round" stroke-linejoin="round" d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909M3.75 21h16.5A2.25 2.25 0 0 0 22.5 18.75V5.25A2.25 2.25 0 0 0 20.25 3H3.75A2.25 2.25 0 0 0 1.5 5.25v13.5A2.25 2.25 0 0 0 3.75 21Z" />
                                             </svg>
                                         </div>
                                     </template>
                                 </div>
                                 <div class="flex flex-col justify-center min-w-0">
-                                    <a :href="'/lentes/' + item.slug" class="text-sm font-medium line-clamp-2 transition-colors" style="color:#1a1a2e;" onmouseover="this.style.color='#378ADD'" onmouseout="this.style.color='#1a1a2e'" x-text="item.name"></a>
+                                    <a :href="'/lentes/' + item.slug" class="text-sm font-medium line-clamp-2 transition-colors" style="color:#2E2A26;" onmouseover="this.style.color='#D9B56D'" onmouseout="this.style.color='#2E2A26'" x-text="item.name"></a>
                                     <p x-show="item.variant" class="text-xs mt-1" style="color:#9ca3af;" x-text="item.variant"></p>
-                                    <p class="md:hidden text-sm font-semibold mt-1" style="color:#378ADD;" x-text="'$' + fmt(item.unit_price)"></p>
+                                    <p class="md:hidden text-sm font-semibold mt-1" style="color:#D9B56D;" x-text="'$' + fmt(item.unit_price)"></p>
                                 </div>
                             </div>
                             <div class="hidden md:flex col-span-2 justify-center">
-                                <span class="text-sm" style="color:#1a1a2e;" x-text="'$' + fmt(item.unit_price)"></span>
+                                <span class="text-sm" style="color:#2E2A26;" x-text="'$' + fmt(item.unit_price)"></span>
                             </div>
                             <div class="col-span-8 md:col-span-2 flex justify-start md:justify-center">
                                 <div class="flex items-center rounded-lg overflow-hidden" style="border:1px solid #e5e7eb;">
-                                    <button @click="updateQty(item.key, item.qty - 1)" class="w-9 h-9 flex items-center justify-center text-sm transition-all" style="color:#6b7280;" onmouseover="this.style.color='#1a1a2e';this.style.background='#f3f4f6'" onmouseout="this.style.color='#6b7280';this.style.background='transparent'">−</button>
-                                    <span class="w-10 h-9 flex items-center justify-center text-sm font-medium" style="color:#1a1a2e;border-left:1px solid #e5e7eb;border-right:1px solid #e5e7eb;background:#f9fafb;" x-text="item.qty"></span>
-                                    <button @click="updateQty(item.key, item.qty + 1)" class="w-9 h-9 flex items-center justify-center text-sm transition-all" style="color:#6b7280;" onmouseover="this.style.color='#1a1a2e';this.style.background='#f3f4f6'" onmouseout="this.style.color='#6b7280';this.style.background='transparent'">+</button>
+                                    <button @click="updateQty(item.key, item.qty - 1)" class="w-9 h-9 flex items-center justify-center text-sm transition-all" style="color:#6b7280;" onmouseover="this.style.color='#2E2A26';this.style.background='#f3f4f6'" onmouseout="this.style.color='#6b7280';this.style.background='transparent'">−</button>
+                                    <span class="w-10 h-9 flex items-center justify-center text-sm font-medium" style="color:#2E2A26;border-left:1px solid #e5e7eb;border-right:1px solid #e5e7eb;background:#f9fafb;" x-text="item.qty"></span>
+                                    <button @click="updateQty(item.key, item.qty + 1)" class="w-9 h-9 flex items-center justify-center text-sm transition-all" style="color:#6b7280;" onmouseover="this.style.color='#2E2A26';this.style.background='#f3f4f6'" onmouseout="this.style.color='#6b7280';this.style.background='transparent'">+</button>
                                 </div>
                             </div>
                             <div class="col-span-4 md:col-span-2 flex items-center justify-end gap-3">
-                                <span class="text-sm font-semibold" style="color:#1a1a2e;" x-text="'$' + fmt(item.total)"></span>
+                                <span class="text-sm font-semibold" style="color:#2E2A26;" x-text="'$' + fmt(item.total)"></span>
                                 <button @click="removeItem(item.key)" class="transition-colors" style="color:#d1d5db;" onmouseover="this.style.color='#ef4444'" onmouseout="this.style.color='#d1d5db'">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
@@ -87,13 +87,13 @@
 
                     {{-- 2x1 Banner --}}
                     <template x-if="free_items.length > 0">
-                        <div style="border:1px dashed #B5D4F4;border-radius:8px;padding:12px 16px;background:#EBF4FF;margin:12px 4px;display:flex;align-items:center;gap:10px;">
+                        <div style="border:1px dashed #E8CC92;border-radius:8px;padding:12px 16px;background:#FBF4E6;margin:12px 4px;display:flex;align-items:center;gap:10px;">
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" style="flex-shrink:0;">
-                                <path d="M21 11.25v8.25a1.5 1.5 0 0 1-1.5 1.5H5.25a1.5 1.5 0 0 1-1.5-1.5v-8.25M12 4.875A2.625 2.625 0 1 0 9.375 7.5H12m0-2.625V7.5m0-2.625A2.625 2.625 0 1 1 14.625 7.5H12m0 0V21m-8.625-9.75h18c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125h-18c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125Z" stroke="#185FA5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M21 11.25v8.25a1.5 1.5 0 0 1-1.5 1.5H5.25a1.5 1.5 0 0 1-1.5-1.5v-8.25M12 4.875A2.625 2.625 0 1 0 9.375 7.5H12m0-2.625V7.5m0-2.625A2.625 2.625 0 1 1 14.625 7.5H12m0 0V21m-8.625-9.75h18c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125h-18c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125Z" stroke="#BE9A53" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                             </svg>
                             <div>
-                                <p style="font-size:13px;font-weight:600;color:#185FA5;margin:0;">¡2×1 aplicado!</p>
-                                <p style="font-size:12px;color:#378ADD;margin:0;" x-text="free_items.join(', ') + ' — va sin costo'"></p>
+                                <p style="font-size:13px;font-weight:600;color:#BE9A53;margin:0;">¡2×1 aplicado!</p>
+                                <p style="font-size:12px;color:#D9B56D;margin:0;" x-text="free_items.join(', ') + ' — va sin costo'"></p>
                             </div>
                         </div>
                     </template>
@@ -106,20 +106,20 @@
                             </p>
                             <template x-for="t in toallitasData" :key="t.id">
                                 <div style="display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid #f3f4f6;">
-                                    <div style="width:48px;height:48px;flex-shrink:0;border-radius:8px;background:linear-gradient(135deg,#EBF4FF,#dbeafe);display:flex;align-items:center;justify-content:center;">
+                                    <div style="width:48px;height:48px;flex-shrink:0;border-radius:8px;background:linear-gradient(135deg,#FBF4E6,#E8D1C5);display:flex;align-items:center;justify-content:center;">
                                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                                            <rect x="4" y="7" width="16" height="12" rx="2" stroke="#378ADD" stroke-width="1.5"/>
-                                            <path d="M8 11h8M8 14h5" stroke="#378ADD" stroke-width="1.2" stroke-linecap="round"/>
+                                            <rect x="4" y="7" width="16" height="12" rx="2" stroke="#D9B56D" stroke-width="1.5"/>
+                                            <path d="M8 11h8M8 14h5" stroke="#D9B56D" stroke-width="1.2" stroke-linecap="round"/>
                                         </svg>
                                     </div>
                                     <div style="flex:1;min-width:0;">
-                                        <p style="font-size:13px;font-weight:500;color:#1a1a2e;margin:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;" x-text="t.name"></p>
+                                        <p style="font-size:13px;font-weight:500;color:#2E2A26;margin:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;" x-text="t.name"></p>
                                         <p style="font-size:12px;color:#6b7280;margin:0;" x-text="'$' + fmt(t.price)"></p>
                                     </div>
                                     <button @click="addToallita(t.id)"
-                                            style="flex-shrink:0;padding:6px 14px;background:#EBF4FF;color:#185FA5;border:1px solid #B5D4F4;border-radius:6px;font-size:12px;font-weight:500;cursor:pointer;transition:all .2s;font-family:inherit;"
-                                            onmouseover="this.style.background='#378ADD';this.style.color='#fff';this.style.borderColor='#378ADD'"
-                                            onmouseout="this.style.background='#EBF4FF';this.style.color='#185FA5';this.style.borderColor='#B5D4F4'">
+                                            style="flex-shrink:0;padding:6px 14px;background:#FBF4E6;color:#BE9A53;border:1px solid #E8CC92;border-radius:6px;font-size:12px;font-weight:500;cursor:pointer;transition:all .2s;font-family:inherit;"
+                                            onmouseover="this.style.background='#D9B56D';this.style.color='#fff';this.style.borderColor='#D9B56D'"
+                                            onmouseout="this.style.background='#FBF4E6';this.style.color='#BE9A53';this.style.borderColor='#E8CC92'">
                                         + Agregar
                                     </button>
                                 </div>
@@ -131,13 +131,13 @@
                 {{-- Summary sidebar (1/3) --}}
                 <div class="lg:col-span-1">
                     <div class="sticky top-24 rounded-2xl p-6 space-y-4" style="background:#ffffff;border:1px solid #e5e7eb;box-shadow:0 4px 16px rgba(0,0,0,0.04);">
-                        <h2 class="font-brand text-lg font-semibold" style="color:#1a1a2e;">Resumen del pedido</h2>
+                        <h2 class="font-brand text-lg font-semibold" style="color:#2E2A26;">Resumen del pedido</h2>
 
                         <div class="space-y-3 text-sm">
                             {{-- Subtotal --}}
                             <div class="flex justify-between">
                                 <span style="color:#6b7280;">Subtotal</span>
-                                <span style="color:#1a1a2e;" x-text="'$' + fmt(subtotal)"></span>
+                                <span style="color:#2E2A26;" x-text="'$' + fmt(subtotal)"></span>
                             </div>
 
                             {{-- 2x1 discount --}}
@@ -152,7 +152,7 @@
                             <div class="flex justify-between">
                                 <span style="color:#6b7280;">Envío</span>
                                 <span x-text="shipping === 0 ? '¡GRATIS!' : '$' + fmt(shipping)"
-                                      :style="shipping === 0 ? 'color:#16a34a;font-weight:600;' : 'color:#1a1a2e;'"></span>
+                                      :style="shipping === 0 ? 'color:#16a34a;font-weight:600;' : 'color:#2E2A26;'"></span>
                             </div>
 
                             {{-- Progreso para envio gratis (basado en TOTAL post-descuentos) --}}
@@ -160,10 +160,10 @@
                                 <div style="padding:10px 14px;background:#f9fafb;border-radius:8px;border:1px solid #f3f4f6;">
                                     <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:6px;">
                                         <span style="color:#9ca3af;">Envío gratis</span>
-                                        <span style="color:#378ADD;font-weight:500;" x-text="'$' + fmt(freeThreshold - (subtotal - discount_2x1 - coupon_discount)) + ' más'"></span>
+                                        <span style="color:#D9B56D;font-weight:500;" x-text="'$' + fmt(freeThreshold - (subtotal - discount_2x1 - coupon_discount)) + ' más'"></span>
                                     </div>
                                     <div style="background:#e5e7eb;border-radius:2px;height:4px;overflow:hidden;">
-                                        <div style="background:#378ADD;height:100%;border-radius:2px;transition:width .3s ease;"
+                                        <div style="background:#D9B56D;height:100%;border-radius:2px;transition:width .3s ease;"
                                              :style="'width:' + Math.min(((subtotal - discount_2x1 - coupon_discount) / freeThreshold) * 100, 100) + '%'"></div>
                                     </div>
                                 </div>
@@ -200,7 +200,7 @@
                         <template x-if="!coupon_code">
                             <div style="border-top:1px solid #e5e7eb;padding-top:16px;">
                                 <button @click="couponOpen = !couponOpen" type="button"
-                                        style="display:flex;align-items:center;gap:6px;font-size:13px;font-weight:500;color:#378ADD;background:none;border:none;cursor:pointer;padding:0;font-family:inherit;">
+                                        style="display:flex;align-items:center;gap:6px;font-size:13px;font-weight:500;color:#D9B56D;background:none;border:none;cursor:pointer;padding:0;font-family:inherit;">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 6v.75m0 3v.75m0 3v.75m0 3V18m-9-5.25h5.25M7.5 15h3M3.375 5.25c-.621 0-1.125.504-1.125 1.125v3.026a2.999 2.999 0 0 1 0 5.198v3.026c0 .621.504 1.125 1.125 1.125h17.25c.621 0 1.125-.504 1.125-1.125v-3.026a2.999 2.999 0 0 1 0-5.198V6.375c0-.621-.504-1.125-1.125-1.125H3.375Z"/>
                                     </svg>
@@ -211,10 +211,10 @@
                                         <input type="text" x-model="couponInput" @keydown.enter.prevent="applyCoupon()"
                                                placeholder="Código de cupón"
                                                style="flex:1;padding:8px 12px;border:1px solid #e5e7eb;border-radius:8px;font-size:13px;font-family:inherit;text-transform:uppercase;outline:none;transition:border-color .2s;"
-                                               onfocus="this.style.borderColor='#378ADD'" onblur="this.style.borderColor='#e5e7eb'">
+                                               onfocus="this.style.borderColor='#D9B56D'" onblur="this.style.borderColor='#e5e7eb'">
                                         <button @click="applyCoupon()" :disabled="couponLoading"
-                                                style="padding:8px 16px;background:#1a1a2e;color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;transition:background .2s;font-family:inherit;white-space:nowrap;"
-                                                onmouseover="this.style.background='#378ADD'" onmouseout="this.style.background='#1a1a2e'"
+                                                style="padding:8px 16px;background:#2E2A26;color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;transition:background .2s;font-family:inherit;white-space:nowrap;"
+                                                onmouseover="this.style.background='#D9B56D'" onmouseout="this.style.background='#2E2A26'"
                                                 :style="couponLoading ? 'opacity:0.6;cursor:wait;' : ''">
                                             <span x-show="!couponLoading">Aplicar</span>
                                             <span x-show="couponLoading" x-cloak>...</span>
@@ -230,15 +230,15 @@
 
                         {{-- Total --}}
                         <div class="pt-4 flex justify-between items-center" style="border-top:1px solid #e5e7eb;">
-                            <span class="text-base font-semibold" style="color:#1a1a2e;">Total</span>
-                            <span class="text-xl font-bold" style="color:#378ADD;" x-text="'$' + fmt(total)"></span>
+                            <span class="text-base font-semibold" style="color:#2E2A26;">Total</span>
+                            <span class="text-xl font-bold" style="color:#D9B56D;" x-text="'$' + fmt(total)"></span>
                         </div>
 
                         <a href="{{ route('checkout.index') }}"
                            class="block w-full text-white text-center py-3.5 rounded-xl font-medium transition-all"
-                           style="background:#378ADD;box-shadow:0 4px 12px rgba(55,138,221,0.25);"
-                           onmouseover="this.style.background='#185FA5';this.style.boxShadow='0 6px 16px rgba(55,138,221,0.35)'"
-                           onmouseout="this.style.background='#378ADD';this.style.boxShadow='0 4px 12px rgba(55,138,221,0.25)'">
+                           style="background:#D9B56D;box-shadow:0 4px 12px rgba(55,138,221,0.25);"
+                           onmouseover="this.style.background='#BE9A53';this.style.boxShadow='0 6px 16px rgba(55,138,221,0.35)'"
+                           onmouseout="this.style.background='#D9B56D';this.style.boxShadow='0 4px 12px rgba(55,138,221,0.25)'">
                             Finalizar compra
                         </a>
 

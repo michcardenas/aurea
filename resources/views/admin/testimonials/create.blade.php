@@ -52,7 +52,7 @@
                     </div>
                     <div>
                         <label for="avatar_color" class="block text-sm font-medium text-gray-700 mb-1">Color avatar</label>
-                        <input type="color" id="avatar_color" name="avatar_color" value="{{ old('avatar_color', '#378ADD') }}"
+                        <input type="color" id="avatar_color" name="avatar_color" value="{{ old('avatar_color', '#D9B56D') }}"
                                class="w-full h-[38px] border border-gray-300 rounded-lg px-1 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500">
                     </div>
                     <div>

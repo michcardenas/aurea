@@ -100,7 +100,7 @@
                             @if($card['icon_svg'])
                             <div class="flex items-center gap-2 mb-2">
                                 <div class="w-10 h-10 rounded-lg flex items-center justify-center" style="background:rgba(55,138,221,0.1);">
-                                    <svg class="w-5 h-5" style="color:#378ADD;" fill="none" stroke="currentColor" viewBox="0 0 24 24">{!! $card['icon_svg'] !!}</svg>
+                                    <svg class="w-5 h-5" style="color:#D9B56D;" fill="none" stroke="currentColor" viewBox="0 0 24 24">{!! $card['icon_svg'] !!}</svg>
                                 </div>
                                 <span class="text-xs text-gray-400">Icono actual</span>
                             </div>
@@ -288,7 +288,7 @@
                                         <span class="text-xs font-semibold text-gray-500" x-text="'Beneficio ' + (idx + 1)"></span>
                                         <template x-if="card.icon_svg">
                                             <div class="w-7 h-7 rounded flex items-center justify-center" style="background:rgba(55,138,221,0.1);">
-                                                <svg class="w-4 h-4" style="color:#378ADD;" fill="none" stroke="currentColor" viewBox="0 0 24 24" x-html="card.icon_svg"></svg>
+                                                <svg class="w-4 h-4" style="color:#D9B56D;" fill="none" stroke="currentColor" viewBox="0 0 24 24" x-html="card.icon_svg"></svg>
                                             </div>
                                         </template>
                                     </div>
@@ -411,7 +411,7 @@
                                     <span class="text-xs font-semibold text-gray-500" x-text="'Badge ' + (idx + 1)"></span>
                                     <template x-if="badge.icon_svg">
                                         <div class="w-7 h-7 rounded flex items-center justify-center" style="background:rgba(55,138,221,0.1);">
-                                            <svg class="w-4 h-4" style="color:#378ADD;" fill="none" stroke="currentColor" viewBox="0 0 24 24" x-html="badge.icon_svg"></svg>
+                                            <svg class="w-4 h-4" style="color:#D9B56D;" fill="none" stroke="currentColor" viewBox="0 0 24 24" x-html="badge.icon_svg"></svg>
                                         </div>
                                     </template>
                                 </div>
@@ -481,7 +481,7 @@
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">Subtítulo</label>
                     <textarea name="comparison_subtitle" rows="2"
-                              class="w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm">{{ $page->comparison_subtitle ?? 'Mira la diferencia real de usar lentes con protección de luz azul.' }}</textarea>
+                              class="w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm">{{ $page->comparison_subtitle ?? 'Mira la diferencia real cuando incorporas Belleza Áurea a tu rutina diaria.' }}</textarea>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
@@ -574,9 +574,9 @@
         {{-- Botón guardar --}}
         <button type="submit"
                 class="w-full py-3 rounded-xl text-white font-medium text-base transition-colors"
-                style="background:#378ADD;"
-                onmouseover="this.style.background='#185FA5'"
-                onmouseout="this.style.background='#378ADD'">
+                style="background:#D9B56D;"
+                onmouseover="this.style.background='#BE9A53'"
+                onmouseout="this.style.background='#D9B56D'">
             Guardar cambios
         </button>
     </form>

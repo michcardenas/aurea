@@ -219,13 +219,13 @@
     <link href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css" rel="stylesheet">
     <style>
         .ql-toolbar.ql-snow { border: 1px solid #d1d5db; border-radius: 8px 8px 0 0; background: #f9fafb; }
-        .ql-container.ql-snow { border: none; font-size: 14px; font-family: 'IBM Plex Sans', sans-serif; }
+        .ql-container.ql-snow { border: none; font-size: 14px; font-family: 'Montserrat', sans-serif; }
         .ql-editor { min-height: 360px; }
         .ql-editor h2 { font-size: 1.4em; font-weight: 700; margin: 1em 0 0.4em; }
         .ql-editor h3 { font-size: 1.15em; font-weight: 600; margin: 0.8em 0 0.3em; }
         .ql-editor p { margin-bottom: 0.6em; }
         .ql-editor ul, .ql-editor ol { margin-bottom: 0.6em; }
-        .ql-editor blockquote { border-left: 4px solid #3A8DDE; padding-left: 12px; color: #475569; }
+        .ql-editor blockquote { border-left: 4px solid #D9B56D; padding-left: 12px; color: #475569; }
     </style>
 
     <script>

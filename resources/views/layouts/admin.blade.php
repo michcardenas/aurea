@@ -6,11 +6,12 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="robots" content="noindex, nofollow">
     <title>@yield('title', 'Admin') | Belleza Áurea</title>
-    <link rel="icon" type="image/png" href="{{ asset('img/isotipo.png') }}">
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('img/brand/favicon-32.png') }}">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
@@ -18,12 +19,14 @@
 <body class="bg-gray-100 text-gray-900 font-body min-h-screen" x-data="{ sidebarOpen: true }">
     <div class="flex min-h-screen">
         {{-- Sidebar --}}
-        <aside :class="sidebarOpen ? 'w-64' : 'w-16'" class="bg-primary text-white transition-all duration-300 flex flex-col shrink-0">
-            <div class="p-4 border-b border-white/10">
+        <aside :class="sidebarOpen ? 'w-64' : 'w-16'"
+               class="text-white transition-all duration-300 flex flex-col shrink-0"
+               style="background:#2E2A26;">
+            <div class="p-4" style="border-bottom:1px solid rgba(232,204,146,0.15);">
                 <a href="{{ route('admin.dashboard') }}" class="flex items-center space-x-2">
-                    <img src="{{ asset('img/isotipo.png') }}" alt="Belleza Áurea" class="h-8 w-8 object-contain shrink-0">
-                    <span x-show="sidebarOpen" class="font-brand text-lg text-secondary">nuvion</span>
-                    <span x-show="sidebarOpen" class="text-xs text-white/60 uppercase tracking-wider">admin</span>
+                    <img src="{{ asset('img/brand/favicon-192.png') }}" alt="Belleza Áurea" class="h-9 w-9 object-contain shrink-0">
+                    <span x-show="sidebarOpen" style="font-family:'Playfair Display',serif;font-size:18px;font-weight:600;color:#D9B56D;line-height:1;">Áurea</span>
+                    <span x-show="sidebarOpen" class="uppercase tracking-wider" style="font-size:10px;color:rgba(247,243,237,0.55);">admin</span>
                 </a>
             </div>
 
@@ -124,17 +127,17 @@
                     <div x-show="openInicio && sidebarOpen" x-collapse class="ml-8 space-y-0.5">
                         <a href="{{ route('admin.hero.edit') }}"
                            class="flex items-center space-x-3 px-3 py-1.5 rounded-lg hover:bg-white/10 transition-colors text-xs {{ request()->routeIs('admin.hero.*') ? 'bg-white/10 text-white' : 'text-white/60' }}">
-                            <span class="w-1.5 h-1.5 rounded-full {{ request()->routeIs('admin.hero.*') ? 'bg-blue-400' : 'bg-white/30' }}"></span>
+                            <span class="w-1.5 h-1.5 rounded-full {{ request()->routeIs('admin.hero.*') ? 'bg-yellow-400' : 'bg-white/30' }}"></span>
                             <span>Hero</span>
                         </a>
                         <a href="{{ route('admin.pages.home.edit') }}"
                            class="flex items-center space-x-3 px-3 py-1.5 rounded-lg hover:bg-white/10 transition-colors text-xs {{ request()->routeIs('admin.pages.home.*') ? 'bg-white/10 text-white' : 'text-white/60' }}">
-                            <span class="w-1.5 h-1.5 rounded-full {{ request()->routeIs('admin.pages.home.*') ? 'bg-blue-400' : 'bg-white/30' }}"></span>
+                            <span class="w-1.5 h-1.5 rounded-full {{ request()->routeIs('admin.pages.home.*') ? 'bg-yellow-400' : 'bg-white/30' }}"></span>
                             <span>Secciones</span>
                         </a>
                         <a href="{{ route('admin.infographics.index') }}"
                            class="flex items-center space-x-3 px-3 py-1.5 rounded-lg hover:bg-white/10 transition-colors text-xs {{ request()->routeIs('admin.infographics.*') ? 'bg-white/10 text-white' : 'text-white/60' }}">
-                            <span class="w-1.5 h-1.5 rounded-full {{ request()->routeIs('admin.infographics.*') ? 'bg-blue-400' : 'bg-white/30' }}"></span>
+                            <span class="w-1.5 h-1.5 rounded-full {{ request()->routeIs('admin.infographics.*') ? 'bg-yellow-400' : 'bg-white/30' }}"></span>
                             <span>Infografías</span>
                         </a>
                     </div>
@@ -146,7 +149,7 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z"/>
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
                         </svg>
-                        <span x-show="sidebarOpen">Lentes</span>
+                        <span x-show="sidebarOpen">Productos (página)</span>
                     </a>
 
                     {{-- Blog (colapsable) --}}
@@ -166,12 +169,12 @@
                         <div x-show="openBlog && sidebarOpen" x-collapse class="ml-8 space-y-0.5">
                             <a href="{{ route('admin.blog.index') }}"
                                class="flex items-center space-x-3 px-3 py-1.5 rounded-lg hover:bg-white/10 transition-colors text-xs {{ request()->routeIs('admin.blog.*') ? 'bg-white/10 text-white' : 'text-white/60' }}">
-                                <span class="w-1.5 h-1.5 rounded-full {{ request()->routeIs('admin.blog.*') ? 'bg-blue-400' : 'bg-white/30' }}"></span>
+                                <span class="w-1.5 h-1.5 rounded-full {{ request()->routeIs('admin.blog.*') ? 'bg-yellow-400' : 'bg-white/30' }}"></span>
                                 <span>Artículos</span>
                             </a>
                             <a href="{{ route('admin.pages.blog.edit') }}"
                                class="flex items-center space-x-3 px-3 py-1.5 rounded-lg hover:bg-white/10 transition-colors text-xs {{ request()->routeIs('admin.pages.blog.*') ? 'bg-white/10 text-white' : 'text-white/60' }}">
-                                <span class="w-1.5 h-1.5 rounded-full {{ request()->routeIs('admin.pages.blog.*') ? 'bg-blue-400' : 'bg-white/30' }}"></span>
+                                <span class="w-1.5 h-1.5 rounded-full {{ request()->routeIs('admin.pages.blog.*') ? 'bg-yellow-400' : 'bg-white/30' }}"></span>
                                 <span>Página</span>
                             </a>
                         </div>
@@ -183,7 +186,7 @@
                         <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 18v-5.25m0 0a6.01 6.01 0 0 0 1.5-.189m-1.5.189a6.01 6.01 0 0 1-1.5-.189m3.75 7.478a12.06 12.06 0 0 1-4.5 0m3.75 2.383a14.406 14.406 0 0 1-3 0M14.25 18v-.192c0-.983.658-1.823 1.508-2.316a7.5 7.5 0 1 0-7.517 0c.85.493 1.509 1.333 1.509 2.316V18"/>
                         </svg>
-                        <span x-show="sidebarOpen">Luz azul</span>
+                        <span x-show="sidebarOpen">Rituales</span>
                     </a>
 
                     {{-- Quiz --}}

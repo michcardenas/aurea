@@ -19,13 +19,13 @@
         Nuevo pedido recibido
     </h1>
     <p style="margin:0 0 32px;font-size:15px;color:#4B5563;line-height:1.6;text-align:center;">
-        Se ha confirmado el pedido <strong style="color:#002F6D;">#{{ $order->id }}</strong> de <strong>{{ $order->customer->name }}</strong>.
+        Se ha confirmado el pedido <strong style="color:#2E2A26;">#{{ $order->id }}</strong> de <strong>{{ $order->customer->name }}</strong>.
     </p>
 
     {{-- Order details card --}}
     <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:4px;">
         <tr>
-            <td style="padding:12px 16px;background-color:#002F6D;border-radius:8px 8px 0 0;font-size:13px;font-weight:700;color:#FFFFFF;text-transform:uppercase;letter-spacing:0.5px;">
+            <td style="padding:12px 16px;background-color:#2E2A26;border-radius:8px 8px 0 0;font-size:13px;font-weight:700;color:#FFFFFF;text-transform:uppercase;letter-spacing:0.5px;">
                 Datos del pedido
             </td>
         </tr>
@@ -69,7 +69,7 @@
     {{-- Items --}}
     <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:4px;">
         <tr>
-            <td style="padding:12px 16px;background-color:#002F6D;border-radius:8px 8px 0 0;font-size:13px;font-weight:700;color:#FFFFFF;text-transform:uppercase;letter-spacing:0.5px;">
+            <td style="padding:12px 16px;background-color:#2E2A26;border-radius:8px 8px 0 0;font-size:13px;font-weight:700;color:#FFFFFF;text-transform:uppercase;letter-spacing:0.5px;">
                 Productos
             </td>
         </tr>
@@ -133,8 +133,8 @@
                         <td colspan="2" style="padding:8px 0 0;"><hr style="border:none;border-top:1px solid #E5E7EB;margin:0;"></td>
                     </tr>
                     <tr>
-                        <td style="padding:8px 0 0;font-size:20px;font-weight:700;color:#002F6D;">Total</td>
-                        <td align="right" style="padding:8px 0 0;font-size:20px;font-weight:700;color:#002F6D;">${{ number_format($order->total, 2) }} MXN</td>
+                        <td style="padding:8px 0 0;font-size:20px;font-weight:700;color:#2E2A26;">Total</td>
+                        <td align="right" style="padding:8px 0 0;font-size:20px;font-weight:700;color:#2E2A26;">${{ number_format($order->total, 2) }} MXN</td>
                     </tr>
                 </table>
             </td>
@@ -157,7 +157,7 @@
         <tr>
             <td align="center">
                 <a href="{{ route('admin.orders.show', $order) }}"
-                   style="display:inline-block;background-color:#002F6D;color:#FFFFFF;font-size:16px;font-weight:700;text-decoration:none;padding:16px 40px;border-radius:8px;letter-spacing:0.3px;">
+                   style="display:inline-block;background-color:#2E2A26;color:#FFFFFF;font-size:16px;font-weight:700;text-decoration:none;padding:16px 40px;border-radius:8px;letter-spacing:0.3px;">
                     Ver pedido en admin
                 </a>
             </td>

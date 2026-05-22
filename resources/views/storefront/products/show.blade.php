@@ -106,7 +106,7 @@
 
                         {{-- Badge 2x1 --}}
                         @if($product->badge_2x1)
-                        <div style="position:absolute;top:16px;left:16px;background:#378ADD;
+                        <div style="position:absolute;top:16px;left:16px;background:#D9B56D;
                                     color:#fff;font-size:13px;font-weight:600;padding:6px 16px;
                                     border-radius:20px;z-index:2;">
                             2 × 1
@@ -122,7 +122,7 @@
                                 style="flex-shrink:0;width:72px;height:72px;border-radius:10px;
                                        overflow:hidden;cursor:pointer;transition:all .2s;
                                        opacity:0.5;"
-                                :style="activeImage === {{ $i }} ? 'opacity:1;box-shadow:0 0 0 2px #378ADD;' : 'opacity:0.5;'">
+                                :style="activeImage === {{ $i }} ? 'opacity:1;box-shadow:0 0 0 2px #D9B56D;' : 'opacity:0.5;'">
                             <img src="{{ asset('storage/' . $image) }}" alt=""
                                  style="width:100%;height:100%;object-fit:cover;">
                         </button>
@@ -139,7 +139,7 @@
                         </svg>
 
                         @if($product->badge_2x1)
-                        <div style="position:absolute;top:16px;left:16px;background:#378ADD;
+                        <div style="position:absolute;top:16px;left:16px;background:#D9B56D;
                                     color:#fff;font-size:13px;font-weight:600;padding:6px 16px;
                                     border-radius:20px;">
                             2 × 1
@@ -154,23 +154,23 @@
                 {{-- 1. Breadcrumb --}}
                 <nav style="font-size:12px;color:#aaa;margin-bottom:20px;">
                     <a href="{{ route('home') }}" style="color:#aaa;text-decoration:none;"
-                       onmouseover="this.style.color='#378ADD'" onmouseout="this.style.color='#aaa'">Inicio</a>
+                       onmouseover="this.style.color='#D9B56D'" onmouseout="this.style.color='#aaa'">Inicio</a>
                     <span style="margin:0 6px;">·</span>
                     <a href="{{ route('products.index') }}" style="color:#aaa;text-decoration:none;"
-                       onmouseover="this.style.color='#378ADD'" onmouseout="this.style.color='#aaa'">Lentes</a>
+                       onmouseover="this.style.color='#D9B56D'" onmouseout="this.style.color='#aaa'">Lentes</a>
                     <span style="margin:0 6px;">·</span>
                     <span style="color:#666;">{{ $product->name }}</span>
                 </nav>
 
                 {{-- 2. Nombre --}}
-                <h1 style="font-family:'Bai Jamjuree',sans-serif;font-size:28px;font-weight:700;
-                           color:#1a1a2e;margin:0 0 8px;">
+                <h1 style="font-family:'Playfair Display',serif;font-size:28px;font-weight:700;
+                           color:#2E2A26;margin:0 0 8px;">
                     {{ $product->name }}
                 </h1>
 
                 {{-- 3. Badge tipo --}}
                 @if($product->type && !$product->hasType('toallitas'))
-                <div style="display:inline-block;background:#EBF4FF;color:#185FA5;font-size:12px;
+                <div style="display:inline-block;background:#FBF4E6;color:#BE9A53;font-size:12px;
                             padding:4px 12px;border-radius:20px;margin-bottom:16px;">
                     {{ $product->type_labels }}
                 </div>
@@ -178,7 +178,7 @@
 
                 {{-- 4. Precio --}}
                 <div style="display:flex;align-items:baseline;gap:10px;">
-                    <span style="font-size:28px;font-weight:700;color:#1a1a2e;">
+                    <span style="font-size:28px;font-weight:700;color:#2E2A26;">
                         ${{ number_format($product->price, 2) }}
                     </span>
                     @if($product->compare_price && $product->compare_price > $product->price)
@@ -195,22 +195,22 @@
 
                 {{-- 5. Banner 2x1 --}}
                 @if($product->badge_2x1)
-                <div style="background:linear-gradient(135deg,#EBF4FF,#DBEAFE);
-                            border:1px solid #B5D4F4;border-radius:12px;
+                <div style="background:linear-gradient(135deg,#FBF4E6,#DBEAFE);
+                            border:1px solid #E8CC92;border-radius:12px;
                             padding:16px 20px;margin:20px 0;">
                     <div style="display:flex;align-items:flex-start;gap:12px;">
-                        <svg style="width:24px;height:24px;color:#185FA5;flex-shrink:0;margin-top:2px;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg style="width:24px;height:24px;color:#BE9A53;flex-shrink:0;margin-top:2px;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 11.25v8.25a1.5 1.5 0 0 1-1.5 1.5H5.25a1.5 1.5 0 0 1-1.5-1.5v-8.25M12 4.875A2.625 2.625 0 1 0 9.375 7.5H12m0-2.625V7.5m0-2.625A2.625 2.625 0 1 1 14.625 7.5H12m0 0V21m-8.625-9.75h18c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125h-18c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125Z"/>
                         </svg>
                         <div>
-                            <p style="font-size:15px;font-weight:600;color:#1a1a2e;margin:0;">
+                            <p style="font-size:15px;font-weight:600;color:#2E2A26;margin:0;">
                                 ¡Llévate el segundo par gratis!
                             </p>
                             <p style="font-size:13px;color:#555;margin:4px 0 0;">
                                 Agrega dos lentes al carrito y el más económico va sin costo. Combinables entre todos los modelos.
                             </p>
                             <a href="{{ route('products.index') }}"
-                               style="font-size:13px;color:#378ADD;text-decoration:none;display:inline-block;margin-top:6px;"
+                               style="font-size:13px;color:#D9B56D;text-decoration:none;display:inline-block;margin-top:6px;"
                                onmouseover="this.style.textDecoration='underline'" onmouseout="this.style.textDecoration='none'">
                                 Ver todos los lentes →
                             </a>
@@ -222,9 +222,9 @@
                 {{-- 6. Selector de color --}}
                 @if($colores->count() > 0)
                 <div style="margin-bottom:20px;{{ $product->badge_2x1 ? '' : 'margin-top:20px;' }}">
-                    <p style="font-size:14px;font-weight:500;color:#1a1a2e;margin:0 0 10px;display:flex;align-items:center;gap:8px;">
+                    <p style="font-size:14px;font-weight:500;color:#2E2A26;margin:0 0 10px;display:flex;align-items:center;gap:8px;">
                         <span>Color: <span id="selected-color-name" style="font-weight:400;color:#666;">{{ $colores->first() }}</span></span>
-                        <button type="button" id="clear-color-btn" onclick="clearColor()" style="display:none;background:none;border:none;color:#378ADD;font-size:12px;font-weight:500;cursor:pointer;text-decoration:underline;padding:0;">Quitar</button>
+                        <button type="button" id="clear-color-btn" onclick="clearColor()" style="display:none;background:none;border:none;color:#D9B56D;font-size:12px;font-weight:500;cursor:pointer;text-decoration:underline;padding:0;">Quitar</button>
                     </p>
                     <div style="display:flex;flex-wrap:wrap;gap:8px;">
                         @foreach($colores as $color)
@@ -253,9 +253,9 @@
                 {{-- 7. Selector de graduación --}}
                 @if($graduacionesMiopia->count() > 0)
                 <div style="margin-bottom:20px;">
-                    <p style="font-size:14px;font-weight:500;color:#1a1a2e;margin:0 0 10px;display:flex;align-items:center;gap:8px;">
+                    <p style="font-size:14px;font-weight:500;color:#2E2A26;margin:0 0 10px;display:flex;align-items:center;gap:8px;">
                         <span>Graduación Miopía: <span id="selected-grad-miopia" style="font-weight:400;color:#666;">— Selecciona</span></span>
-                        <button type="button" id="clear-grad-miopia-btn" onclick="clearGraduation()" style="display:none;background:none;border:none;color:#378ADD;font-size:12px;font-weight:500;cursor:pointer;text-decoration:underline;padding:0;">Quitar</button>
+                        <button type="button" id="clear-grad-miopia-btn" onclick="clearGraduation()" style="display:none;background:none;border:none;color:#D9B56D;font-size:12px;font-weight:500;cursor:pointer;text-decoration:underline;padding:0;">Quitar</button>
                     </p>
                     <div style="display:flex;flex-wrap:wrap;gap:8px;">
                         @foreach($graduacionesMiopia as $grad)
@@ -280,9 +280,9 @@
 
                 @if($graduacionesLectura->count() > 0)
                 <div style="margin-bottom:20px;">
-                    <p style="font-size:14px;font-weight:500;color:#1a1a2e;margin:0 0 10px;display:flex;align-items:center;gap:8px;">
+                    <p style="font-size:14px;font-weight:500;color:#2E2A26;margin:0 0 10px;display:flex;align-items:center;gap:8px;">
                         <span>Graduación Lectura: <span id="selected-grad-lectura" style="font-weight:400;color:#666;">— Selecciona</span></span>
-                        <button type="button" id="clear-grad-lectura-btn" onclick="clearGraduation()" style="display:none;background:none;border:none;color:#378ADD;font-size:12px;font-weight:500;cursor:pointer;text-decoration:underline;padding:0;">Quitar</button>
+                        <button type="button" id="clear-grad-lectura-btn" onclick="clearGraduation()" style="display:none;background:none;border:none;color:#D9B56D;font-size:12px;font-weight:500;cursor:pointer;text-decoration:underline;padding:0;">Quitar</button>
                     </p>
                     <div style="display:flex;flex-wrap:wrap;gap:8px;">
                         @foreach($graduacionesLectura as $grad)
@@ -337,7 +337,7 @@
                                     }">
                                 −
                             </button>
-                            <span style="width:36px;text-align:center;font-size:14px;font-weight:600;color:#1a1a2e;"
+                            <span style="width:36px;text-align:center;font-size:14px;font-weight:600;color:#2E2A26;"
                                   x-text="qty"></span>
                             <button @click="increaseQty()"
                                     :disabled="qty >= currentMax"
@@ -376,7 +376,7 @@
                             @mouseenter="hoverBtn = true" @mouseleave="hoverBtn = false"
                             :style="{
                                 width: '100%',
-                                background: adding ? '#1a1a2e' : (hoverBtn && {{ $productHasStock ? 'true' : 'false' }} ? '#378ADD' : '#1a1a2e'),
+                                background: adding ? '#2E2A26' : (hoverBtn && {{ $productHasStock ? 'true' : 'false' }} ? '#D9B56D' : '#2E2A26'),
                                 color: '#fff',
                                 border: 'none',
                                 borderRadius: '10px',
@@ -438,7 +438,7 @@
                 <div style="flex:1;height:1px;background:#e5e5e5;"></div>
             </div>
 
-            <h2 style="font-size:20px;font-weight:600;color:#1a1a2e;text-align:center;margin:0 0 8px;">
+            <h2 style="font-size:20px;font-weight:600;color:#2E2A26;text-align:center;margin:0 0 8px;">
                 Mantén tus lentes impecables
             </h2>
             <p style="font-size:14px;color:#888;text-align:center;margin:0 0 32px;">
@@ -474,7 +474,7 @@
                     </div>
 
                     <div style="padding:14px 16px;">
-                        <h4 style="font-size:14px;font-weight:600;color:#1a1a2e;margin:0 0 6px;">
+                        <h4 style="font-size:14px;font-weight:600;color:#2E2A26;margin:0 0 6px;">
                             {{ $toallita->name }}
                         </h4>
                         @if($toallita->description)
@@ -483,12 +483,12 @@
                         </p>
                         @endif
                         <div style="display:flex;align-items:center;justify-content:space-between;">
-                            <span style="font-size:18px;font-weight:700;color:#1a1a2e;">
+                            <span style="font-size:18px;font-weight:700;color:#2E2A26;">
                                 ${{ number_format($toallita->price, 2) }}
                             </span>
                             <a href="{{ route('products.show', $toallita->slug) }}"
                                onclick="event.stopPropagation()"
-                               style="font-size:13px;color:#378ADD;font-weight:500;text-decoration:none;"
+                               style="font-size:13px;color:#D9B56D;font-weight:500;text-decoration:none;"
                                onmouseover="this.style.textDecoration='underline'" onmouseout="this.style.textDecoration='none'">
                                 Ver detalle →
                             </a>
@@ -716,7 +716,7 @@ function selectColor(color) {
     });
     var btn = document.querySelector('[data-color="' + color + '"]');
     if (btn) {
-        btn.style.borderColor = '#378ADD';
+        btn.style.borderColor = '#D9B56D';
         btn.style.boxShadow = '0 0 0 2px rgba(55,138,221,0.3)';
     }
     var label = document.getElementById('selected-color-name');
@@ -781,8 +781,8 @@ function selectGrad(el, tipo) {
     if (labelLectura) labelLectura.textContent = '— Selecciona';
 
     // Activate the clicked one
-    el.style.background = '#1a1a2e';
-    el.style.borderColor = '#1a1a2e';
+    el.style.background = '#2E2A26';
+    el.style.borderColor = '#2E2A26';
     el.style.color = '#fff';
     var label = document.getElementById('selected-grad-' + tipo);
     if (label) label.textContent = el.dataset.grad;

@@ -7,7 +7,7 @@
 
     {{-- Hero --}}
     <section class="relative bg-bg overflow-hidden">
-        <div class="absolute inset-0 opacity-30" style="background:radial-gradient(ellipse at 50% 30%, #3A8DDE 0%, transparent 65%);"></div>
+        <div class="absolute inset-0 opacity-30" style="background:radial-gradient(ellipse at 50% 30%, #D9B56D 0%, transparent 65%);"></div>
         <div class="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-28 text-center">
             <nav class="mb-8 text-sm text-white/60">
                 <a href="{{ route('home') }}" class="hover:text-white transition-colors">Inicio</a>
@@ -20,7 +20,7 @@
             <p class="mt-5 text-lg text-white/80 max-w-2xl mx-auto">
                 {{ $page->hero_subtitle ?? 'Todo lo que necesitas saber sobre nuestros tiempos de entrega y políticas de devolución.' }}
             </p>
-            <div style="width:48px;height:3px;background:#3A8DDE;border-radius:2px;margin:24px auto 0;box-shadow:0 0 12px rgba(58,141,222,0.6);"></div>
+            <div style="width:48px;height:3px;background:#D9B56D;border-radius:2px;margin:24px auto 0;box-shadow:0 0 12px rgba(58,141,222,0.6);"></div>
         </div>
     </section>
 

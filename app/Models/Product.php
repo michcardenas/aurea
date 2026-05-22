@@ -129,10 +129,10 @@ class Product extends Model
     public function getTypeLabelsAttribute(): string
     {
         $labels = [
-            'miopia' => 'Miopía',
-            'lectura' => 'Lectura',
-            'sin_graduacion' => 'Sin Graduación',
-            'toallitas' => 'Toallitas',
+            'miopia' => 'Skincare',
+            'lectura' => 'Skincare',
+            'sin_graduacion' => 'Skincare',
+            'toallitas' => 'Ritual',
         ];
 
         return collect($this->type ?? [])->map(fn ($t) => $labels[$t] ?? ucfirst($t))->join(' · ');

@@ -38,7 +38,7 @@
         } }}
     </h1>
     <p style="margin:0 0 32px;font-size:15px;color:#4B5563;line-height:1.6;text-align:center;">
-        Hola <strong>{{ $order->customer->name }}</strong>, tu pedido <strong style="color:#002F6D;">#{{ $order->id }}</strong>
+        Hola <strong>{{ $order->customer->name }}</strong>, tu pedido <strong style="color:#2E2A26;">#{{ $order->id }}</strong>
         {{ match($order->status) {
             'confirmed' => 'ha sido confirmado y está siendo preparado.',
             'shipped' => 'ha sido enviado.',
@@ -68,18 +68,18 @@
 
     {{-- Tracking info if shipped --}}
     @if($order->status === 'shipped' && $order->tracking_number)
-    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color:#F0F7FF;border:1px solid #BFDBFE;border-radius:12px;margin-bottom:28px;">
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color:#FBF8F2;border:1px solid #E8CC92;border-radius:12px;margin-bottom:28px;">
         <tr>
             <td style="padding:20px;">
                 @if($order->shipping_carrier)
-                <p style="margin:0 0 4px;font-size:12px;font-weight:700;color:#002F6D;text-transform:uppercase;">Paquetería</p>
+                <p style="margin:0 0 4px;font-size:12px;font-weight:700;color:#2E2A26;text-transform:uppercase;">Paquetería</p>
                 <p style="margin:0 0 12px;font-size:15px;font-weight:600;color:#1A1A2E;">{{ $order->shipping_carrier }}</p>
                 @endif
-                <p style="margin:0 0 4px;font-size:12px;font-weight:700;color:#002F6D;text-transform:uppercase;">Número de guía</p>
-                <p style="margin:0;font-size:17px;font-weight:700;color:#002F6D;letter-spacing:1px;font-family:'Courier New',monospace;">{{ $order->tracking_number }}</p>
+                <p style="margin:0 0 4px;font-size:12px;font-weight:700;color:#2E2A26;text-transform:uppercase;">Número de guía</p>
+                <p style="margin:0;font-size:17px;font-weight:700;color:#2E2A26;letter-spacing:1px;font-family:'Courier New',monospace;">{{ $order->tracking_number }}</p>
                 @if($order->tracking_url)
                 <p style="margin:12px 0 0;">
-                    <a href="{{ $order->tracking_url }}" style="display:inline-block;background-color:#002F6D;color:#FFFFFF;font-size:13px;font-weight:600;text-decoration:none;padding:10px 24px;border-radius:8px;">
+                    <a href="{{ $order->tracking_url }}" style="display:inline-block;background-color:#2E2A26;color:#FFFFFF;font-size:13px;font-weight:600;text-decoration:none;padding:10px 24px;border-radius:8px;">
                         Rastrear envío →
                     </a>
                 </p>
@@ -92,7 +92,7 @@
     {{-- Order summary --}}
     <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:4px;">
         <tr>
-            <td style="padding:10px 16px;background-color:#002F6D;border-radius:8px 8px 0 0;font-size:13px;font-weight:700;color:#FFFFFF;text-transform:uppercase;letter-spacing:0.5px;">
+            <td style="padding:10px 16px;background-color:#2E2A26;border-radius:8px 8px 0 0;font-size:13px;font-weight:700;color:#FFFFFF;text-transform:uppercase;letter-spacing:0.5px;">
                 Resumen del pedido
             </td>
         </tr>
@@ -115,8 +115,8 @@
         </tr>
         @endforeach
         <tr>
-            <td colspan="2" style="padding:12px 16px;font-size:15px;font-weight:700;color:#002F6D;background-color:#F9FAFB;">Total</td>
-            <td align="right" style="padding:12px 16px;font-size:15px;font-weight:700;color:#002F6D;background-color:#F9FAFB;">${{ number_format($order->total, 2) }}</td>
+            <td colspan="2" style="padding:12px 16px;font-size:15px;font-weight:700;color:#2E2A26;background-color:#F9FAFB;">Total</td>
+            <td align="right" style="padding:12px 16px;font-size:15px;font-weight:700;color:#2E2A26;background-color:#F9FAFB;">${{ number_format($order->total, 2) }}</td>
         </tr>
     </table>
 
@@ -125,7 +125,7 @@
         <tr>
             <td align="center">
                 <a href="{{ route('order.track', $order->tracking_token) }}"
-                   style="display:inline-block;background-color:#3A8DDE;color:#FFFFFF;font-size:15px;font-weight:600;text-decoration:none;padding:14px 36px;border-radius:8px;">
+                   style="display:inline-block;background-color:#D9B56D;color:#FFFFFF;font-size:15px;font-weight:600;text-decoration:none;padding:14px 36px;border-radius:8px;">
                     Ver estado de mi pedido
                 </a>
             </td>
@@ -138,7 +138,7 @@
             <td align="center" style="border-top:1px solid #E5E7EB;padding:20px 0 0;">
                 <p style="margin:0 0 4px;font-size:13px;color:#9CA3AF;">¿Tienes dudas sobre tu pedido?</p>
                 <p style="margin:0;font-size:13px;">
-                    <a href="mailto:contacto@nuvionglass.com.mx" style="color:#3A8DDE;text-decoration:none;font-weight:600;">contacto@nuvionglass.com.mx</a>
+                    <a href="mailto:contacto@nuvionglass.com.mx" style="color:#D9B56D;text-decoration:none;font-weight:600;">contacto@nuvionglass.com.mx</a>
                 </p>
             </td>
         </tr>

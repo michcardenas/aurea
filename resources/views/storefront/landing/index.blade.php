@@ -3,9 +3,9 @@
 @section('body_class', 'bg-bg text-text')
 
 @section('title', 'Lentes anti luz azul — Envío gratis | Belleza Áurea')
-@section('meta_description', 'Protege tus ojos de las pantallas. Lentes con filtro de luz azul, con o sin graduación. Envío gratis en pedidos mayores a $99.')
+@section('meta_description', 'Protege tus ojos de las pantallas. Lentes con cosmética natural, con o sin graduación. Envío gratis en pedidos mayores a $99.')
 @section('og_title', 'Lentes anti luz azul — Envío gratis | Belleza Áurea')
-@section('og_description', 'Protege tus ojos de las pantallas. Lentes con filtro de luz azul. Envío gratis.')
+@section('og_description', 'Protege tus ojos de las pantallas. Lentes con cosmética natural. Envío gratis.')
 
 @section('content')
 
@@ -73,7 +73,7 @@
         <div class="max-w-5xl mx-auto px-4 sm:px-6">
             <div class="text-center mb-12">
                 <h2 class="font-brand text-2xl md:text-3xl font-bold">La solución es simple</h2>
-                <p class="mt-4 text-muted/70 max-w-xl mx-auto">Lentes con filtro de luz azul que protegen tus ojos sin sacrificar estilo. Con o sin graduación.</p>
+                <p class="mt-4 text-muted/70 max-w-xl mx-auto">Lentes con cosmética natural que protegen tus ojos sin sacrificar estilo. Con o sin graduación.</p>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">

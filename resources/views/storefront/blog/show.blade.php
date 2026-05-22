@@ -26,17 +26,17 @@
 <style>
     /* ── Article typography ── */
     .article-content { font-size:16px; line-height:1.8; color:var(--color-text-primary); }
-    .article-content h2 { font-size:22px; font-weight:500; margin:2rem 0 1rem; color:var(--color-text-primary); padding-bottom:8px; border-bottom:2px solid #378ADD; display:inline-block; }
+    .article-content h2 { font-size:22px; font-weight:500; margin:2rem 0 1rem; color:var(--color-text-primary); padding-bottom:8px; border-bottom:2px solid #D9B56D; display:inline-block; }
     .article-content h3 { font-size:18px; font-weight:500; margin:1.5rem 0 .75rem; color:var(--color-text-primary); }
     .article-content p { margin-bottom:1.25rem; }
     .article-content strong { font-weight:600; color:var(--color-text-primary); }
     .article-content ul, .article-content ol { margin:1rem 0 1.25rem 1.5rem; }
     .article-content li { margin-bottom:.5rem; line-height:1.7; }
-    .article-content blockquote { border-left:3px solid #378ADD; padding:12px 20px; margin:1.5rem 0; background:rgba(56,130,221,0.06); border-radius:0 8px 8px 0; font-style:italic; color:var(--color-text-secondary); }
+    .article-content blockquote { border-left:3px solid #D9B56D; padding:12px 20px; margin:1.5rem 0; background:rgba(56,130,221,0.06); border-radius:0 8px 8px 0; font-style:italic; color:var(--color-text-secondary); }
     .article-content table { width:100%; border-collapse:collapse; margin:1.5rem 0; font-size:14px; }
     .article-content th { background:rgba(56,130,221,0.1); padding:10px 14px; text-align:left; font-weight:500; border-bottom:1px solid rgba(56,130,221,0.2); }
     .article-content td { padding:10px 14px; border-bottom:0.5px solid var(--color-border-tertiary); }
-    .article-content a { color:#378ADD; text-decoration:underline; }
+    .article-content a { color:#D9B56D; text-decoration:underline; }
     .article-content img { border-radius:12px; margin:1.5rem 0; max-width:100%; }
 
     /* ── Layout ── */
@@ -60,8 +60,8 @@
 
     .sidebar-newsletter { background:rgba(56,130,221,0.06); border:0.5px solid rgba(56,130,221,0.2); border-radius:12px; padding:20px; }
     .sidebar-newsletter input[type="email"] { width:100%; border:0.5px solid var(--color-border-secondary); border-radius:8px; padding:8px 12px; font-size:13px; margin-bottom:8px; background:var(--color-background-primary); color:var(--color-text-primary); }
-    .sidebar-newsletter button { width:100%; background:#378ADD; color:#fff; border:none; border-radius:8px; padding:9px; font-size:13px; cursor:pointer; transition:background .15s; }
-    .sidebar-newsletter button:hover { background:#185FA5; }
+    .sidebar-newsletter button { width:100%; background:#D9B56D; color:#fff; border:none; border-radius:8px; padding:9px; font-size:13px; cursor:pointer; transition:background .15s; }
+    .sidebar-newsletter button:hover { background:#BE9A53; }
 
     /* ── Share bar ── */
     .share-bar { display:flex; align-items:center; gap:12px; margin-top:2rem; padding-top:1.5rem; border-top:0.5px solid var(--color-border-tertiary); flex-wrap:wrap; }
@@ -112,7 +112,7 @@
 </style>
 
 {{-- Reading progress bar --}}
-<div id="reading-progress" style="position:fixed;top:0;left:0;z-index:9999;height:3px;width:0%;background:linear-gradient(90deg,#378ADD,#4CC9F0);transition:width .1s linear;pointer-events:none;"></div>
+<div id="reading-progress" style="position:fixed;top:0;left:0;z-index:9999;height:3px;width:0%;background:linear-gradient(90deg,#D9B56D,#4CC9F0);transition:width .1s linear;pointer-events:none;"></div>
 
 {{-- ════════════════════════════════════════════════════════════════
      ZONA 1 — HERO
@@ -143,9 +143,9 @@
         {{-- Breadcrumb --}}
         <div class="hero-anim" style="transition:opacity .5s ease,transform .5s ease;margin-bottom:20px;">
             <span style="font-size:12px;color:rgba(255,255,255,0.3);">
-                <a href="{{ url('/') }}" style="color:rgba(255,255,255,0.3);text-decoration:none;" onmouseover="this.style.color='#378ADD'" onmouseout="this.style.color='rgba(255,255,255,0.3)'">Inicio</a>
+                <a href="{{ url('/') }}" style="color:rgba(255,255,255,0.3);text-decoration:none;" onmouseover="this.style.color='#D9B56D'" onmouseout="this.style.color='rgba(255,255,255,0.3)'">Inicio</a>
                 <span style="margin:0 6px;opacity:.4;">&middot;</span>
-                <a href="{{ route('blog.index') }}" style="color:rgba(255,255,255,0.3);text-decoration:none;" onmouseover="this.style.color='#378ADD'" onmouseout="this.style.color='rgba(255,255,255,0.3)'">Blog</a>
+                <a href="{{ route('blog.index') }}" style="color:rgba(255,255,255,0.3);text-decoration:none;" onmouseover="this.style.color='#D9B56D'" onmouseout="this.style.color='rgba(255,255,255,0.3)'">Blog</a>
                 <span style="margin:0 6px;opacity:.4;">&middot;</span>
                 {{ Str::limit($post->title, 42) }}
             </span>
@@ -251,7 +251,7 @@
             @empty
                 <p style="font-size:12px;color:var(--color-text-secondary);margin:0;">Pronto añadiremos productos.</p>
             @endforelse
-            <a href="{{ route('products.index') }}" style="display:inline-block; margin-top:12px; font-size:13px; color:#378ADD; text-decoration:none;">Ver todos los lentes &rarr;</a>
+            <a href="{{ route('products.index') }}" style="display:inline-block; margin-top:12px; font-size:13px; color:#D9B56D; text-decoration:none;">Ver todos los lentes &rarr;</a>
         </div>
 
         {{-- Widget 3: Newsletter --}}
@@ -270,7 +270,7 @@
 @if($recent->isNotEmpty())
 <section class="fw-section" style="background:var(--color-background-secondary); padding:48px 24px;">
     <div style="max-width:1100px; margin:0 auto;">
-        <p style="font-size:11px; font-weight:600; letter-spacing:.12em; text-transform:uppercase; color:#378ADD; margin-bottom:8px;">SIGUE LEYENDO</p>
+        <p style="font-size:11px; font-weight:600; letter-spacing:.12em; text-transform:uppercase; color:#D9B56D; margin-bottom:8px;">SIGUE LEYENDO</p>
         <h2 class="font-brand" style="font-size:24px; font-weight:700; color:var(--color-text-primary); margin:0 0 28px;">Artículos relacionados</h2>
 
         <div class="related-grid">
@@ -310,7 +310,7 @@
                     </div>
                     <div style="padding:0 18px 16px;">
                         <div style="border-top:0.5px solid var(--color-border-tertiary); padding-top:12px; display:flex; align-items:center; justify-content:space-between;">
-                            <span style="color:#378ADD; font-size:12px; font-weight:500; display:inline-flex; align-items:center;">
+                            <span style="color:#D9B56D; font-size:12px; font-weight:500; display:inline-flex; align-items:center;">
                                 Leer artículo
                                 <svg class="r-arrow" style="margin-left:4px;" width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"/></svg>
                             </span>
@@ -328,9 +328,9 @@
      ════════════════════════════════════════════════════════════════ --}}
 <section class="fw-section" style="background:var(--color-background-primary); padding:48px 24px;">
     <div style="max-width:1100px; margin:0 auto; text-align:center; margin-bottom:32px;">
-        <p style="font-size:11px; font-weight:600; letter-spacing:.12em; text-transform:uppercase; color:#378ADD; margin-bottom:8px;">PROTEGE TU VISIÓN</p>
+        <p style="font-size:11px; font-weight:600; letter-spacing:.12em; text-transform:uppercase; color:#D9B56D; margin-bottom:8px;">PROTEGE TU VISIÓN</p>
         <h2 class="font-brand" style="font-size:24px; font-weight:700; color:var(--color-text-primary); margin:0 0 6px;">Lentes nuvion glass</h2>
-        <p style="font-size:14px; color:var(--color-text-secondary); margin:0;">Con o sin graduación, todos con filtro de luz azul</p>
+        <p style="font-size:14px; color:var(--color-text-secondary); margin:0;">Con o sin graduación, todos con cosmética natural</p>
     </div>
 
     <div class="products-grid" style="max-width:1100px; margin:0 auto;">
@@ -362,9 +362,9 @@
                         @if(!empty($prod['original_price']))
                             <span style="color:var(--color-text-secondary); text-decoration:line-through; margin-right:6px;">{{ $prod['original_price'] }}</span>
                         @endif
-                        <span style="color:#378ADD; font-weight:600;">{{ $prod['price'] }}</span>
+                        <span style="color:#D9B56D; font-weight:600;">{{ $prod['price'] }}</span>
                     </div>
-                    <a href="{{ url('/lentes/' . $prod['slug']) }}" style="display:block; text-align:center; background:#378ADD; color:#fff; border-radius:8px; padding:10px; font-size:14px; text-decoration:none; transition:background .15s;" onmouseover="this.style.background='#185FA5'" onmouseout="this.style.background='#378ADD'">Ver detalle</a>
+                    <a href="{{ url('/lentes/' . $prod['slug']) }}" style="display:block; text-align:center; background:#D9B56D; color:#fff; border-radius:8px; padding:10px; font-size:14px; text-decoration:none; transition:background .15s;" onmouseover="this.style.background='#BE9A53'" onmouseout="this.style.background='#D9B56D'">Ver detalle</a>
                 </div>
             </div>
         @empty

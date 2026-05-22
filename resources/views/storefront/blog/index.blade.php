@@ -71,13 +71,13 @@
         background: rgba(56,138,221,0.12);
     }
     .blog-filter-btn:focus-visible {
-        outline: 2px solid #378ADD;
+        outline: 2px solid #D9B56D;
         outline-offset: 2px;
     }
     .blog-filter-btn.active {
-        background: #378ADD;
+        background: #D9B56D;
         color: #fff;
-        border-color: #378ADD;
+        border-color: #D9B56D;
         box-shadow: 0 4px 14px rgba(56,138,221,0.35);
     }
     .blog-filter-btn .blog-filter-count {
@@ -134,7 +134,7 @@
         background: #f1f5f9;
     }
     .blog-pagination nav span[aria-current="page"] {
-        background: #378ADD;
+        background: #D9B56D;
         color: #fff;
     }
     .blog-pagination nav span.dots {
@@ -152,10 +152,10 @@
         <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:500px;height:300px;background:radial-gradient(ellipse,rgba(56,130,220,0.18),transparent 70%);pointer-events:none;"></div>
 
         <div class="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center py-16">
-            <p style="font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#378ADD;margin-bottom:20px;">{{ $blogPage->hero_label ?? 'NUVION GLASS · BLOG' }}</p>
-            <h1 class="font-brand text-3xl md:text-5xl font-bold leading-tight" style="color:#fff;">{{ $blogPage->hero_title ?? 'Cuida tu visión.' }}<br>{{ $blogPage->hero_title_line2 ?? 'Lee, aprende,' }} <span style="color:#378ADD;">{{ $blogPage->hero_title_accent ?? 'protégete.' }}</span></h1>
+            <p style="font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#D9B56D;margin-bottom:20px;">{{ $blogPage->hero_label ?? 'NUVION GLASS · BLOG' }}</p>
+            <h1 class="font-brand text-3xl md:text-5xl font-bold leading-tight" style="color:#fff;">{{ $blogPage->hero_title ?? 'Cuida tu visión.' }}<br>{{ $blogPage->hero_title_line2 ?? 'Lee, aprende,' }} <span style="color:#D9B56D;">{{ $blogPage->hero_title_accent ?? 'protégete.' }}</span></h1>
             <p class="mt-5 text-base md:text-lg max-w-2xl mx-auto" style="color:rgba(255,255,255,0.45);">{{ $blogPage->hero_subtitle ?? 'Consejos, guías y datos respaldados por ciencia para cuidar tu visión en la era digital.' }}</p>
-            <div style="width:48px;height:3px;background:#378ADD;border-radius:2px;margin:24px auto 0;"></div>
+            <div style="width:48px;height:3px;background:#D9B56D;border-radius:2px;margin:24px auto 0;"></div>
         </div>
     </section>
 
@@ -178,7 +178,7 @@
     @endif
 
     {{-- Posts grid --}}
-    <section style="background:#F4F6F9;">
+    <section style="background:#FBF8F2;">
         <div class="blog-grid">
             @if($posts->isEmpty())
                 <div class="text-center py-20" style="grid-column:1/-1;">
@@ -192,7 +192,7 @@
                     <p class="mt-2" style="font-size:14px;color:#94a3b8;">Estamos preparando contenido para cuidar tu visión</p>
                     <a href="{{ route('products.index') }}"
                        class="inline-block mt-8 px-7 py-3 rounded-lg text-sm font-semibold transition-colors"
-                       style="background:#002F6D;color:#fff;">
+                       style="background:#2E2A26;color:#fff;">
                         Ver lentes nuvion
                     </a>
                 </div>
@@ -238,7 +238,7 @@
                             {{-- Reading time --}}
                             @if($post->reading_time)
                             <span class="absolute flex items-center" style="bottom:12px;right:12px;gap:4px;">
-                                <span style="width:4px;height:4px;border-radius:50%;background:#378ADD;"></span>
+                                <span style="width:4px;height:4px;border-radius:50%;background:#D9B56D;"></span>
                                 <span style="font-size:11px;color:rgba(255,255,255,0.6);">{{ $post->reading_time }} min</span>
                             </span>
                             @endif
@@ -266,7 +266,7 @@
                         {{-- Footer --}}
                         <div style="padding:0 18px 16px;">
                             <div class="flex items-center justify-between" style="border-top:0.5px solid rgba(0,0,0,0.08);padding-top:12px;">
-                                <span class="inline-flex items-center" style="color:#378ADD;font-size:12px;font-weight:500;">
+                                <span class="inline-flex items-center" style="color:#D9B56D;font-size:12px;font-weight:500;">
                                     Leer artículo
                                     <svg class="card-arrow ml-1" width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"/>
@@ -294,10 +294,10 @@
     <section class="py-12" style="background:#0a0f1e;">
         <div class="max-w-3xl mx-auto px-4 text-center">
             <h2 class="font-brand text-2xl md:text-3xl font-bold" style="color:#fff;">Protege tus ojos hoy</h2>
-            <p class="mt-3" style="color:rgba(255,255,255,0.55);">Lentes con filtro de luz azul diseñados para tu día a día.</p>
+            <p class="mt-3" style="color:rgba(255,255,255,0.55);">Lentes con cosmética natural diseñados para tu día a día.</p>
             <a href="{{ route('products.index') }}"
                class="inline-block mt-6 px-8 py-3 rounded-lg font-semibold transition-colors"
-               style="background:#378ADD;color:#fff;">
+               style="background:#D9B56D;color:#fff;">
                 Ver lentes nuvion glass
             </a>
         </div>

@@ -2,17 +2,17 @@
 
 @section('body_class', 'bg-bg-light text-text-dark')
 
-@section('title', $seoSettings->meta_title ?? 'Belleza Áurea | Protege tus ojos de la luz azul')
-@section('meta_description', $seoSettings->meta_description ?? 'Lentes con protección de luz azul. Con o sin graduación. Diseño moderno que querrás usar todo el día. Envío gratis a todo México.')
+@section('title', $seoSettings->meta_title ?? 'Belleza Áurea | Cosmética natural, elegante y atemporal')
+@section('meta_description', $seoSettings->meta_description ?? 'Skincare, fragancias y rituales premium con ingredientes botánicos. Belleza natural, elegante y atemporal.')
 @section('robots', $seoSettings->robots ?? 'index, follow')
 @section('canonical', $seoSettings->canonical_url ?? url()->current())
 @section('og_type', $seoSettings->og_type ?? 'website')
-@section('og_title', $seoSettings->og_title ?? $seoSettings->meta_title ?? 'Belleza Áurea | Lentes con protección de luz azul')
-@section('og_description', $seoSettings->og_description ?? $seoSettings->meta_description ?? 'Protege tus ojos de las pantallas. Lentes con filtro de luz azul, con o sin graduación. Envío gratis.')
+@section('og_title', $seoSettings->og_title ?? $seoSettings->meta_title ?? 'Belleza Áurea | Tu ritual de belleza natural')
+@section('og_description', $seoSettings->og_description ?? $seoSettings->meta_description ?? 'Protege tus ojos de las pantallas. Lentes con cosmética natural, con o sin graduación. Envío gratis.')
 @section('og_image', $seoSettings->og_image_url ?? asset('images/og-default.jpg'))
 @section('twitter_card', $seoSettings->twitter_card ?? 'summary_large_image')
-@section('twitter_title', $seoSettings->twitter_title ?? $seoSettings->meta_title ?? 'Belleza Áurea | Lentes con protección de luz azul')
-@section('twitter_description', $seoSettings->twitter_description ?? $seoSettings->meta_description ?? 'Protege tus ojos de las pantallas. Lentes con filtro de luz azul, con o sin graduación. Envío gratis.')
+@section('twitter_title', $seoSettings->twitter_title ?? $seoSettings->meta_title ?? 'Belleza Áurea | Tu ritual de belleza natural')
+@section('twitter_description', $seoSettings->twitter_description ?? $seoSettings->meta_description ?? 'Protege tus ojos de las pantallas. Lentes con cosmética natural, con o sin graduación. Envío gratis.')
 @section('twitter_image', $seoSettings->twitter_image_url ?? $seoSettings->og_image_url ?? asset('images/og-default.jpg'))
 
 @push('schema')
@@ -97,7 +97,7 @@
         .h-float-anim:nth-child(3) { animation-delay:.7s; }
 
         .h-btn-dark {
-            background: #0d1117;
+            background: #2E2A26;
             color: #fff;
             border: none;
             border-radius: 8px;
@@ -110,7 +110,7 @@
             transition: background .2s, transform .15s;
         }
         .h-btn-dark:hover {
-            background: #378ADD;
+            background: #D9B56D;
             transform: translateY(-1px);
         }
 
@@ -127,8 +127,8 @@
             transition: all .2s;
         }
         .h-btn-outline:hover {
-            border-color: #378ADD;
-            color: #378ADD;
+            border-color: #D9B56D;
+            color: #D9B56D;
         }
 
         .h-trust-bar {
@@ -150,11 +150,11 @@
         }
         .h-trust-icon {
             width: 22px; height: 22px;
-            background: #EBF4FF;
+            background: #FBF4E6;
             border-radius: 50%;
             display: flex; align-items: center;
             justify-content: center;
-            font-size: 11px; color: #378ADD;
+            font-size: 11px; color: #D9B56D;
             flex-shrink: 0;
         }
 
@@ -169,7 +169,7 @@
         .h-float-num {
             font-size: 20px;
             font-weight: 700;
-            color: #0d1117;
+            color: #2E2A26;
             line-height: 1;
         }
         .h-float-lbl {
@@ -286,7 +286,7 @@
 
     @if($heroMode === 'split' && $useFullWidth)
     {{-- ===== MODO A-FULLWIDTH: imagen(es) de fondo + texto encima ===== --}}
-    <section class="h-hero-fullwidth" style="position:relative;width:100%;height:calc(100vh - 64px);min-height:580px;max-height:820px;overflow:hidden;background:#0d1117;">
+    <section class="h-hero-fullwidth" style="position:relative;width:100%;height:calc(100vh - 64px);min-height:580px;max-height:820px;overflow:hidden;background:#2E2A26;">
 
         {{-- CARRUSEL / IMAGEN FULL WIDTH --}}
         @if(count($heroImages) > 1)
@@ -334,7 +334,7 @@
             <div style="position:absolute;top:0;left:0;width:100%;height:100%;transition:opacity .8s ease;{{ $i === 0 ? 'opacity:1;z-index:2;' : 'opacity:0;z-index:1;' }}"
                  :style="current === {{ $i }} ? 'opacity:1;z-index:2;' : 'opacity:0;z-index:1;'">
                 <img src="{{ asset('storage/'.$img) }}"
-                     alt="Belleza Áurea lentes filtro luz azul"
+                     alt="Belleza Áurea — cosmética natural"
                      loading="{{ $i === 0 ? 'eager' : 'lazy' }}"
                      class="hero-carousel-img"
                      style="position:absolute !important;top:0 !important;left:0 !important;width:100% !important;height:100% !important;object-fit:cover !important;object-position:center center !important;display:block !important;"
@@ -354,8 +354,8 @@
 
                         {{-- Eyebrow --}}
                         <div class="h-anim-1" style="display:inline-flex;align-items:center;gap:7px;background:rgba(255,255,255,0.1);border:0.5px solid rgba(255,255,255,0.2);border-radius:20px;padding:5px 14px;font-size:11px;color:rgba(255,255,255,0.85);letter-spacing:.08em;text-transform:uppercase;margin-bottom:20px;width:fit-content;backdrop-filter:blur(4px);">
-                            <span style="width:6px;height:6px;border-radius:50%;background:#378ADD;flex-shrink:0;"></span>
-                            {{ $hero->eyebrow_text ?? 'Protección de luz azul' }}
+                            <span style="width:6px;height:6px;border-radius:50%;background:#D9B56D;flex-shrink:0;"></span>
+                            {{ $hero->eyebrow_text ?? 'Cosmética natural' }}
                         </div>
 
                         {{-- Título --}}
@@ -365,10 +365,10 @@
                             $t3 = $hero->title_line3 ?? 'pantallas';
                             $hl = $hero->title_highlight_word ?? 'pantallas';
                         @endphp
-                        <h1 class="h-anim-2" style="font-size:clamp(36px,5vw,62px);font-weight:800;color:#ffffff;line-height:1.05;letter-spacing:-.025em;margin-bottom:18px;font-family:'Bai Jamjuree',sans-serif;">
+                        <h1 class="h-anim-2" style="font-size:clamp(36px,5vw,62px);font-weight:800;color:#ffffff;line-height:1.05;letter-spacing:-.025em;margin-bottom:18px;font-family:'Playfair Display',serif;">
                             {{ $t1 }}<br>{{ $t2 }}<br>
                             @if($hl && str_contains($t3, $hl))
-                                {!! str_replace($hl, '<span style="color:#378ADD;">'.$hl.'</span>', e($t3)) !!}
+                                {!! str_replace($hl, '<span style="color:#D9B56D;">'.$hl.'</span>', e($t3)) !!}
                             @else
                                 {{ $t3 }}
                             @endif
@@ -383,7 +383,7 @@
                             </svg>
                             {!! str_replace(
                                 ['2x1', '$499.90'],
-                                ['<strong style="font-weight:700;color:#fff;">2x1</strong>', '<strong style="font-weight:700;color:#378ADD;">$499.90</strong>'],
+                                ['<strong style="font-weight:700;color:#fff;">2x1</strong>', '<strong style="font-weight:700;color:#D9B56D;">$499.90</strong>'],
                                 e($hero->badge_text ?? '2x1 en todos los lentes · $499.90 c/u')
                             ) !!}
                         </div>
@@ -391,19 +391,19 @@
 
                         {{-- Subtítulo --}}
                         <p class="h-anim-4" style="font-size:16px;color:rgba(255,255,255,0.6);line-height:1.65;margin-bottom:28px;max-width:420px;">
-                            {{ $hero->subtitle ?? 'Con o sin graduación. Filtro de luz azul de alta eficiencia en todos los modelos.' }}
+                            {{ $hero->subtitle ?? 'Skincare, fragancias y rituales premium con ingredientes botánicos.' }}
                         </p>
 
                         {{-- Botones --}}
                         <div class="h-anim-5" style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:28px;">
-                            <a href="{{ $hero->btn_primary_url ?? '/lentes' }}" class="h-btn-dark" style="background:#378ADD;">
+                            <a href="{{ $hero->btn_primary_url ?? '/lentes' }}" class="h-btn-dark" style="background:#D9B56D;">
                                 {{ $hero->btn_primary_text ?? 'Ver lentes' }} →
                             </a>
                             <a href="{{ $hero->btn_secondary_url ?? '/que-es-la-luz-azul' }}"
                                style="background:rgba(255,255,255,0.08);color:#fff;border:1.5px solid rgba(255,255,255,0.22);border-radius:8px;padding:13px 26px;font-size:15px;text-decoration:none;display:inline-block;transition:all .2s;"
                                onmouseover="this.style.background='rgba(255,255,255,0.15)';this.style.borderColor='rgba(255,255,255,0.4)'"
                                onmouseout="this.style.background='rgba(255,255,255,0.08)';this.style.borderColor='rgba(255,255,255,0.22)'">
-                                {{ $hero->btn_secondary_text ?? '¿Qué es la luz azul?' }}
+                                {{ $hero->btn_secondary_text ?? 'Hacer mi quiz de piel' }}
                             </a>
                         </div>
 
@@ -461,7 +461,7 @@
         @else
         {{-- Imagen única full width --}}
         <img src="{{ asset('storage/'.$heroImages[0]) }}"
-             alt="Belleza Áurea lentes filtro luz azul"
+             alt="Belleza Áurea — cosmética natural"
              style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;">
 
         {{-- Overlay izquierda --}}
@@ -473,8 +473,8 @@
                 <div style="max-width:600px;">
 
                     <div class="h-anim-1" style="display:inline-flex;align-items:center;gap:7px;background:rgba(255,255,255,0.1);border:0.5px solid rgba(255,255,255,0.2);border-radius:20px;padding:5px 14px;font-size:11px;color:rgba(255,255,255,0.85);letter-spacing:.08em;text-transform:uppercase;margin-bottom:20px;width:fit-content;backdrop-filter:blur(4px);">
-                        <span style="width:6px;height:6px;border-radius:50%;background:#378ADD;flex-shrink:0;"></span>
-                        {{ $hero->eyebrow_text ?? 'Protección de luz azul' }}
+                        <span style="width:6px;height:6px;border-radius:50%;background:#D9B56D;flex-shrink:0;"></span>
+                        {{ $hero->eyebrow_text ?? 'Cosmética natural' }}
                     </div>
 
                     @php
@@ -483,10 +483,10 @@
                         $t3 = $hero->title_line3 ?? 'pantallas';
                         $hl = $hero->title_highlight_word ?? 'pantallas';
                     @endphp
-                    <h1 class="h-anim-2" style="font-size:clamp(36px,5vw,62px);font-weight:800;color:#ffffff;line-height:1.05;letter-spacing:-.025em;margin-bottom:18px;font-family:'Bai Jamjuree',sans-serif;">
+                    <h1 class="h-anim-2" style="font-size:clamp(36px,5vw,62px);font-weight:800;color:#ffffff;line-height:1.05;letter-spacing:-.025em;margin-bottom:18px;font-family:'Playfair Display',serif;">
                         {{ $t1 }}<br>{{ $t2 }}<br>
                         @if($hl && str_contains($t3, $hl))
-                            {!! str_replace($hl, '<span style="color:#378ADD;">'.$hl.'</span>', e($t3)) !!}
+                            {!! str_replace($hl, '<span style="color:#D9B56D;">'.$hl.'</span>', e($t3)) !!}
                         @else
                             {{ $t3 }}
                         @endif
@@ -500,25 +500,25 @@
                         </svg>
                         {!! str_replace(
                             ['2x1', '$499.90'],
-                            ['<strong style="font-weight:700;color:#fff;">2x1</strong>', '<strong style="font-weight:700;color:#378ADD;">$499.90</strong>'],
+                            ['<strong style="font-weight:700;color:#fff;">2x1</strong>', '<strong style="font-weight:700;color:#D9B56D;">$499.90</strong>'],
                             e($hero->badge_text ?? '2x1 en todos los lentes · $499.90 c/u')
                         ) !!}
                     </div>
                     @endif
 
                     <p class="h-anim-4" style="font-size:16px;color:rgba(255,255,255,0.6);line-height:1.65;margin-bottom:28px;max-width:420px;">
-                        {{ $hero->subtitle ?? 'Con o sin graduación. Filtro de luz azul de alta eficiencia en todos los modelos.' }}
+                        {{ $hero->subtitle ?? 'Skincare, fragancias y rituales premium con ingredientes botánicos.' }}
                     </p>
 
                     <div class="h-anim-5" style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:28px;">
-                        <a href="{{ $hero->btn_primary_url ?? '/lentes' }}" class="h-btn-dark" style="background:#378ADD;">
+                        <a href="{{ $hero->btn_primary_url ?? '/lentes' }}" class="h-btn-dark" style="background:#D9B56D;">
                             {{ $hero->btn_primary_text ?? 'Ver lentes' }} →
                         </a>
                         <a href="{{ $hero->btn_secondary_url ?? '/que-es-la-luz-azul' }}"
                            style="background:rgba(255,255,255,0.08);color:#fff;border:1.5px solid rgba(255,255,255,0.22);border-radius:8px;padding:13px 26px;font-size:15px;text-decoration:none;display:inline-block;transition:all .2s;"
                            onmouseover="this.style.background='rgba(255,255,255,0.15)';this.style.borderColor='rgba(255,255,255,0.4)'"
                            onmouseout="this.style.background='rgba(255,255,255,0.08)';this.style.borderColor='rgba(255,255,255,0.22)'">
-                            {{ $hero->btn_secondary_text ?? '¿Qué es la luz azul?' }}
+                            {{ $hero->btn_secondary_text ?? 'Hacer mi quiz de piel' }}
                         </a>
                     </div>
 
@@ -560,9 +560,9 @@
             {{-- COLUMNA IZQUIERDA: Texto --}}
             <div class="h-split-left" style="display:flex;flex-direction:column;justify-content:center;padding:72px 48px 72px 6%;background:#ffffff;">
 
-                <div class="h-anim-1" style="display:inline-flex;align-items:center;gap:7px;background:#EBF4FF;border:0.5px solid #B5D4F4;border-radius:20px;padding:5px 14px;font-size:11px;color:#185FA5;letter-spacing:.08em;text-transform:uppercase;margin-bottom:20px;width:fit-content;">
-                    <span style="width:6px;height:6px;border-radius:50%;background:#378ADD;flex-shrink:0;"></span>
-                    {{ $hero->eyebrow_text ?? 'Protección de luz azul' }}
+                <div class="h-anim-1" style="display:inline-flex;align-items:center;gap:7px;background:#FBF4E6;border:0.5px solid #E8CC92;border-radius:20px;padding:5px 14px;font-size:11px;color:#BE9A53;letter-spacing:.08em;text-transform:uppercase;margin-bottom:20px;width:fit-content;">
+                    <span style="width:6px;height:6px;border-radius:50%;background:#D9B56D;flex-shrink:0;"></span>
+                    {{ $hero->eyebrow_text ?? 'Cosmética natural' }}
                 </div>
 
                 @php
@@ -571,20 +571,20 @@
                     $t3 = $hero->title_line3 ?? 'pantallas';
                     $hl = $hero->title_highlight_word ?? 'pantallas';
                 @endphp
-                <h1 class="h-anim-2" style="font-size:clamp(34px,4.2vw,54px);font-weight:800;color:#0d1117;line-height:1.05;letter-spacing:-.025em;margin-bottom:18px;font-family:'Bai Jamjuree',sans-serif;">
+                <h1 class="h-anim-2" style="font-size:clamp(38px,4.5vw,60px);font-weight:600;color:#2E2A26;line-height:1.08;letter-spacing:-.015em;margin-bottom:20px;font-family:'Playfair Display',serif;">
                     {{ $t1 }}<br>{{ $t2 }}<br>
                     @if($hl && str_contains($t3, $hl))
-                        {!! str_replace($hl, '<span style="color:#378ADD;">'.$hl.'</span>', e($t3)) !!}
+                        {!! str_replace($hl, '<span style="color:#D9B56D;font-style:italic;font-weight:500;">'.$hl.'</span>', e($t3)) !!}
                     @else
                         {{ $t3 }}
                     @endif
                 </h1>
 
                 @if($hero->badge_text ?? true)
-                <div class="h-anim-3" style="display:inline-flex;align-items:center;gap:8px;background:#F0F7FF;border:1px solid #BFDBFE;border-radius:8px;padding:9px 16px;font-size:13px;color:#1e40af;margin-bottom:20px;width:fit-content;">
+                <div class="h-anim-3" style="display:inline-flex;align-items:center;gap:8px;background:#FBF8F2;border:1px solid #E8CC92;border-radius:8px;padding:9px 16px;font-size:13px;color:#BE9A53;margin-bottom:20px;width:fit-content;">
                     <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                        <rect x="1" y="3.5" width="12" height="9" rx="1.5" stroke="#1e40af" stroke-width="1.2"/>
-                        <path d="M5 3.5V3a2 2 0 014 0v.5" stroke="#1e40af" stroke-width="1.2"/>
+                        <rect x="1" y="3.5" width="12" height="9" rx="1.5" stroke="#BE9A53" stroke-width="1.2"/>
+                        <path d="M5 3.5V3a2 2 0 014 0v.5" stroke="#BE9A53" stroke-width="1.2"/>
                     </svg>
                     {!! str_replace(
                         ['2x1', '$499.90'],
@@ -595,7 +595,7 @@
                 @endif
 
                 <p class="h-anim-4" style="font-size:15px;color:#6b7280;line-height:1.65;margin-bottom:28px;max-width:400px;">
-                    {{ $hero->subtitle ?? 'Con o sin graduación. Filtro de luz azul de alta eficiencia en todos los modelos.' }}
+                    {{ $hero->subtitle ?? 'Skincare, fragancias y rituales premium con ingredientes botánicos.' }}
                 </p>
 
                 <div class="h-anim-5" style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:28px;">
@@ -603,7 +603,7 @@
                         {{ $hero->btn_primary_text ?? 'Ver lentes' }} →
                     </a>
                     <a href="{{ $hero->btn_secondary_url ?? '/que-es-la-luz-azul' }}" class="h-btn-outline">
-                        {{ $hero->btn_secondary_text ?? '¿Qué es la luz azul?' }}
+                        {{ $hero->btn_secondary_text ?? 'Hacer mi quiz de piel' }}
                     </a>
                 </div>
 
@@ -618,18 +618,36 @@
             </div>
 
             {{-- COLUMNA DERECHA: Producto estrella --}}
-            <div class="h-split-right h-img-anim" style="position:relative;overflow:hidden;background:linear-gradient(135deg,#e0f2fe 0%,#dbeafe 50%,#ede9fe 100%);min-height:580px;height:100%;">
+            <div class="h-split-right h-img-anim" style="position:relative;overflow:hidden;background:radial-gradient(circle at 30% 20%, #FBF4E6 0%, #F7F3ED 35%, #E8D1C5 100%);min-height:580px;height:100%;">
+                {{-- Motivo botánico decorativo (esquinas) --}}
+                <svg style="position:absolute;top:-30px;left:-30px;width:200px;height:200px;opacity:.35;pointer-events:none;" viewBox="0 0 200 200" fill="none">
+                    <path d="M40 160 Q 90 100 60 40 M 40 160 Q 100 130 130 70 M 70 100 Q 110 90 100 50" stroke="#A8B29A" stroke-width="1.5" stroke-linecap="round"/>
+                    <ellipse cx="70" cy="80" rx="14" ry="6" transform="rotate(-35 70 80)" fill="#A8B29A" opacity=".5"/>
+                    <ellipse cx="100" cy="55" rx="12" ry="5" transform="rotate(-20 100 55)" fill="#A8B29A" opacity=".5"/>
+                    <ellipse cx="120" cy="85" rx="10" ry="4" transform="rotate(15 120 85)" fill="#A8B29A" opacity=".4"/>
+                </svg>
+                <svg style="position:absolute;bottom:-40px;right:-30px;width:240px;height:240px;opacity:.30;pointer-events:none;transform:scaleX(-1);" viewBox="0 0 200 200" fill="none">
+                    <path d="M40 160 Q 90 100 60 40 M 40 160 Q 100 130 130 70 M 70 100 Q 110 90 100 50" stroke="#A8B29A" stroke-width="1.5" stroke-linecap="round"/>
+                    <ellipse cx="70" cy="80" rx="14" ry="6" transform="rotate(-35 70 80)" fill="#A8B29A" opacity=".5"/>
+                    <ellipse cx="100" cy="55" rx="12" ry="5" transform="rotate(-20 100 55)" fill="#A8B29A" opacity=".5"/>
+                </svg>
+                {{-- Partículas doradas --}}
+                <span style="position:absolute;top:35%;left:18%;width:6px;height:6px;border-radius:50%;background:#D9B56D;opacity:.55;"></span>
+                <span style="position:absolute;top:48%;left:22%;width:4px;height:4px;border-radius:50%;background:#D9B56D;opacity:.4;"></span>
+                <span style="position:absolute;top:30%;right:24%;width:5px;height:5px;border-radius:50%;background:#D9B56D;opacity:.5;"></span>
+
                 @if($heroProduct && $heroProduct->featured_image)
                 <img src="{{ asset('storage/'.$heroProduct->featured_image) }}"
-                     alt="{{ $heroProduct->name }} Belleza Áurea filtro luz azul"
-                     style="position:absolute;inset:0;width:100%;height:100%;object-fit:contain;object-position:center;padding:40px;transition:transform .4s ease;"
+                     alt="{{ $heroProduct->name }} — Belleza Áurea"
+                     style="position:absolute;inset:0;width:100%;height:100%;object-fit:contain;object-position:center;padding:60px;transition:transform .4s ease;filter:drop-shadow(0 30px 60px rgba(190,154,83,0.25));"
                      onmouseover="this.style.transform='scale(1.03)'"
                      onmouseout="this.style.transform='scale(1)'">
                 @else
+                {{-- Fallback: monograma BA decorativo --}}
                 <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;">
-                    <div style="width:220px;height:110px;border:4px solid rgba(13,17,23,0.15);border-radius:50%;position:relative;">
-                        <div style="position:absolute;inset:12px;border-radius:50%;background:linear-gradient(135deg,rgba(56,130,221,0.15),rgba(139,92,246,0.1));"></div>
-                    </div>
+                    <img src="{{ asset('img/brand/logo-transparent.png') }}"
+                         alt="Belleza Áurea"
+                         style="width:340px;height:auto;opacity:.92;filter:drop-shadow(0 20px 50px rgba(190,154,83,0.2));">
                 </div>
                 @endif
 
@@ -645,7 +663,7 @@
 
                 @if($heroProduct)
                 <div style="position:absolute;bottom:20px;left:50%;transform:translateX(-50%);background:rgba(255,255,255,0.9);backdrop-filter:blur(8px);border-radius:20px;padding:6px 16px;font-size:12px;color:#374151;white-space:nowrap;border:0.5px solid rgba(0,0,0,0.06);">
-                    {{ $heroProduct->name }} · con filtro luz azul
+                    {{ $heroProduct->name }} · producto destacado
                 </div>
                 @endif
             </div>
@@ -688,7 +706,7 @@
             <div style="max-width:580px;padding:80px 0;">
 
                 {{-- Eyebrow --}}
-                <div class="h-anim-1" style="font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#378ADD;font-weight:500;margin-bottom:14px;">
+                <div class="h-anim-1" style="font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#D9B56D;font-weight:500;margin-bottom:14px;">
                     {{ $hero->eyebrow_text ?? 'Belleza Áurea · protección visual' }}
                 </div>
 
@@ -699,20 +717,20 @@
                     $t3 = $hero->title_line3 ?? 'real';
                     $hl = $hero->title_highlight_word ?? 'real';
                 @endphp
-                <h1 class="h-anim-2" style="font-size:clamp(36px,5vw,62px);font-weight:800;color:#0d1117;line-height:1.04;letter-spacing:-.025em;margin-bottom:20px;font-family:'Bai Jamjuree',sans-serif;">
+                <h1 class="h-anim-2" style="font-size:clamp(36px,5vw,62px);font-weight:800;color:#2E2A26;line-height:1.04;letter-spacing:-.025em;margin-bottom:20px;font-family:'Playfair Display',serif;">
                     {{ $t1 }}<br>{{ $t2 }}<br>
                     @if($hl && str_contains($t3, $hl))
-                        {!! str_replace($hl, '<span style="color:#378ADD;">'.$hl.'</span>', e($t3)) !!}
+                        {!! str_replace($hl, '<span style="color:#D9B56D;">'.$hl.'</span>', e($t3)) !!}
                     @else
                         {{ $t3 }}
                     @endif
                 </h1>
 
                 {{-- Badge 2x1 --}}
-                <div class="h-anim-3" style="display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,0.85);border:1px solid #BFDBFE;border-radius:8px;padding:9px 16px;font-size:13px;color:#1e40af;margin-bottom:20px;backdrop-filter:blur(4px);width:fit-content;">
+                <div class="h-anim-3" style="display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,0.85);border:1px solid #E8CC92;border-radius:8px;padding:9px 16px;font-size:13px;color:#BE9A53;margin-bottom:20px;backdrop-filter:blur(4px);width:fit-content;">
                     <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                        <rect x="1" y="3.5" width="12" height="9" rx="1.5" stroke="#1e40af" stroke-width="1.2"/>
-                        <path d="M5 3.5V3a2 2 0 014 0v.5" stroke="#1e40af" stroke-width="1.2"/>
+                        <rect x="1" y="3.5" width="12" height="9" rx="1.5" stroke="#BE9A53" stroke-width="1.2"/>
+                        <path d="M5 3.5V3a2 2 0 014 0v.5" stroke="#BE9A53" stroke-width="1.2"/>
                     </svg>
                     {!! str_replace(
                         ['2x1', '$499.90'],
@@ -723,7 +741,7 @@
 
                 {{-- Subtítulo --}}
                 <p class="h-anim-4" style="font-size:16px;color:#4b5563;line-height:1.65;margin-bottom:30px;max-width:420px;">
-                    {{ $hero->subtitle ?? 'Con o sin graduación. Filtro de luz azul de alta eficiencia.' }}
+                    {{ $hero->subtitle ?? 'Skincare, fragancias y rituales premium con ingredientes botánicos.' }}
                 </p>
 
                 {{-- Botones --}}
@@ -732,7 +750,7 @@
                         {{ $hero->btn_primary_text ?? 'Ver lentes' }} →
                     </a>
                     <a href="{{ $hero->btn_secondary_url ?? '/que-es-la-luz-azul' }}" class="h-btn-outline">
-                        {{ $hero->btn_secondary_text ?? '¿Qué es la luz azul?' }}
+                        {{ $hero->btn_secondary_text ?? 'Hacer mi quiz de piel' }}
                     </a>
                 </div>
 
@@ -788,9 +806,9 @@
 
             {{-- Header --}}
             <div class="text-center max-w-2xl mx-auto mb-12 reveal">
-                <span style="display:inline-block;font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#378ADD;margin-bottom:12px;">{{ $homePage->comparison_label ?? 'Comparativo' }}</span>
-                <h2 style="font-size:clamp(26px,4vw,40px);font-weight:700;color:#0d1117;line-height:1.15;margin-bottom:12px;font-family:'Bai Jamjuree',sans-serif;">{{ $homePage->comparison_title ?? 'Con vs. sin protección' }}</h2>
-                <p style="font-size:15px;color:#6b7280;line-height:1.6;">{{ $homePage->comparison_subtitle ?? 'Mira la diferencia real de usar lentes con protección de luz azul.' }}</p>
+                <span style="display:inline-block;font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#D9B56D;margin-bottom:12px;">{{ $homePage->comparison_label ?? 'Comparativo' }}</span>
+                <h2 style="font-size:clamp(26px,4vw,40px);font-weight:700;color:#2E2A26;line-height:1.15;margin-bottom:12px;font-family:'Playfair Display',serif;">{{ $homePage->comparison_title ?? 'Con vs. sin protección' }}</h2>
+                <p style="font-size:15px;color:#6b7280;line-height:1.6;">{{ $homePage->comparison_subtitle ?? 'Mira la diferencia real cuando incorporas Belleza Áurea a tu rutina diaria.' }}</p>
             </div>
 
             {{-- Dos columnas --}}
@@ -839,8 +857,8 @@
 
             {{-- CTA link al final --}}
             <div style="text-align:center;margin-top:28px;">
-                <a href="{{ route('blue-light') }}" style="font-size:13px;font-weight:500;color:#378ADD;text-decoration:none;display:inline-flex;align-items:center;gap:5px;" onmouseover="this.style.textDecoration='underline'" onmouseout="this.style.textDecoration='none'">
-                    Aprende más sobre la luz azul
+                <a href="{{ route('blue-light') }}" style="font-size:13px;font-weight:500;color:#D9B56D;text-decoration:none;display:inline-flex;align-items:center;gap:5px;" onmouseover="this.style.textDecoration='underline'" onmouseout="this.style.textDecoration='none'">
+                    Conoce nuestros rituales
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/></svg>
                 </a>
             </div>
@@ -851,13 +869,13 @@
     {{-- ============================================================
          2. CATEGORÍAS — imagen arriba, texto abajo
          ============================================================ --}}
-    <section class="py-16 md:py-20" style="background:#F4F6F9;">
+    <section class="py-16 md:py-20" style="background:#FBF8F2;">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
             {{-- Header --}}
             <div class="text-center max-w-2xl mx-auto mb-12 reveal">
-                <span style="display:inline-block;font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#378ADD;margin-bottom:12px;">{{ $homePage->categories_label ?? 'Categorías' }}</span>
-                <h2 style="font-size:clamp(26px,4vw,40px);font-weight:700;color:#1a1a2e;line-height:1.15;font-family:'Bai Jamjuree',sans-serif;">{{ $homePage->categories_title ?? 'Encuentra tus lentes ideales' }}</h2>
+                <span style="display:inline-block;font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#D9B56D;margin-bottom:12px;">{{ $homePage->categories_label ?? 'Categorías' }}</span>
+                <h2 style="font-size:clamp(26px,4vw,40px);font-weight:700;color:#2E2A26;line-height:1.15;font-family:'Playfair Display',serif;">{{ $homePage->categories_title ?? 'Encuentra tus lentes ideales' }}</h2>
                 <p style="margin-top:12px;font-size:15px;color:#6b7280;">{{ $homePage->categories_subtitle ?? 'Con o sin graduación, tenemos el modelo perfecto para ti.' }}</p>
             </div>
 
@@ -935,14 +953,15 @@
                 @foreach($cardsToRender as $catIndex => $cat)
 
                 @php
+                    // Paleta Belleza Áurea: gold · sage · blush taupe
                     $gradients = [
-                        'linear-gradient(135deg,#0f2d5e,#1a4f9f)',
-                        'linear-gradient(135deg,#0d3320,#1a6e3a)',
-                        'linear-gradient(135deg,#1a0d37,#4a1a6e)',
+                        'linear-gradient(135deg,#BE9A53 0%,#E8CC92 100%)',
+                        'linear-gradient(135deg,#8A9680 0%,#A8B29A 100%)',
+                        'linear-gradient(135deg,#C9A693 0%,#E8D1C5 100%)',
                     ];
-                    $iconColors = ['#378ADD','#16a34a','#7c3aed'];
-                    $iconBgs = ['#EBF4FF','#f0fdf4','#faf5ff'];
-                    $accentColors = ['#378ADD','#16a34a','#7c3aed'];
+                    $iconColors  = ['#FFFFFF','#FFFFFF','#FFFFFF'];
+                    $iconBgs     = ['#FBF4E6','#F0F2EB','#FCEFE6'];
+                    $accentColors = ['#BE9A53','#8A9680','#BE9A53'];
                     $grad = $gradients[$catIndex % 3];
                     $iconColor = $iconColors[$catIndex % 3];
                     $iconBg = $iconBgs[$catIndex % 3];
@@ -960,7 +979,7 @@
                     <div class="flip-card-inner">
 
                         {{-- ▸ FRONT: imagen completa + nombre como tag --}}
-                        <div class="flip-card-face" style="background:#0d1117;box-shadow:0 4px 16px rgba(0,0,0,0.08);">
+                        <div class="flip-card-face" style="background:#2E2A26;box-shadow:0 4px 16px rgba(0,0,0,0.08);">
                             @if($catImage)
                             <img src="{{ asset('storage/'.$catImage) }}"
                                  alt="{{ $catName }}"
@@ -979,7 +998,7 @@
                             <div style="position:absolute;bottom:0;left:0;right:0;height:50%;background:linear-gradient(to top,rgba(0,0,0,0.55),transparent);pointer-events:none;border-radius:0 0 16px 16px;"></div>
                             {{-- Nombre como botón/tag --}}
                             <div style="position:absolute;bottom:20px;left:50%;transform:translateX(-50%);">
-                                <span style="display:inline-block;background:rgba(255,255,255,0.95);color:#1a1a2e;font-size:14px;font-weight:600;padding:8px 22px;border-radius:50px;font-family:'Bai Jamjuree',sans-serif;white-space:nowrap;box-shadow:0 2px 10px rgba(0,0,0,0.15);">{{ $catName }}</span>
+                                <span style="display:inline-block;background:rgba(255,255,255,0.95);color:#2E2A26;font-size:14px;font-weight:600;padding:8px 22px;border-radius:50px;font-family:'Playfair Display',serif;white-space:nowrap;box-shadow:0 2px 10px rgba(0,0,0,0.15);">{{ $catName }}</span>
                             </div>
                         </div>
 
@@ -1000,7 +1019,7 @@
                                     @endif
                                 </svg>
                             </div>
-                            <h3 style="font-size:18px;font-weight:700;color:#ffffff;margin-bottom:10px;line-height:1.2;font-family:'Bai Jamjuree',sans-serif;">{{ $catName }}</h3>
+                            <h3 style="font-size:18px;font-weight:700;color:#ffffff;margin-bottom:10px;line-height:1.2;font-family:'Playfair Display',serif;">{{ $catName }}</h3>
                             <p style="font-size:13px;color:rgba(255,255,255,0.8);line-height:1.6;margin-bottom:22px;">{{ $catDesc }}</p>
                             <a href="{{ route('products.index', $catUrlParams) }}"
                                style="display:inline-flex;align-items:center;gap:6px;background:#ffffff;color:{{ $accent }};font-size:13px;font-weight:600;padding:10px 24px;border-radius:50px;text-decoration:none;transition:transform .2s,box-shadow .2s;"
@@ -1040,9 +1059,9 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             {{-- Header --}}
             <div class="text-center max-w-2xl mx-auto reveal">
-                <span class="inline-block text-sm font-semibold tracking-wider uppercase mb-3" style="color: #378ADD;">{{ $homePage->catalog_label ?? 'Catálogo' }}</span>
-                <h2 class="font-brand text-3xl md:text-4xl font-bold" style="color: #1a1a2e;">{{ $homePage->catalog_title ?? 'Nuestros lentes' }}</h2>
-                <p class="mt-4" style="color: #6b7280;">{{ $homePage->catalog_subtitle ?? 'Todos con filtro de luz azul y promoción 2×1.' }}</p>
+                <span class="inline-block text-sm font-semibold tracking-wider uppercase mb-3" style="color: #D9B56D;">{{ $homePage->catalog_label ?? 'Catálogo' }}</span>
+                <h2 class="font-brand text-3xl md:text-4xl font-bold" style="color: #2E2A26;">{{ $homePage->catalog_title ?? 'Nuestros lentes' }}</h2>
+                <p class="mt-4" style="color: #6b7280;">{{ $homePage->catalog_subtitle ?? 'Todos con cosmética natural y promoción 2×1.' }}</p>
             </div>
 
             {{-- Filtros --}}
@@ -1051,17 +1070,16 @@
                 <div class="flex flex-wrap justify-center gap-2">
                     @php
                     $typeFilters = [
-                        ['key' => 'all', 'label' => 'Todos'],
-                        ['key' => 'sin_graduacion', 'label' => 'Sin Graduación'],
-                        ['key' => 'lectura', 'label' => 'Lectura'],
-                        ['key' => 'miopia', 'label' => 'Miopía'],
+                        ['key' => 'all', 'label' => 'Todo'],
+                        ['key' => 'sin_graduacion', 'label' => 'Skincare'],
+                        ['key' => 'toallitas', 'label' => 'Rituales'],
                     ];
                     @endphp
                     @foreach($typeFilters as $filter)
                     <button @click="activeType = '{{ $filter['key'] }}'; filterProducts()"
                             class="px-4 py-2 rounded-full text-sm font-medium border transition-all duration-200"
                             :style="activeType === '{{ $filter['key'] }}'
-                                ? 'background: #378ADD; color: white; border-color: #378ADD;'
+                                ? 'background: #D9B56D; color: white; border-color: #D9B56D;'
                                 : 'background: white; color: #6b7280; border-color: #e5e7eb;'"
                             :class="activeType === '{{ $filter['key'] }}' ? 'shadow-md' : 'hover:border-gray-400'">
                         {{ $filter['label'] }}
@@ -1077,7 +1095,7 @@
                     <span class="text-xs font-medium mr-1" style="color: #9ca3af;">Color:</span>
                     <button @click="activeColor = null; filterProducts()"
                             class="w-7 h-7 rounded-full border-2 transition-all duration-200 flex items-center justify-center"
-                            :style="!activeColor ? 'border-color: #378ADD;' : 'border-color: #e5e7eb;'"
+                            :style="!activeColor ? 'border-color: #D9B56D;' : 'border-color: #e5e7eb;'"
                             title="Todos los colores">
                         <span class="text-xs font-bold" style="color: #6b7280;">∅</span>
                     </button>
@@ -1085,7 +1103,7 @@
                         @if($coloresDisponibles->contains($colorName))
                         <button @click="activeColor = activeColor === '{{ $colorName }}' ? null : '{{ $colorName }}'; filterProducts()"
                                 class="w-7 h-7 rounded-full border-2 transition-all duration-200 hover:scale-110"
-                                :style="activeColor === '{{ $colorName }}' ? 'background: {{ $hex }}; border-color: #378ADD; box-shadow: 0 0 0 2px rgba(55,138,221,0.3);' : 'background: {{ $hex }}; border-color: #e5e7eb;'"
+                                :style="activeColor === '{{ $colorName }}' ? 'background: {{ $hex }}; border-color: #D9B56D; box-shadow: 0 0 0 2px rgba(55,138,221,0.3);' : 'background: {{ $hex }}; border-color: #e5e7eb;'"
                                 title="{{ $colorName }}">
                         </button>
                         @endif
@@ -1133,20 +1151,20 @@
                         <div class="absolute top-3 left-3 flex flex-col gap-1.5">
                             @if($product->compare_price && $product->compare_price > $product->price)
                                 @php $discount = round((1 - $product->price / $product->compare_price) * 100); @endphp
-                                <span class="text-white text-xs font-bold px-3 py-1 rounded-full" style="background: #378ADD;">-{{ $discount }}%</span>
+                                <span class="text-white text-xs font-bold px-3 py-1 rounded-full" style="background: #D9B56D;">-{{ $discount }}%</span>
                             @endif
                             @if($product->badge_2x1)
-                                <span class="text-white text-xs font-bold px-3 py-1 rounded-full" style="background: #002F6D;">2×1</span>
+                                <span class="text-white text-xs font-bold px-3 py-1 rounded-full" style="background: #2E2A26;">2×1</span>
                             @endif
                         </div>
                     </a>
 
                     {{-- Info --}}
                     <div class="p-5 md:p-6">
-                        <p class="text-xs font-medium uppercase tracking-wide" style="color: #378ADD;">
+                        <p class="text-xs font-medium uppercase tracking-wide" style="color: #D9B56D;">
                             {{ $product->type_labels }}
                         </p>
-                        <h3 class="mt-1 font-brand text-lg font-semibold" style="color: #1a1a2e;">{{ $product->name }}</h3>
+                        <h3 class="mt-1 font-brand text-lg font-semibold" style="color: #2E2A26;">{{ $product->name }}</h3>
                         <p class="mt-1.5 text-sm leading-relaxed line-clamp-2" style="color: #6b7280;">{{ $product->description }}</p>
 
                         {{-- Colores disponibles --}}
@@ -1164,16 +1182,16 @@
 
                         <div class="mt-4 flex items-center justify-between">
                             <div>
-                                <span class="text-2xl font-bold" style="color: #002F6D;">${{ number_format($product->price, 0, '.', ',') }}</span>
+                                <span class="text-2xl font-bold" style="color: #2E2A26;">${{ number_format($product->price, 0, '.', ',') }}</span>
                                 @if($product->compare_price && $product->compare_price > $product->price)
                                     <span class="ml-1.5 text-sm line-through" style="color: #9ca3af;">${{ number_format($product->compare_price, 0, '.', ',') }}</span>
                                 @endif
                             </div>
                             <a href="{{ route('products.show', $product->slug) }}"
                                class="text-white px-5 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 hover:-translate-y-0.5 active:translate-y-0"
-                               style="background: #002F6D;"
-                               onmouseover="this.style.background='#003d8f';this.style.boxShadow='0 4px 12px rgba(0,47,109,0.3)'"
-                               onmouseout="this.style.background='#002F6D';this.style.boxShadow='none'">
+                               style="background: #2E2A26;"
+                               onmouseover="this.style.background='#3F3A33';this.style.boxShadow='0 4px 12px rgba(0,47,109,0.3)'"
+                               onmouseout="this.style.background='#2E2A26';this.style.boxShadow='none'">
                                 Ver detalle
                             </a>
                         </div>
@@ -1183,7 +1201,7 @@
             </div>
 
             <div class="mt-10 text-center">
-                <a href="{{ route('products.index') }}" class="inline-flex items-center gap-2 font-semibold text-base hover:underline" style="color: #378ADD;">
+                <a href="{{ route('products.index') }}" class="inline-flex items-center gap-2 font-semibold text-base hover:underline" style="color: #D9B56D;">
                     Ver catálogo completo
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"/></svg>
                 </a>
@@ -1196,7 +1214,7 @@
          ============================================================ --}}
     @php $promoBg = $homePage->promo_background ?? null; @endphp
     <section class="relative py-16 md:py-24 overflow-hidden"
-             style="background: linear-gradient(135deg, #002F6D 0%, #001a40 100%);">
+             style="background: linear-gradient(135deg, #2E2A26 0%, #1F1B17 100%);">
 
         @if($promoBg)
             @php $promoExt = strtolower(pathinfo($promoBg, PATHINFO_EXTENSION)); @endphp
@@ -1221,22 +1239,22 @@
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
                 <div class="reveal">
                     <span class="inline-block text-sm font-bold tracking-wider uppercase mb-4 px-3 py-1 rounded-full"
-                          style="color: #378ADD; background: rgba(55,138,221,0.15);">{{ $homePage->promo_label ?? 'Promoción' }}</span>
+                          style="color: #D9B56D; background: rgba(55,138,221,0.15);">{{ $homePage->promo_label ?? 'Promoción' }}</span>
                     <h2 class="font-brand text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-[1.1]">
                         {!! nl2br(e($homePage->promo_title ?? '2×1 en todos los lentes')) !!}
                     </h2>
                     <p class="mt-5 text-lg leading-relaxed" style="color: rgba(255,255,255,0.7);">
-                        {{ $homePage->promo_description ?? 'Compra un par y llévate el segundo completamente gratis. Todos los modelos, todos los colores, todas las graduaciones.' }}
+                        {{ $homePage->promo_description ?? 'Nuestro producto estrella. Cada gota concentra ingredientes botánicos en proporciones efectivas.' }}
                     </p>
                     <div class="mt-4 flex items-center gap-3">
                         <span class="text-3xl font-bold text-white">{{ $homePage->promo_price ?? '$499.90' }}</span>
-                        <span class="text-sm" style="color: rgba(255,255,255,0.5);">{{ $homePage->promo_price_note ?? 'por par · el segundo es gratis' }}</span>
+                        <span class="text-sm" style="color: rgba(255,255,255,0.5);">{{ $homePage->promo_price_note ?? '30 ml · uso diario' }}</span>
                     </div>
                     <a href="{{ route('products.index') }}"
                        class="mt-8 inline-flex items-center justify-center text-white px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0"
-                       style="background: #378ADD; box-shadow: 0 10px 30px rgba(55,138,221,0.3);"
-                       onmouseover="this.style.background='#2d7acc';this.style.boxShadow='0 14px 35px rgba(55,138,221,0.4)'"
-                       onmouseout="this.style.background='#378ADD';this.style.boxShadow='0 10px 30px rgba(55,138,221,0.3)'">
+                       style="background: #D9B56D; box-shadow: 0 10px 30px rgba(55,138,221,0.3);"
+                       onmouseover="this.style.background='#BE9A53';this.style.boxShadow='0 14px 35px rgba(55,138,221,0.4)'"
+                       onmouseout="this.style.background='#D9B56D';this.style.boxShadow='0 10px 30px rgba(55,138,221,0.3)'">
                         {{ $homePage->promo_btn_text ?? 'Aprovecha ahora' }}
                         <svg class="ml-2 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"/></svg>
                     </a>
@@ -1253,7 +1271,7 @@
                             </div>
                         </div>
                         <div class="absolute -top-4 -right-4 px-4 py-2 rounded-xl text-white text-sm font-bold"
-                             style="background: #378ADD; animation: pulseDot 3s ease-in-out infinite;">
+                             style="background: #D9B56D; animation: pulseDot 3s ease-in-out infinite;">
                             ¡GRATIS!
                         </div>
                     </div>
@@ -1265,22 +1283,22 @@
     {{-- ============================================================
          5. TOALLITAS
          ============================================================ --}}
-    <section class="py-16 md:py-24" style="background: #F4F6F9;">
+    <section class="py-16 md:py-24" style="background: #FBF8F2;">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
                 {{-- Texto --}}
                 <div class="reveal">
-                    <span class="inline-block text-sm font-semibold tracking-wider uppercase mb-3" style="color: #378ADD;">{{ $homePage->wipes_label ?? 'Accesorios' }}</span>
-                    <h2 class="font-brand text-3xl md:text-4xl font-bold" style="color: #1a1a2e;">{{ $homePage->wipes_title ?? 'Cuida tus lentes' }}</h2>
+                    <span class="inline-block text-sm font-semibold tracking-wider uppercase mb-3" style="color: #D9B56D;">{{ $homePage->wipes_label ?? 'Accesorios' }}</span>
+                    <h2 class="font-brand text-3xl md:text-4xl font-bold" style="color: #2E2A26;">{{ $homePage->wipes_title ?? 'Cuida tus lentes' }}</h2>
                     <p class="mt-4 leading-relaxed" style="color: #6b7280;">
-                        {{ $homePage->wipes_description ?? 'Toallitas limpiadoras 2 en 1: paño húmedo con fórmula sin alcohol + paño seco. Resultados inmediatos para lentes, pantallas, cámaras y tablets.' }}
+                        {{ $homePage->wipes_description ?? 'Sets premium con productos que se complementan. Empacados en cajas de regalo doradas para ti o para sorprender.' }}
                     </p>
                     <div class="mt-6 space-y-3">
                         @foreach(($homePage->wipes_features ?? []) as $fIdx => $feature)
                         <div class="flex items-center gap-3 reveal" style="transition-delay: {{ $fIdx * 80 }}ms;">
                             <span class="flex-shrink-0 w-5 h-5 rounded-full flex items-center justify-center"
                                   style="background: rgba(55,138,221,0.1);">
-                                <svg class="w-3 h-3" style="color: #378ADD;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="m4.5 12.75 6 6 9-13.5"/></svg>
+                                <svg class="w-3 h-3" style="color: #D9B56D;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="m4.5 12.75 6 6 9-13.5"/></svg>
                             </span>
                             <span class="text-sm" style="color: #4b5563;">{{ $feature }}</span>
                         </div>
@@ -1317,14 +1335,14 @@
                         </a>
                         {{-- Info --}}
                         <div class="p-4">
-                            <h3 class="font-brand text-sm font-semibold leading-tight" style="color: #1a1a2e;">{{ $toallita->name }}</h3>
+                            <h3 class="font-brand text-sm font-semibold leading-tight" style="color: #2E2A26;">{{ $toallita->name }}</h3>
                             <div class="mt-3 flex items-center justify-between">
-                                <span class="text-xl font-bold" style="color: #002F6D;">${{ number_format($toallita->price, 0, '.', ',') }}</span>
+                                <span class="text-xl font-bold" style="color: #2E2A26;">${{ number_format($toallita->price, 0, '.', ',') }}</span>
                                 <a href="{{ route('products.show', $toallita->slug) }}"
                                    class="text-white px-4 py-2 rounded-lg text-xs font-semibold transition-all duration-200 hover:-translate-y-0.5"
-                                   style="background: #002F6D;"
-                                   onmouseover="this.style.background='#003d8f'"
-                                   onmouseout="this.style.background='#002F6D'">
+                                   style="background: #2E2A26;"
+                                   onmouseover="this.style.background='#3F3A33'"
+                                   onmouseout="this.style.background='#2E2A26'">
                                     Ver producto
                                 </a>
                             </div>
@@ -1337,26 +1355,26 @@
     </section>
 
     {{-- ============================================================
-         6. BENEFICIOS — ¿Por qué elegir nuvion?
+         6. BENEFICIOS — ¿Por qué Belleza Áurea?
          ============================================================ --}}
     @php
         $benefitCards = $homePage->benefits_cards ?? [
-            ['icon_svg' => '<path d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z"/><path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>', 'title' => 'Reduce fatiga visual', 'description' => 'Filtra entre el 50% de la luz azul dañina para que los ojos descansen.'],
-            ['icon_svg' => '<path d="M21.752 15.002A9.718 9.718 0 0118 15.75 9.75 9.75 0 018.25 6c0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25 9.75 9.75 0 0012.75 21a9.753 9.753 0 009.002-5.998z"/>', 'title' => 'Mejora tu sueño', 'description' => 'Bloquea la luz azul que altera tu ritmo circadiano y tu calidad de descanso.'],
+            ['icon_svg' => '<path d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z"/><path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>', 'title' => 'Ingredientes botánicos', 'description' => 'Activos naturales seleccionados, libres de parabenos y sulfatos.'],
+            ['icon_svg' => '<path d="M21.752 15.002A9.718 9.718 0 0118 15.75 9.75 9.75 0 018.25 6c0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25 9.75 9.75 0 0012.75 21a9.753 9.753 0 009.002-5.998z"/>', 'title' => 'Cruelty-free', 'description' => 'Cero pruebas en animales. Packaging reciclable y trazabilidad completa.'],
             ['icon_svg' => '<path d="M15.182 15.182a4.5 4.5 0 01-6.364 0M21 12a9 9 0 11-18 0 9 9 0 0118 0zM9.75 9.75c0 .414-.168.75-.375.75S9 10.164 9 9.75 9.168 9 9.375 9s.375.336.375.75zm-.375 0h.008v.015h-.008V9.75zm5.625 0c0 .414-.168.75-.375.75s-.375-.336-.375-.75.168-.75.375-.75.375.336.375.75zm-.375 0h.008v.015h-.008V9.75z"/>', 'title' => 'Menos dolores de cabeza', 'description' => 'Reduce la tensión ocular que causa migrañas y dolores frecuentes.'],
         ];
     @endphp
     @if(count($benefitCards))
-    <section style="background:#F4F6F9;padding:80px 0 90px;">
+    <section style="background:#FBF8F2;padding:80px 0 90px;">
         <div style="max-width:1200px;margin:0 auto;padding:0 24px;">
 
             {{-- Header --}}
             <div class="reveal" style="text-align:center;max-width:600px;margin:0 auto 60px;">
-                <span style="display:inline-block;font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#378ADD;margin-bottom:14px;">{{ $homePage->benefits_label ?? 'Beneficios' }}</span>
-                <h2 style="font-size:clamp(28px,4.5vw,42px);font-weight:700;color:#1a1a2e;line-height:1.15;font-family:'Bai Jamjuree',sans-serif;margin:0 0 16px;">{{ $homePage->benefits_title ?? '¿Por qué elegir nuvion?' }}</h2>
+                <span style="display:inline-block;font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#D9B56D;margin-bottom:14px;">{{ $homePage->benefits_label ?? 'Beneficios' }}</span>
+                <h2 style="font-size:clamp(28px,4.5vw,42px);font-weight:700;color:#2E2A26;line-height:1.15;font-family:'Playfair Display',serif;margin:0 0 16px;">{{ $homePage->benefits_title ?? '¿Por qué Belleza Áurea?' }}</h2>
                 <p style="font-size:16px;color:#6b7280;line-height:1.6;margin:0;">{{ $homePage->benefits_subtitle ?? 'Tecnología que cuida tu visión. Diseño que querrás usar todo el día.' }}</p>
                 {{-- Línea decorativa --}}
-                <div style="width:48px;height:3px;background:#378ADD;border-radius:2px;margin:24px auto 0;"></div>
+                <div style="width:48px;height:3px;background:#D9B56D;border-radius:2px;margin:24px auto 0;"></div>
             </div>
 
             {{-- Grid de cards --}}
@@ -1369,13 +1387,13 @@
 
                     {{-- Ícono --}}
                     <div style="width:60px;height:60px;border-radius:50%;background:rgba(55,138,221,0.08);display:flex;align-items:center;justify-content:center;margin:0 auto 20px;">
-                        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#378ADD" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#D9B56D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                             {!! $benefit['icon_svg'] ?? '' !!}
                         </svg>
                     </div>
 
                     {{-- Título --}}
-                    <h3 style="font-size:17px;font-weight:700;color:#1a1a2e;margin-bottom:10px;font-family:'Bai Jamjuree',sans-serif;">{{ $benefit['title'] ?? '' }}</h3>
+                    <h3 style="font-size:17px;font-weight:700;color:#2E2A26;margin-bottom:10px;font-family:'Playfair Display',serif;">{{ $benefit['title'] ?? '' }}</h3>
 
                     {{-- Descripción --}}
                     <p style="font-size:14px;color:#6b7280;line-height:1.65;margin:0;">{{ $benefit['description'] ?? '' }}</p>
@@ -1393,24 +1411,24 @@
     <section class="py-16 md:py-24 bg-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center max-w-2xl mx-auto">
-                <span class="inline-block text-sm font-semibold tracking-wider uppercase mb-3" style="color: #378ADD;">FAQ</span>
-                <h2 class="font-brand text-3xl md:text-4xl font-bold" style="color: #1a1a2e;">Preguntas frecuentes</h2>
-                <p class="mt-4" style="color: #6b7280;">Todo lo que necesitas saber antes de proteger tu visión.</p>
+                <span class="inline-block text-sm font-semibold tracking-wider uppercase mb-3" style="color: #D9B56D;">FAQ</span>
+                <h2 class="font-brand text-3xl md:text-4xl font-bold" style="color: #2E2A26;">Preguntas frecuentes</h2>
+                <p class="mt-4" style="color: #6b7280;">Todo lo que necesitas saber antes de comenzar tu ritual áureo.</p>
             </div>
 
             <div class="mt-12 max-w-3xl mx-auto space-y-3 reveal visible" x-data="{ openFaq: null }">
                 @foreach(($homePage->faqs ?? []) as $index => $faq)
-                <div class="border rounded-xl overflow-hidden" style="border-color: #e5e7eb; background: #F4F6F9;">
+                <div class="border rounded-xl overflow-hidden" style="border-color: #e5e7eb; background: #FBF8F2;">
                     <button @click="openFaq = openFaq === {{ $index }} ? null : {{ $index }}"
                             class="w-full flex items-center justify-between px-5 md:px-6 py-4 text-left transition-all duration-200 group"
                             :style="openFaq === {{ $index }} ? 'background: white;' : ''"
                             onmouseover="if(!this.classList.contains('bg-white'))this.style.background='white'"
                             onmouseout="this.style.background=''">
                         <span class="font-semibold pr-4 transition-colors duration-200"
-                              :style="openFaq === {{ $index }} ? 'color: #378ADD;' : 'color: #1a1a2e;'">{{ $faq['q'] }}</span>
+                              :style="openFaq === {{ $index }} ? 'color: #D9B56D;' : 'color: #2E2A26;'">{{ $faq['q'] }}</span>
                         <span class="flex-shrink-0 w-8 h-8 rounded-full bg-white border flex items-center justify-center"
                               style="border-color: #e5e7eb;">
-                            <svg :class="openFaq === {{ $index }} ? 'rotate-180' : ''" class="w-4 h-4 transition-transform duration-200" style="color: #002F6D;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg :class="openFaq === {{ $index }} ? 'rotate-180' : ''" class="w-4 h-4 transition-transform duration-200" style="color: #2E2A26;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19.5 8.25-7.5 7.5-7.5-7.5"/>
                             </svg>
                         </span>
@@ -1437,19 +1455,19 @@
     @php
         $displayTestimonials = array_slice(
             $testimonials->count() ? $testimonials->toArray() : [
-                ['name' => 'María G.', 'role' => 'Diseñadora gráfica', 'body' => 'Desde que uso mis nuvion, ya no termino el día con los ojos rojos. Son súper cómodos y se ven increíbles.', 'rating' => 5, 'avatar_color' => '#378ADD'],
-                ['name' => 'Carlos R.', 'role' => 'Programador', 'body' => 'Trabajo 10 horas frente a la pantalla y estos lentes cambiaron todo. Menos dolor de cabeza y duermo mejor.', 'rating' => 5, 'avatar_color' => '#16a34a'],
-                ['name' => 'Ana L.', 'role' => 'Estudiante', 'body' => 'Los compré sin graduación y me encantan. El diseño es moderno y realmente sientes la diferencia.', 'rating' => 5, 'avatar_color' => '#7c3aed'],
+                ['name' => 'Camila R.', 'role' => 'Editora de moda', 'body' => 'Empecé con el Sérum Áureo y a las cuatro semanas mi piel está visiblemente más luminosa. Es mi ritual sagrado de las mañanas.', 'rating' => 5, 'avatar_color' => '#D9B56D'],
+                ['name' => 'Valentina M.', 'role' => 'Empresaria', 'body' => 'El Ritual Esencial me cambió la rutina por completo. La sensación de la crema con karité es como un mimo diario. Llevo tres meses y mi piel nunca se vio mejor.', 'rating' => 5, 'avatar_color' => '#A8B29A'],
+                ['name' => 'Sofía L.', 'role' => 'Maquilladora profesional', 'body' => 'Recomiendo Belleza Áurea a todas mis clientas. Las fórmulas son limpias, los activos están en concentración correcta y el packaging es una belleza.', 'rating' => 5, 'avatar_color' => '#BE9A53'],
             ], 0, 3);
     @endphp
-    <section style="background:#F4F6F9;padding:80px 0 90px;">
+    <section style="background:#FBF8F2;padding:80px 0 90px;">
         <div style="max-width:1200px;margin:0 auto;padding:0 24px;">
 
             {{-- Header --}}
             <div class="reveal" style="text-align:center;max-width:600px;margin:0 auto 60px;">
-                <span style="display:inline-block;font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#378ADD;margin-bottom:14px;">TESTIMONIOS</span>
-                <h2 style="font-size:clamp(28px,4.5vw,42px);font-weight:700;color:#1a1a2e;line-height:1.15;font-family:'Bai Jamjuree',sans-serif;margin:0 0 16px;">Lo que dicen nuestros clientes</h2>
-                <div style="width:48px;height:3px;background:#378ADD;border-radius:2px;margin:24px auto 0;"></div>
+                <span style="display:inline-block;font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#D9B56D;margin-bottom:14px;">TESTIMONIOS</span>
+                <h2 style="font-size:clamp(28px,4.5vw,42px);font-weight:700;color:#2E2A26;line-height:1.15;font-family:'Playfair Display',serif;margin:0 0 16px;">Lo que dicen nuestros clientes</h2>
+                <div style="width:48px;height:3px;background:#D9B56D;border-radius:2px;margin:24px auto 0;"></div>
             </div>
 
             {{-- Grid de testimonios --}}
@@ -1460,7 +1478,7 @@
                     $tRole = is_array($t) ? ($t['role'] ?? '') : ($t->role ?? '');
                     $tBody = is_array($t) ? ($t['body'] ?? '') : $t->body;
                     $tRating = is_array($t) ? ($t['rating'] ?? 5) : $t->rating;
-                    $tColor = is_array($t) ? ($t['avatar_color'] ?? '#378ADD') : ($t->avatar_color ?? '#378ADD');
+                    $tColor = is_array($t) ? ($t['avatar_color'] ?? '#D9B56D') : ($t->avatar_color ?? '#D9B56D');
                 @endphp
                 <div class="reveal"
                      style="background:#ffffff;border-radius:16px;padding:36px 28px;border:1px solid #e5e7eb;transition:transform .25s ease,box-shadow .25s ease;animation-delay:{{ $tIdx * 100 }}ms;"
@@ -1485,7 +1503,7 @@
                             {{ strtoupper(mb_substr($tName, 0, 1)) }}
                         </div>
                         <div>
-                            <p style="font-size:14px;font-weight:600;color:#1a1a2e;">{{ $tName }}</p>
+                            <p style="font-size:14px;font-weight:600;color:#2E2A26;">{{ $tName }}</p>
                             @if($tRole)
                             <p style="font-size:12px;color:#9ca3af;">{{ $tRole }}</p>
                             @endif
@@ -1499,7 +1517,7 @@
 
     {{-- Confianza + CTA Final --}}
     <section class="relative overflow-hidden"
-             style="background: linear-gradient(135deg, #0A0E1A 0%, #001a40 50%, #0A0E1A 100%);padding:80px 0 90px;">
+             style="background: linear-gradient(135deg, #2E2A26 0%, #1F1B17 50%, #2E2A26 100%);padding:80px 0 90px;">
         <div class="absolute top-0 right-0 w-96 h-96 rounded-full blur-[100px] pointer-events-none"
              style="background: rgba(55,138,221,0.08); animation: pulseDot 5s ease-in-out infinite;"></div>
 
@@ -1507,14 +1525,14 @@
 
             {{-- Header de sección --}}
             <div class="reveal" style="text-align:center;max-width:600px;margin:0 auto 60px;">
-                <span style="display:inline-block;font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#378ADD;margin-bottom:14px;">CONFIANZA</span>
-                <h2 style="font-size:clamp(28px,4.5vw,42px);font-weight:700;color:#ffffff;line-height:1.15;font-family:'Bai Jamjuree',sans-serif;margin:0;">
-                    {{ $homePage->cta_title ?? '¿Listo para proteger tu visión?' }}
+                <span style="display:inline-block;font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#D9B56D;margin-bottom:14px;">CONFIANZA</span>
+                <h2 style="font-size:clamp(28px,4.5vw,42px);font-weight:700;color:#ffffff;line-height:1.15;font-family:'Playfair Display',serif;margin:0;">
+                    {{ $homePage->cta_title ?? '¿Lista para tu ritual áureo?' }}
                 </h2>
                 <p style="font-size:16px;color:rgba(255,255,255,0.6);line-height:1.6;margin:16px 0 0;">
-                    {{ $homePage->cta_subtitle ?? 'Ve mejor, duerme mejor, rinde más. Únete a quienes ya cuidan sus ojos con nuvion.' }}
+                    {{ $homePage->cta_subtitle ?? 'Descubre tu rutina ideal en 90 segundos con el Quiz de Piel o explora nuestra colección completa.' }}
                 </p>
-                <div style="width:48px;height:3px;background:#378ADD;border-radius:2px;margin:24px auto 0;"></div>
+                <div style="width:48px;height:3px;background:#D9B56D;border-radius:2px;margin:24px auto 0;"></div>
             </div>
 
             {{-- Trust badges --}}
@@ -1522,11 +1540,11 @@
                 @foreach(($homePage->trust_badges ?? []) as $bIdx => $badge)
                 <div class="reveal" style="text-align:center;transition-delay:{{ $bIdx * 100 }}ms;">
                     <div style="width:56px;height:56px;border-radius:14px;background:rgba(55,138,221,0.12);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;">
-                        <svg style="width:26px;height:26px;color:#378ADD;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg style="width:26px;height:26px;color:#D9B56D;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             {!! $badge['icon_svg'] ?? '' !!}
                         </svg>
                     </div>
-                    <h3 style="font-size:14px;font-weight:600;color:#ffffff;font-family:'Bai Jamjuree',sans-serif;margin:0 0 8px;">{{ $badge['title'] }}</h3>
+                    <h3 style="font-size:14px;font-weight:600;color:#ffffff;font-family:'Playfair Display',serif;margin:0 0 8px;">{{ $badge['title'] }}</h3>
                     <p style="font-size:12px;color:rgba(255,255,255,0.45);line-height:1.5;margin:0;">{{ $badge['description'] ?? '' }}</p>
                 </div>
                 @endforeach
@@ -1542,9 +1560,9 @@
                 <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:16px;">
                     <a href="{{ route('products.index') }}"
                        style="display:inline-flex;align-items:center;justify-content:center;color:#fff;padding:16px 40px;border-radius:12px;font-weight:600;font-size:18px;font-family:inherit;text-decoration:none;
-                              background:#378ADD;box-shadow:0 10px 30px rgba(55,138,221,0.3);transition:all .3s;"
-                       onmouseover="this.style.background='#2d7acc';this.style.boxShadow='0 14px 35px rgba(55,138,221,0.4)';this.style.transform='translateY(-2px)'"
-                       onmouseout="this.style.background='#378ADD';this.style.boxShadow='0 10px 30px rgba(55,138,221,0.3)';this.style.transform='translateY(0)'">
+                              background:#D9B56D;box-shadow:0 10px 30px rgba(55,138,221,0.3);transition:all .3s;"
+                       onmouseover="this.style.background='#BE9A53';this.style.boxShadow='0 14px 35px rgba(55,138,221,0.4)';this.style.transform='translateY(-2px)'"
+                       onmouseout="this.style.background='#D9B56D';this.style.boxShadow='0 10px 30px rgba(55,138,221,0.3)';this.style.transform='translateY(0)'">
                         {{ $homePage->cta_btn_primary_text ?? 'Comprar ahora' }}
                         <svg style="margin-left:8px;width:20px;height:20px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"/></svg>
                     </a>
