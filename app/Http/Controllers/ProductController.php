@@ -127,8 +127,17 @@ class ProductController extends Controller
 
         $activeVariants = $product->variants->where('is_active', true);
 
-        // Unique colors
-        $colores = $activeVariants->pluck('color')->unique()->filter()->values();
+        // Unique colors (variantes con color_hex o option_type=color)
+        $colores = $activeVariants
+            ->filter(fn ($v) => $v->option_type === 'color' || ! empty($v->color_hex))
+            ->pluck('color')->unique()->filter()->values();
+
+        // Variantes genéricas (no color, no graduación) agrupadas por etiqueta visible.
+        // Estructura:
+        //   ['Tamaño' => collection<variant>, 'Acabado' => collection<variant>, ...]
+        $genericVariants = $activeVariants
+            ->filter(fn ($v) => $v->option_type !== 'color' && empty($v->graduation_type))
+            ->groupBy(fn ($v) => $v->name ?: \App\Models\ProductVariant::DEFAULT_LABELS[$v->option_type] ?? 'Opción');
 
         // Graduations grouped by type
         $graduacionesMiopia = $activeVariants
@@ -164,7 +173,7 @@ class ProductController extends Controller
         $lentesPage = LentesPageSetting::getCurrent();
 
         return view('storefront.products.show', compact(
-            'product', 'colores',
+            'product', 'colores', 'genericVariants',
             'graduacionesMiopia', 'graduacionesLectura', 'graduacionesSinGrad',
             'toallitas', 'seo', 'schema', 'breadcrumbs', 'lentesPage',
         ));

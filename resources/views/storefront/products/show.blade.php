@@ -178,8 +178,8 @@
 
                 {{-- 4. Precio --}}
                 <div style="display:flex;align-items:baseline;gap:10px;">
-                    <span style="font-size:28px;font-weight:700;color:#2E2A26;">
-                        ${{ number_format($product->price, 2) }}
+                    <span id="product-current-price" style="font-size:28px;font-weight:700;color:#2E2A26;">
+                        ${{ number_format($product->price, 0, ',', '.') }}
                     </span>
                     @if($product->compare_price && $product->compare_price > $product->price)
                     <span style="font-size:16px;color:#bbb;text-decoration:line-through;">
@@ -248,6 +248,63 @@
                         @endforeach
                     </div>
                 </div>
+                @endif
+
+                {{-- 6b. Selectores genéricos (Tamaño · Aroma · Acabado · Estilo …) --}}
+                @if(($genericVariants ?? collect())->isNotEmpty())
+                    @foreach($genericVariants as $optionLabel => $variants)
+                        @php
+                            // Tomar la primera variante del grupo para extraer el option_type
+                            $sampleType = $variants->first()->option_type ?? 'other';
+                            $isColor = $sampleType === 'color';
+                        @endphp
+                        <div class="ba-option-group" style="margin-bottom:22px;"
+                             data-option-label="{{ $optionLabel }}"
+                             data-option-type="{{ $sampleType }}">
+                            <p style="font-size:13px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#6B6157;margin:0 0 12px;display:flex;align-items:center;gap:8px;">
+                                <span>{{ $optionLabel }}:</span>
+                                <span class="ba-option-selected" style="font-weight:400;color:#2E2A26;text-transform:none;letter-spacing:0;font-size:14px;">— Selecciona</span>
+                            </p>
+                            <div style="display:flex;flex-wrap:wrap;gap:8px;">
+                                @foreach($variants as $v)
+                                    @php
+                                        $vOut = ($v->stock <= 0);
+                                        $vHex = $v->color_hex ?: \App\Helpers\ColorHelper::hex($v->value);
+                                    @endphp
+                                    <button type="button"
+                                            class="ba-opt"
+                                            data-variant-id="{{ $v->id }}"
+                                            data-variant-value="{{ $v->value }}"
+                                            data-variant-price-mod="{{ (float) $v->price_modifier }}"
+                                            data-variant-image="{{ $v->image_path ? asset('storage/'.$v->image_path) : '' }}"
+                                            data-out-of-stock="{{ $vOut ? '1' : '0' }}"
+                                            @disabled($vOut)
+                                            title="{{ $v->value }}{{ $vOut ? ' (Agotado)' : '' }}"
+                                            style="
+                                                @if($isColor)
+                                                    position:relative;width:34px;height:34px;border-radius:50%;
+                                                    background:{{ $vHex }};
+                                                    border:2px solid {{ $vOut ? 'rgba(0,0,0,.1)' : 'rgba(184,169,153,.35)' }};
+                                                @else
+                                                    padding:9px 18px;border-radius:2px;
+                                                    background:#FFFFFF;border:1px solid #D1C7BC;
+                                                    font-size:13px;color:#2E2A26;
+                                                @endif
+                                                transition:all .25s ease;
+                                                {{ $vOut ? 'opacity:.4;cursor:not-allowed;text-decoration:'.($isColor ? 'none' : 'line-through').';' : 'cursor:pointer;' }}
+                                            ">
+                                        @if($isColor)
+                                            @if($vOut)
+                                                <span style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#dc2626;font-weight:700;font-size:18px;line-height:1;">×</span>
+                                            @endif
+                                        @else
+                                            {{ $v->value }}
+                                        @endif
+                                    </button>
+                                @endforeach
+                            </div>
+                        </div>
+                    @endforeach
                 @endif
 
                 {{-- 7. Selector de graduación --}}
@@ -848,6 +905,100 @@ document.addEventListener('DOMContentLoaded', function() {
     updateClearButtons();
 });
 
+/* ──────────────────────────────────────────────────────────
+   Selector de variantes genéricas (Tamaño / Aroma / Acabado…)
+   El cliente puede tener N grupos de opciones. Por simplicidad,
+   la última opción clickeada define el variant_id que se envía
+   al carrito. Si quieres combinaciones (color + tamaño),
+   se necesita un modelo de "combinations" aparte.
+   ────────────────────────────────────────────────────────── */
+window.selectedGenericVariantId = null;
+window.selectedGenericVariants = {}; // { 'Tamaño': {value, modifier}, ... }
+window.baseProductPrice = {{ (float) $product->price }};
+
+(function () {
+    function fmtPrice(n) {
+        return '$' + Number(n).toLocaleString('es-CO', { minimumFractionDigits: 0, maximumFractionDigits: 2 });
+    }
+    function updatePriceDisplay() {
+        var totalMod = 0;
+        Object.values(window.selectedGenericVariants).forEach(function (g) {
+            totalMod += g.modifier || 0;
+        });
+        var newPrice = window.baseProductPrice + totalMod;
+        var el = document.getElementById('product-current-price');
+        if (el) el.textContent = fmtPrice(newPrice);
+    }
+    function selectOption(btn) {
+        if (btn.dataset.outOfStock === '1') return;
+
+        var group = btn.closest('.ba-option-group');
+        if (!group) return;
+
+        // Limpia hermanos
+        group.querySelectorAll('.ba-opt').forEach(function (b) {
+            if (b.dataset.optionType === 'color' || group.dataset.optionType === 'color') {
+                b.style.boxShadow = '';
+                b.style.borderColor = 'rgba(184,169,153,.35)';
+                b.style.borderWidth = '2px';
+                b.style.transform = '';
+            } else {
+                b.style.background = '#FFFFFF';
+                b.style.borderColor = '#D1C7BC';
+                b.style.color = '#2E2A26';
+                b.style.fontWeight = '400';
+            }
+        });
+
+        // Marca seleccionado
+        if (group.dataset.optionType === 'color') {
+            btn.style.boxShadow = '0 0 0 2px #FFFFFF, 0 0 0 4px #D9B56D';
+            btn.style.transform = 'scale(1.08)';
+        } else {
+            btn.style.background = '#2E2A26';
+            btn.style.borderColor = '#2E2A26';
+            btn.style.color = '#FFFFFF';
+            btn.style.fontWeight = '500';
+        }
+
+        var label = group.querySelector('.ba-option-selected');
+        if (label) label.textContent = btn.dataset.variantValue;
+
+        // Guarda selección
+        var optionLabel = group.dataset.optionLabel;
+        window.selectedGenericVariants[optionLabel] = {
+            value:    btn.dataset.variantValue,
+            modifier: parseFloat(btn.dataset.variantPriceMod) || 0,
+            id:       btn.dataset.variantId,
+        };
+        window.selectedGenericVariantId = parseInt(btn.dataset.variantId, 10);
+
+        // Si la variante tiene su propia imagen, la mostramos sobre el visor
+        // usando el overlay #variant-color-image que ya existe en el blade.
+        if (btn.dataset.variantImage) {
+            var overlay = document.getElementById('variant-color-image');
+            if (overlay) {
+                overlay.src = btn.dataset.variantImage;
+                overlay.style.display = 'block';
+            }
+        } else {
+            var overlay2 = document.getElementById('variant-color-image');
+            if (overlay2 && overlay2.dataset.controlledBy !== 'color') {
+                overlay2.style.display = 'none';
+            }
+        }
+
+        updatePriceDisplay();
+        window.dispatchEvent(new CustomEvent('variant-selection-changed'));
+    }
+
+    // Event delegation
+    document.addEventListener('click', function (e) {
+        var btn = e.target.closest('.ba-opt');
+        if (btn) selectOption(btn);
+    });
+})();
+
 /* ── Alpine component ── */
 function productDetail() {
     return {
@@ -967,6 +1118,12 @@ function productDetail() {
             // Fallback to first variant if none matched
             if (!variantId && variants.length > 0) {
                 variantId = variants[0].id;
+            }
+
+            // Si el cliente seleccionó una variante genérica (Tamaño/Aroma/etc),
+            // tiene prioridad sobre la heurística de color/graduación arriba.
+            if (window.selectedGenericVariantId) {
+                variantId = window.selectedGenericVariantId;
             }
             @endif
 
