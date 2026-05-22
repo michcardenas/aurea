@@ -143,15 +143,20 @@
                     </label>
                 </div>
                 <div class="md:col-span-2">
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Tipo de producto *</label>
-                    <p class="text-xs text-gray-400 mb-2">Puedes seleccionar más de uno si el producto es híbrido.</p>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Clasificación *</label>
+                    <p class="text-xs text-gray-400 mb-2">Define dónde aparece el producto en la tienda. Puedes marcar las dos si aplica.</p>
                     <div class="flex flex-wrap gap-4">
-                        @foreach(['miopia' => 'Miopía', 'lectura' => 'Lectura', 'sin_graduacion' => 'Sin Graduación', 'toallitas' => 'Toallitas'] as $val => $label)
-                        <label class="flex items-center space-x-2 cursor-pointer">
+                        @php $currentTypes = old('type', ['sin_graduacion']); @endphp
+                        @foreach(['sin_graduacion' => ['Producto individual', 'Skincare, fragancia, accesorio, etc.'], 'toallitas' => ['Set / Ritual', 'Kit de varios productos juntos']] as $val => [$label, $hint])
+                        <label class="flex items-start gap-2 cursor-pointer p-3 rounded-lg border transition-colors"
+                               style="{{ in_array($val, $currentTypes) ? 'border-color:#D9B56D;background:#FBF4E6;' : 'border-color:#e5e7eb;' }}">
                             <input type="checkbox" name="type[]" value="{{ $val }}"
-                                   {{ in_array($val, old('type', [])) ? 'checked' : '' }}
-                                   class="w-4 h-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500">
-                            <span class="text-sm text-gray-700">{{ $label }}</span>
+                                   {{ in_array($val, $currentTypes) ? 'checked' : '' }}
+                                   class="mt-0.5 w-4 h-4 rounded border-gray-300 focus:ring-yellow-500" style="accent-color:#D9B56D;">
+                            <div>
+                                <span class="text-sm font-medium text-gray-800">{{ $label }}</span>
+                                <p class="text-xs text-gray-500 mt-0.5">{{ $hint }}</p>
+                            </div>
                         </label>
                         @endforeach
                     </div>
