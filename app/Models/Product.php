@@ -17,8 +17,9 @@ class Product extends Model
         'slug',
         'description',
         'type',
-        'price',
-        'compare_price',
+        'price',           // Precio público (lo que paga el cliente en la web)
+        'compare_price',   // Precio sugerido / tachado / PVP físico
+        'cost_price',      // Costo del distribuidor (lo que el negocio paga)
         'stock',
         'images',
         'meta_title',
@@ -32,15 +33,34 @@ class Product extends Model
     protected function casts(): array
     {
         return [
-            'price' => 'decimal:2',
+            'price'         => 'decimal:2',
             'compare_price' => 'decimal:2',
-            'images' => 'array',
-            'type' => 'array',
-            'is_active' => 'boolean',
-            'is_featured' => 'boolean',
-            'badge_2x1' => 'boolean',
-            'sort_order' => 'integer',
+            'cost_price'    => 'decimal:2',
+            'images'        => 'array',
+            'type'          => 'array',
+            'is_active'     => 'boolean',
+            'is_featured'   => 'boolean',
+            'badge_2x1'     => 'boolean',
+            'sort_order'    => 'integer',
         ];
+    }
+
+    /**
+     * Margen bruto en moneda (price - cost_price). Null si falta el costo.
+     */
+    public function getMarginAttribute(): ?float
+    {
+        if ($this->cost_price === null || $this->cost_price <= 0) return null;
+        return round((float) $this->price - (float) $this->cost_price, 2);
+    }
+
+    /**
+     * Margen bruto en % sobre el precio de venta. Null si falta el costo.
+     */
+    public function getMarginPercentAttribute(): ?float
+    {
+        if ($this->cost_price === null || $this->cost_price <= 0 || (float) $this->price <= 0) return null;
+        return round(((float) $this->price - (float) $this->cost_price) / (float) $this->price * 100, 1);
     }
 
     protected static function booted(): void

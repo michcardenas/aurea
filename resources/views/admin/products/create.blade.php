@@ -73,16 +73,56 @@
                         </div>
                     </div>
                 </div>
-                <div class="grid grid-cols-2 gap-4">
-                    <div>
-                        <label for="price" class="block text-sm font-medium text-gray-700 mb-1">Precio *</label>
-                        <input type="number" id="price" name="price" value="{{ old('price') }}" step="0.01" min="0" required
-                               class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                {{-- ── Precios ── --}}
+                <div x-data="{
+                        price: {{ (float) old('price', 0) }},
+                        compare: {{ (float) old('compare_price', 0) }},
+                        cost: {{ (float) old('cost_price', 0) }},
+                        get margin() { return this.cost > 0 ? this.price - this.cost : null; },
+                        get marginPct() { return (this.cost > 0 && this.price > 0) ? ((this.price - this.cost) / this.price * 100) : null; },
+                        money(n) { return n === null ? '—' : '$' + Number(n).toLocaleString('es-CO', {minimumFractionDigits: 0, maximumFractionDigits: 2}); },
+                     }"
+                     class="rounded-xl p-5 border" style="background:#FBF8F2;border-color:#E8CC92;">
+                    <p class="text-xs font-semibold uppercase tracking-wider mb-4" style="color:#BE9A53;letter-spacing:0.15em;">Precios</p>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                        <div>
+                            <label for="cost_price" class="block text-xs font-medium text-gray-600 mb-1">
+                                Costo (PV Distribuidor)
+                                <span class="text-gray-400" title="Lo que tú pagas por unidad. Solo visible en admin.">ⓘ</span>
+                            </label>
+                            <input type="number" id="cost_price" name="cost_price" x-model.number="cost" step="0.01" min="0"
+                                   placeholder="0.00"
+                                   class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-yellow-500 bg-white">
+                        </div>
+                        <div>
+                            <label for="price" class="block text-xs font-medium text-gray-600 mb-1">
+                                Precio venta web *
+                                <span class="text-gray-400" title="Lo que el cliente paga en la tienda online.">ⓘ</span>
+                            </label>
+                            <input type="number" id="price" name="price" x-model.number="price" step="0.01" min="0" required
+                                   class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-yellow-500 bg-white font-semibold">
+                        </div>
+                        <div>
+                            <label for="compare_price" class="block text-xs font-medium text-gray-600 mb-1">
+                                Precio anterior / PVP
+                                <span class="text-gray-400" title="PV Centro de Exp. Se muestra tachado al lado del precio. Si está vacío o ≤ precio venta, no aparece.">ⓘ</span>
+                            </label>
+                            <input type="number" id="compare_price" name="compare_price" x-model.number="compare" step="0.01" min="0"
+                                   placeholder="0.00"
+                                   class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-yellow-500 bg-white">
+                        </div>
                     </div>
-                    <div>
-                        <label for="compare_price" class="block text-sm font-medium text-gray-700 mb-1">Precio anterior</label>
-                        <input type="number" id="compare_price" name="compare_price" value="{{ old('compare_price') }}" step="0.01" min="0"
-                               class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <div class="mt-4 flex items-center justify-between text-xs" style="color:#6B6157;">
+                        <span>
+                            Margen bruto:
+                            <strong style="color:#2E2A26;" x-text="money(margin)"></strong>
+                            <span x-show="marginPct !== null" x-cloak>
+                                (<span x-text="marginPct?.toFixed(1)+'%'" :style="marginPct < 20 ? 'color:#C97B6B' : (marginPct < 40 ? 'color:#BE9A53' : 'color:#7C9B7E')"></span>)
+                            </span>
+                        </span>
+                        <span x-show="compare > 0 && compare > price" x-cloak style="color:#7C9B7E;">
+                            Descuento mostrado: <strong x-text="(((compare - price) / compare * 100).toFixed(0) + '%')"></strong>
+                        </span>
                     </div>
                 </div>
                 <div>

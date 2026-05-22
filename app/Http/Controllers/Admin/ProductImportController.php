@@ -123,9 +123,12 @@ class ProductImportController extends Controller
                 $description  = trim((string) $this->cell($row, $headerMap, 'descripcion'));
                 $description  = ($description === '-' || $description === '') ? null : $description;
 
-                $pvCentro    = $this->parsePrice($this->cell($row, $headerMap, 'pv_centro'));
+                $pvCentro       = $this->parsePrice($this->cell($row, $headerMap, 'pv_centro'));
                 $pvDistribuidor = $this->parsePrice($this->cell($row, $headerMap, 'pv_distribuidor'));
-                $venta       = $this->parsePrice($this->cell($row, $headerMap, 'venta'));
+                $venta          = $this->parsePrice($this->cell($row, $headerMap, 'venta'));
+
+                // cost_price = PV Distribuidor (mi costo)
+                $costPrice = $pvDistribuidor;
 
                 // Precio final: Venta. Si falta y el admin marcó fallback, usa PV centro.
                 $price = $venta;
@@ -160,6 +163,7 @@ class ProductImportController extends Controller
                     'type'         => $product->type ?: [$validated['default_type']],
                     'price'        => $price,
                     'compare_price' => $comparePrice,
+                    'cost_price'   => $costPrice,
                     'stock'        => $isNew ? $validated['default_stock'] : $product->stock,
                     'is_active'    => $validated['mark_active'] ?? true,
                 ]);
