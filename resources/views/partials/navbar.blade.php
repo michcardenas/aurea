@@ -1,5 +1,17 @@
-<header class="sticky top-0 z-50 border-b" style="background:#ffffff;border-color:rgba(0,0,0,0.08);box-shadow:0 1px 12px rgba(0,0,0,0.06);">
-    <nav x-data="{ mobileMenuOpen: false }" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<header id="ba-nav"
+        x-data="{ scrolled: false, mobileMenuOpen: false }"
+        x-init="
+            scrolled = window.scrollY > 24;
+            window.addEventListener('scroll', () => { scrolled = window.scrollY > 24; }, { passive: true });
+        "
+        :class="scrolled ? 'ba-nav--solid' : 'ba-nav--clear'"
+        class="ba-nav sticky top-0 z-50 transition-all">
+    <style>
+        .ba-nav { transition: background-color .35s ease, box-shadow .35s ease, border-color .35s ease; }
+        .ba-nav--clear  { background: transparent; border-bottom: 1px solid transparent; box-shadow: none; }
+        .ba-nav--solid  { background: rgba(247,243,237,0.92); border-bottom: 1px solid rgba(184,169,153,0.18); box-shadow: 0 1px 16px rgba(46,42,38,0.04); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
+    </style>
+    <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex items-center justify-between h-16">
             {{-- Logo --}}
             <a href="{{ route('home') }}" class="flex items-center" style="text-decoration:none;">
