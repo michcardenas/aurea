@@ -13,43 +13,52 @@
 @section('twitter_description', $seoSettings->twitter_description ?? $seoSettings->meta_description ?? 'Belleza natural, elegante y atemporal.')
 
 @push('schema')
-    {{-- Organization JSON-LD --}}
+    {{-- Organization JSON-LD (vienen como <script>...</script> completos del SeoService) --}}
     @if(!empty($organizationSchema))
-    <script type="application/ld+json">{!! json_encode($organizationSchema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}</script>
-    @endif
-
-    {{-- WebSite + SearchAction --}}
-    <script type="application/ld+json">{!! json_encode([
-        '@context' => 'https://schema.org',
-        '@type' => 'WebSite',
-        'name' => 'Belleza Áurea',
-        'url' => url('/'),
-        'inLanguage' => 'es',
-        'potentialAction' => [
-            '@type' => 'SearchAction',
-            'target' => url('/productos') . '?search={search_term_string}',
-            'query-input' => 'required name=search_term_string',
-        ],
-    ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}</script>
-
-    {{-- ItemList (productos destacados) --}}
-    @if($lentes->isNotEmpty())
-    <script type="application/ld+json">{!! json_encode([
-        '@context' => 'https://schema.org',
-        '@type' => 'ItemList',
-        'name' => 'Productos destacados',
-        'itemListElement' => $lentes->take(8)->values()->map(fn ($p, $i) => [
-            '@type' => 'ListItem',
-            'position' => $i + 1,
-            'url' => route('products.show', ['slug' => $p->slug]),
-            'name' => $p->name,
-        ])->all(),
-    ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}</script>
+        {!! $organizationSchema !!}
     @endif
 
     {{-- FAQ JSON-LD --}}
     @if(!empty($faqSchema))
-    <script type="application/ld+json">{!! json_encode($faqSchema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}</script>
+        {!! $faqSchema !!}
+    @endif
+
+    {{-- WebSite + SearchAction + ItemList — keys con chr(64) para evitar que
+         el preprocesador de Blade interprete @context / @type como directivas. --}}
+    @php
+        $K_CTX = chr(64).'context';
+        $K_TYP = chr(64).'type';
+
+        $websiteLd = json_encode([
+            $K_CTX => 'https://schema.org',
+            $K_TYP => 'WebSite',
+            'name' => 'Belleza Áurea',
+            'url' => url('/'),
+            'inLanguage' => 'es',
+            'potentialAction' => [
+                $K_TYP => 'SearchAction',
+                'target' => url('/productos') . '?search={search_term_string}',
+                'query-input' => 'required name=search_term_string',
+            ],
+        ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+
+        $itemListLd = $lentes->isNotEmpty()
+            ? json_encode([
+                $K_CTX => 'https://schema.org',
+                $K_TYP => 'ItemList',
+                'name' => 'Productos destacados',
+                'itemListElement' => $lentes->take(8)->values()->map(fn ($p, $i) => [
+                    $K_TYP => 'ListItem',
+                    'position' => $i + 1,
+                    'url' => route('products.show', ['slug' => $p->slug]),
+                    'name' => $p->name,
+                ])->all(),
+            ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE)
+            : null;
+    @endphp
+    <script type="application/ld+json">{!! $websiteLd !!}</script>
+    @if($itemListLd)
+    <script type="application/ld+json">{!! $itemListLd !!}</script>
     @endif
 @endpush
 
