@@ -9,25 +9,29 @@ class HeroSettingSeeder extends Seeder
 {
     public function run(): void
     {
-        HeroSetting::firstOrCreate(['id' => 1], [
+        HeroSetting::updateOrCreate(['id' => 1], [
             'media_type' => 'gradient',
-            'overlay_opacity' => 0.55,
-            'eyebrow_text' => 'Protección de luz azul',
-            'title_line1' => 'Lentes que cuidan',
-            'title_line2' => 'tus ojos de las',
-            'title_line3' => 'pantallas',
-            'title_highlight_word' => 'pantallas',
-            'subtitle' => 'Con o sin graduación. Filtro de luz azul de alta eficiencia en todos los modelos.',
-            'badge_text' => '2x1 en todos los lentes · $499.90 c/u',
-            'btn_primary_text' => 'Ver lentes',
+            'overlay_opacity' => 0.30,
+            'eyebrow_text' => 'Cosmética natural',
+            'title_line1' => 'Tu ritual de belleza',
+            'title_line2' => 'natural, elegante',
+            'title_line3' => 'y atemporal',
+            'title_highlight_word' => 'atemporal',
+            'subtitle' => 'Skincare, fragancias y rituales premium. Ingredientes botánicos seleccionados para realzar tu belleza natural.',
+            'badge_text' => 'Envío gratis en compras desde $899',
+            'btn_primary_text' => 'Descubrir productos',
             'btn_primary_url' => '/lentes',
-            'btn_secondary_text' => '¿Qué es la luz azul?',
-            'btn_secondary_url' => '/que-es-la-luz-azul',
-            'trust_items' => ['Envío gratis +$999', 'Garantía 6 meses', '30 días devolución'],
-            'stat1_number' => '2x1',
-            'stat1_label' => 'en todos los lentes',
-            'stat2_number' => '6',
-            'stat2_label' => 'modelos disponibles',
+            'btn_secondary_text' => 'Hacer mi quiz de piel',
+            'btn_secondary_url' => '/quiz',
+            'trust_items' => [
+                'Envío gratis +$899',
+                '30 días de devolución',
+                'Ingredientes botánicos',
+            ],
+            'stat1_number' => '100%',
+            'stat1_label' => 'ingredientes naturales',
+            'stat2_number' => '8',
+            'stat2_label' => 'rituales únicos',
             'is_active' => true,
         ]);
     }

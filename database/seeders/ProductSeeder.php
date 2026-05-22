@@ -7,252 +7,230 @@ use App\Models\Product;
 use App\Models\ProductVariant;
 use Illuminate\Database\Seeder;
 
+/**
+ * Belleza Áurea — Seeder de productos demo.
+ *
+ * Mapeo de `type` heredado del esqueleto:
+ *   sin_graduacion → productos principales (skincare + fragancias)
+ *   toallitas      → sets / rituales (mostrados como "accesorios" en home)
+ *
+ * Mapeo de internal_code:
+ *   'WUHAO' / 'YT2212' los usa StorefrontController::home() para elegir el
+ *   producto destacado del hero split — los conservo en los dos primeros.
+ */
 class ProductSeeder extends Seeder
 {
     public function run(): void
     {
-        // Ensure categories exist
-        $catSinGrad = Category::updateOrCreate(
-            ['slug' => 'sin-graduacion'],
-            ['name' => 'Sin Graduación', 'sort_order' => 1],
-        );
-        $catLectura = Category::updateOrCreate(
-            ['slug' => 'lectura'],
-            ['name' => 'Lectura', 'sort_order' => 2],
-        );
-        $catMiopia = Category::updateOrCreate(
-            ['slug' => 'miopia'],
-            ['name' => 'Miopía', 'sort_order' => 3],
-        );
-        $catToallitas = Category::updateOrCreate(
-            ['slug' => 'toallitas'],
-            ['name' => 'Toallitas', 'sort_order' => 4],
-        );
+        $catSkincare   = Category::updateOrCreate(['slug' => 'skincare'], ['name' => 'Skincare',   'sort_order' => 1]);
+        $catFragancias = Category::updateOrCreate(['slug' => 'fragancias'], ['name' => 'Fragancias', 'sort_order' => 2]);
+        $catRituales   = Category::updateOrCreate(['slug' => 'rituales'],   ['name' => 'Rituales',   'sort_order' => 3]);
 
-        // ─── 1. Cosmos (Sin Graduación) ───
-        $cosmos = Product::updateOrCreate(['internal_code' => 'WUHAO'], [
-            'category_id' => $catSinGrad->id,
-            'name' => 'Cosmos',
-            'slug' => 'cosmos',
-            'type' => 'sin_graduacion',
-            'description' => 'Lentes sin graduación con filtro de luz azul. Diseño versátil disponible en 7 colores. Ideal para uso diario frente a pantallas.',
-            'price' => 499.90,
-            'compare_price' => 899.00,
-            'stock' => 999,
+        // ─── 1. Sérum Áureo (skincare, flagship) ───
+        $serum = Product::updateOrCreate(['internal_code' => 'WUHAO'], [
+            'category_id' => $catSkincare->id,
+            'name' => 'Sérum Áureo',
+            'slug' => 'serum-aureo',
+            'type' => ['sin_graduacion'],
+            'description' => 'Sérum facial con vitamina C estabilizada y aceite de rosa mosqueta. Ilumina, unifica el tono y suaviza líneas finas en 28 días. Textura ligera de rápida absorción, apto para todo tipo de piel.',
+            'price' => 580.00,
+            'compare_price' => 720.00,
+            'stock' => 120,
             'images' => [],
-            'meta_title' => 'Cosmos — Lentes Sin Graduación con Filtro de Luz Azul',
-            'meta_description' => 'Lentes Cosmos con filtro de luz azul. Sin graduación, 7 colores disponibles. Protege tus ojos de las pantallas.',
+            'meta_title' => 'Sérum Áureo — Vitamina C + Rosa Mosqueta | Belleza Áurea',
+            'meta_description' => 'Sérum facial iluminador con vitamina C y rosa mosqueta. Unifica el tono y reduce líneas finas. Belleza natural, elegante y atemporal.',
             'is_active' => true,
             'is_featured' => true,
-            'badge_2x1' => true,
+            'badge_2x1' => false,
             'sort_order' => 1,
         ]);
-        $this->seedSimpleVariants($cosmos, ['Azul', 'Blanco', 'Café', 'Gris', 'Negro', 'Rosa', 'Verde'], 'sin_graduacion');
+        $this->seedFormatVariants($serum, ['30 ml' => 0, '50 ml' => 180.00]);
 
-        // ─── 2. Nebula (Sin Graduación) ───
-        $nebula = Product::updateOrCreate(['internal_code' => 'YT2212'], [
-            'category_id' => $catSinGrad->id,
-            'name' => 'Nebula',
-            'slug' => 'nebula',
-            'type' => 'sin_graduacion',
-            'description' => 'Lentes sin graduación con filtro de luz azul. Estilo contemporáneo en 6 colores únicos.',
-            'price' => 499.90,
-            'compare_price' => 899.00,
-            'stock' => 999,
+        // ─── 2. Crema Hidratante Botánica ───
+        $crema = Product::updateOrCreate(['internal_code' => 'YT2212'], [
+            'category_id' => $catSkincare->id,
+            'name' => 'Crema Hidratante Botánica',
+            'slug' => 'crema-hidratante-botanica',
+            'type' => ['sin_graduacion'],
+            'description' => 'Crema facial hidratante con manteca de karité, extracto de salvia y ácido hialurónico. Sella la humedad por 24 horas dejando la piel suave, calmada y luminosa.',
+            'price' => 420.00,
+            'compare_price' => 520.00,
+            'stock' => 150,
             'images' => [],
-            'meta_title' => 'Nebula — Lentes Sin Graduación con Filtro de Luz Azul',
-            'meta_description' => 'Lentes Nebula con filtro de luz azul. Sin graduación, 6 colores disponibles. Estilo contemporáneo.',
+            'meta_title' => 'Crema Hidratante Botánica — Karité + Salvia | Belleza Áurea',
+            'meta_description' => 'Crema facial hidratante 24h con karité, salvia y ácido hialurónico. Suaviza y nutre todo tipo de piel.',
             'is_active' => true,
             'is_featured' => true,
-            'badge_2x1' => true,
+            'badge_2x1' => false,
             'sort_order' => 2,
         ]);
-        $this->seedSimpleVariants($nebula, ['Arena Oscuro', 'Cristal', 'Gris', 'Morado', 'Negro', 'Verde'], 'sin_graduacion');
+        $this->seedFormatVariants($crema, ['50 ml' => 0, '100 ml' => 160.00]);
 
-        // ─── 3. Mercury (Lectura) ───
-        $mercury = Product::updateOrCreate(['internal_code' => '8026'], [
-            'category_id' => $catLectura->id,
-            'name' => 'Mercury',
-            'slug' => 'mercury',
-            'type' => 'lectura',
-            'description' => 'Lentes de lectura con filtro de luz azul. Disponibles en 7 graduaciones y 4 colores.',
-            'price' => 499.90,
-            'compare_price' => 899.00,
-            'stock' => 999,
+        // ─── 3. Tónico Floral Reequilibrante ───
+        $tonico = Product::updateOrCreate(['internal_code' => 'BA-TON-01'], [
+            'category_id' => $catSkincare->id,
+            'name' => 'Tónico Floral Reequilibrante',
+            'slug' => 'tonico-floral-reequilibrante',
+            'type' => ['sin_graduacion'],
+            'description' => 'Tónico facial sin alcohol con agua de rosas, azahar y niacinamida. Reequilibra el pH, minimiza poros y prepara la piel para los pasos siguientes de tu ritual.',
+            'price' => 380.00,
+            'compare_price' => null,
+            'stock' => 200,
             'images' => [],
-            'meta_title' => 'Mercury — Lentes de Lectura con Filtro de Luz Azul',
-            'meta_description' => 'Lentes Mercury de lectura con filtro de luz azul. 7 graduaciones, 4 colores. Protección y claridad.',
+            'meta_title' => 'Tónico Floral — Agua de Rosas y Niacinamida | Belleza Áurea',
+            'meta_description' => 'Tónico facial sin alcohol con agua de rosas, azahar y niacinamida. Reequilibra y refresca.',
             'is_active' => true,
             'is_featured' => true,
-            'badge_2x1' => true,
+            'badge_2x1' => false,
             'sort_order' => 3,
         ]);
-        $this->seedGraduatedVariants($mercury, ['Amarillo', 'Blanco', 'Jaspe', 'Rosa'], 'lectura');
+        $this->seedFormatVariants($tonico, ['200 ml' => 0]);
 
-        // ─── 4. Nova (Lectura) ───
-        $nova = Product::updateOrCreate(['internal_code' => 'TY564'], [
-            'category_id' => $catLectura->id,
-            'name' => 'Nova',
-            'slug' => 'nova',
-            'type' => 'lectura',
-            'description' => 'Lentes de lectura con filtro de luz azul. Diseño moderno en 3 colores y 7 graduaciones.',
-            'price' => 499.90,
-            'compare_price' => 899.00,
-            'stock' => 999,
+        // ─── 4. Mascarilla Nocturna de Oro ───
+        $mascarilla = Product::updateOrCreate(['internal_code' => 'BA-MASK-01'], [
+            'category_id' => $catSkincare->id,
+            'name' => 'Mascarilla Nocturna de Oro',
+            'slug' => 'mascarilla-nocturna-de-oro',
+            'type' => ['sin_graduacion'],
+            'description' => 'Mascarilla intensiva nocturna con micro-partículas de oro 24k, retinol vegetal y manzanilla. Regenera durante el sueño para despertar con piel luminosa, descansada y firme.',
+            'price' => 520.00,
+            'compare_price' => 640.00,
+            'stock' => 90,
             'images' => [],
-            'meta_title' => 'Nova — Lentes de Lectura con Filtro de Luz Azul',
-            'meta_description' => 'Lentes Nova de lectura con filtro de luz azul. 7 graduaciones, 3 colores. Diseño moderno.',
-            'is_active' => true,
-            'is_featured' => true,
-            'badge_2x1' => true,
-            'sort_order' => 4,
-        ]);
-        $this->seedGraduatedVariants($nova, ['Negro', 'Rosa', 'Verde'], 'lectura');
-
-        // ─── 5. Orion (Lectura) ───
-        $orion = Product::updateOrCreate(['internal_code' => '158'], [
-            'category_id' => $catLectura->id,
-            'name' => 'Orion',
-            'slug' => 'orion',
-            'type' => 'lectura',
-            'description' => 'Lentes de lectura con filtro de luz azul. Clásico atemporal disponible en negro.',
-            'price' => 499.90,
-            'compare_price' => 899.00,
-            'stock' => 999,
-            'images' => [],
-            'meta_title' => 'Orion — Lentes de Lectura con Filtro de Luz Azul',
-            'meta_description' => 'Lentes Orion de lectura con filtro de luz azul. Clásico atemporal en negro.',
+            'meta_title' => 'Mascarilla Nocturna de Oro — Oro 24k + Retinol Vegetal | Belleza Áurea',
+            'meta_description' => 'Mascarilla nocturna con oro 24k, retinol vegetal y manzanilla. Regenera y aporta luminosidad.',
             'is_active' => true,
             'is_featured' => false,
-            'badge_2x1' => true,
+            'badge_2x1' => false,
+            'sort_order' => 4,
+        ]);
+        $this->seedFormatVariants($mascarilla, ['50 ml' => 0]);
+
+        // ─── 5. Aceite Esencial de Rosa ───
+        $aceite = Product::updateOrCreate(['internal_code' => 'BA-OIL-01'], [
+            'category_id' => $catSkincare->id,
+            'name' => 'Aceite Esencial de Rosa',
+            'slug' => 'aceite-esencial-de-rosa',
+            'type' => ['sin_graduacion'],
+            'description' => 'Aceite facial puro de pétalos de rosa damascena prensados en frío. Restaura elasticidad, suaviza marcas y aporta un perfume sutil y atemporal.',
+            'price' => 450.00,
+            'compare_price' => null,
+            'stock' => 110,
+            'images' => [],
+            'meta_title' => 'Aceite Esencial de Rosa — Damascena Prensada en Frío | Belleza Áurea',
+            'meta_description' => 'Aceite facial puro de rosa damascena. Restaura elasticidad y suaviza la piel con aroma floral.',
+            'is_active' => true,
+            'is_featured' => false,
+            'badge_2x1' => false,
             'sort_order' => 5,
         ]);
-        $this->seedGraduatedVariants($orion, ['Negro'], 'lectura');
+        $this->seedFormatVariants($aceite, ['30 ml' => 0, '50 ml' => 140.00]);
 
-        // ─── 6. Titan (Miopía + Lectura) ───
-        $titan = Product::updateOrCreate(['internal_code' => '8019'], [
-            'category_id' => $catMiopia->id,
-            'name' => 'Titan',
-            'slug' => 'titan',
-            'type' => 'miopia',
-            'description' => 'El único modelo con graduación para miopía Y lectura. Filtro de luz azul integrado. Disponible en 8 colores y 14 graduaciones.',
-            'price' => 499.90,
-            'compare_price' => 899.00,
-            'stock' => 999,
+        // ─── 6. Eau de Parfum Áurea (fragancia) ───
+        $perfume = Product::updateOrCreate(['internal_code' => 'BA-EDP-01'], [
+            'category_id' => $catFragancias->id,
+            'name' => 'Eau de Parfum Áurea',
+            'slug' => 'eau-de-parfum-aurea',
+            'type' => ['sin_graduacion'],
+            'description' => 'Eau de Parfum de inspiración mediterránea. Salida cítrica (bergamota, mandarina), corazón floral (rosa, jazmín) y fondo cálido (vainilla, ámbar dorado). Estela elegante de larga duración.',
+            'price' => 890.00,
+            'compare_price' => 1080.00,
+            'stock' => 75,
             'images' => [],
-            'meta_title' => 'Titan — Lentes Miopía y Lectura con Filtro de Luz Azul',
-            'meta_description' => 'Lentes Titan con graduación para miopía y lectura. Filtro de luz azul, 8 colores, 14 graduaciones.',
+            'meta_title' => 'Eau de Parfum Áurea — Bergamota, Rosa y Ámbar | Belleza Áurea',
+            'meta_description' => 'Perfume Áurea: cítrico floral con fondo de ámbar dorado. Larga duración, elegancia atemporal.',
             'is_active' => true,
             'is_featured' => true,
-            'badge_2x1' => true,
+            'badge_2x1' => false,
             'sort_order' => 6,
         ]);
-        $titanColors = ['Azul', 'Café', 'Gris', 'Morado', 'Negro', 'Rojo', 'Rosa'];
-        $this->seedGraduatedVariants($titan, $titanColors, 'miopia');
-        $this->seedGraduatedVariants($titan, $titanColors, 'lectura');
+        $this->seedFormatVariants($perfume, ['50 ml' => 0, '100 ml' => 280.00]);
 
-        // ─── 7. Toallitas 25 piezas ───
-        $toallitas25 = Product::updateOrCreate(['internal_code' => 'TOALLITAS-25'], [
-            'category_id' => $catToallitas->id,
-            'name' => 'Toallitas Limpiadoras 2en1 — 25 piezas',
-            'slug' => 'toallitas-limpiadoras-25',
-            'type' => 'toallitas',
-            'description' => 'Kit limpiador 2 en 1: paño húmedo con fórmula sin alcohol + paño seco. Resultados inmediatos. Sirve para lentes, pantallas, cámaras y tablets. 25 piezas individuales.',
-            'price' => 99.90,
-            'compare_price' => null,
-            'stock' => 999,
+        // ─── 7. Ritual Esencial (set / "toallitas" slot) ───
+        $ritualEsencial = Product::updateOrCreate(['internal_code' => 'BA-SET-ESE'], [
+            'category_id' => $catRituales->id,
+            'name' => 'Ritual Esencial — Set de 3 piezas',
+            'slug' => 'ritual-esencial-set',
+            'type' => ['toallitas'],
+            'description' => 'Tres pasos para tu ritual diario: Tónico Floral 200 ml + Crema Hidratante Botánica 50 ml + Sérum Áureo 30 ml. Presentación en estuche reutilizable.',
+            'price' => 1200.00,
+            'compare_price' => 1380.00,
+            'stock' => 60,
             'images' => [],
-            'meta_title' => 'Toallitas Limpiadoras 2en1 — 25 piezas',
-            'meta_description' => 'Kit limpiador 2 en 1 para lentes y pantallas. 25 piezas individuales. Fórmula sin alcohol.',
+            'meta_title' => 'Ritual Esencial — Set de 3 piezas | Belleza Áurea',
+            'meta_description' => 'Set de 3 piezas para tu ritual diario: tónico, crema y sérum. Ahorra y disfruta tu rutina completa.',
             'is_active' => true,
             'is_featured' => false,
             'badge_2x1' => false,
             'sort_order' => 7,
         ]);
-        ProductVariant::updateOrCreate(
-            ['product_id' => $toallitas25->id, 'color' => null, 'graduation' => null, 'graduation_type' => null],
-            ['name' => 'Default', 'value' => 'Estándar', 'price_modifier' => 0, 'stock' => 999, 'is_active' => true],
-        );
+        $this->seedDefaultVariant($ritualEsencial);
 
-        // ─── 8. Toallitas 60 piezas ───
-        $toallitas60 = Product::updateOrCreate(['internal_code' => 'TOALLITAS-60'], [
-            'category_id' => $catToallitas->id,
-            'name' => 'Toallitas Limpiadoras 2en1 — 60 piezas',
-            'slug' => 'toallitas-limpiadoras-60',
-            'type' => 'toallitas',
-            'description' => 'Kit limpiador 2 en 1: paño húmedo con fórmula sin alcohol + paño seco. Pack ahorro con 60 piezas individuales. Ideal para toda la familia.',
-            'price' => 199.90,
-            'compare_price' => null,
-            'stock' => 999,
+        // ─── 8. Ritual Glow (set premium) ───
+        $ritualGlow = Product::updateOrCreate(['internal_code' => 'BA-SET-GLOW'], [
+            'category_id' => $catRituales->id,
+            'name' => 'Ritual Glow — Set Premium de 5 piezas',
+            'slug' => 'ritual-glow-set-premium',
+            'type' => ['toallitas'],
+            'description' => 'Ritual completo: Tónico, Crema, Sérum, Mascarilla Nocturna de Oro y Aceite Esencial de Rosa. Para una piel iluminada en 30 días. Empacado en caja regalo dorada.',
+            'price' => 1800.00,
+            'compare_price' => 2240.00,
+            'stock' => 40,
             'images' => [],
-            'meta_title' => 'Toallitas Limpiadoras 2en1 — 60 piezas',
-            'meta_description' => 'Kit limpiador 2 en 1 para lentes y pantallas. Pack ahorro 60 piezas. Fórmula sin alcohol.',
+            'meta_title' => 'Ritual Glow — Set Premium 5 piezas | Belleza Áurea',
+            'meta_description' => 'Set premium de 5 piezas para piel iluminada en 30 días. Caja regalo dorada.',
             'is_active' => true,
-            'is_featured' => false,
+            'is_featured' => true,
             'badge_2x1' => false,
             'sort_order' => 8,
         ]);
-        ProductVariant::updateOrCreate(
-            ['product_id' => $toallitas60->id, 'color' => null, 'graduation' => null, 'graduation_type' => null],
-            ['name' => 'Default', 'value' => 'Estándar', 'price_modifier' => 0, 'stock' => 999, 'is_active' => true],
-        );
+        $this->seedDefaultVariant($ritualGlow);
     }
 
     /**
-     * Seed color-only variants for sin_graduacion products.
-     * $imageMap: optional ['Color' => 'variants/path.jpg'] to attach per-color images.
+     * Crea variantes por formato (tamaño) con modificador de precio.
+     *
+     * @param  array<string,float>  $formats  ['50 ml' => 0, '100 ml' => 160.00]
      */
-    private function seedSimpleVariants(Product $product, array $colors, string $graduationType, array $imageMap = []): void
+    private function seedFormatVariants(Product $product, array $formats): void
     {
-        foreach ($colors as $color) {
+        $i = 0;
+        foreach ($formats as $size => $modifier) {
             ProductVariant::updateOrCreate(
                 [
                     'product_id' => $product->id,
-                    'color' => $color,
+                    'color' => $size,
                     'graduation' => '+0',
-                    'graduation_type' => $graduationType,
+                    'graduation_type' => 'sin_graduacion',
                 ],
                 [
-                    'name' => 'Color',
-                    'value' => $color,
-                    'price_modifier' => 0,
-                    'stock' => 99,
-                    'image_path' => $imageMap[$color] ?? null,
+                    'name' => 'Formato',
+                    'value' => $size,
+                    'price_modifier' => $modifier,
+                    'stock' => 50,
                     'is_active' => true,
                 ],
             );
+            $i++;
         }
     }
 
-    /**
-     * Seed color×graduation variants for lectura/miopia products.
-     * $imageMap: optional ['Color' => 'variants/path.jpg'] to attach per-color images.
-     */
-    private function seedGraduatedVariants(Product $product, array $colors, string $graduationType, array $imageMap = []): void
+    private function seedDefaultVariant(Product $product): void
     {
-        $graduations = $graduationType === 'miopia'
-            ? ['-100', '-150', '-200', '-250', '-300', '-350', '-400']
-            : ['+100', '+150', '+200', '+250', '+300', '+350', '+400'];
-
-        foreach ($graduations as $graduation) {
-            foreach ($colors as $color) {
-                ProductVariant::updateOrCreate(
-                    [
-                        'product_id' => $product->id,
-                        'color' => $color,
-                        'graduation' => $graduation,
-                        'graduation_type' => $graduationType,
-                    ],
-                    [
-                        'name' => 'Color',
-                        'value' => $color,
-                        'price_modifier' => 0,
-                        'stock' => 99,
-                        'image_path' => $imageMap[$color] ?? null,
-                        'is_active' => true,
-                    ],
-                );
-            }
-        }
+        ProductVariant::updateOrCreate(
+            [
+                'product_id' => $product->id,
+                'color' => null,
+                'graduation' => null,
+                'graduation_type' => null,
+            ],
+            [
+                'name' => 'Default',
+                'value' => 'Estándar',
+                'price_modifier' => 0,
+                'stock' => 40,
+                'is_active' => true,
+            ],
+        );
     }
 }

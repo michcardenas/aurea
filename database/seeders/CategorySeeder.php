@@ -11,27 +11,30 @@ class CategorySeeder extends Seeder
     {
         $categories = [
             [
-                'name' => 'Sin Graduación',
-                'slug' => 'sin-graduacion',
-                'description' => 'Lentes de protección contra luz azul sin graduación. Ideales para quienes no necesitan corrección visual pero buscan proteger sus ojos.',
+                'name' => 'Skincare',
+                'slug' => 'skincare',
+                'description' => 'Sérums, cremas, tónicos y mascarillas formuladas con ingredientes botánicos para una piel luminosa y saludable.',
                 'sort_order' => 1,
             ],
             [
-                'name' => 'Con Graduación',
-                'slug' => 'con-graduacion',
-                'description' => 'Lentes con graduación y filtro de luz azul. Combina tu corrección visual con la máxima protección.',
+                'name' => 'Fragancias',
+                'slug' => 'fragancias',
+                'description' => 'Perfumes y aguas aromáticas con notas naturales. Elegancia atemporal en cada gota.',
                 'sort_order' => 2,
             ],
             [
-                'name' => 'Gaming & Sport',
-                'slug' => 'gaming-sport',
-                'description' => 'Lentes diseñados para gamers y deportistas digitales. Máxima protección durante sesiones intensas.',
+                'name' => 'Rituales',
+                'slug' => 'rituales',
+                'description' => 'Sets y kits seleccionados para tu ritual diario de belleza. Todo lo que necesitas en un solo gesto.',
                 'sort_order' => 3,
             ],
         ];
 
         foreach ($categories as $category) {
-            Category::create($category);
+            Category::updateOrCreate(
+                ['slug' => $category['slug']],
+                $category,
+            );
         }
     }
 }

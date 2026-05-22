@@ -9,17 +9,17 @@ class SeoSettingSeeder extends Seeder
 {
     public function run(): void
     {
-        SeoSetting::firstOrCreate(['page_key' => 'home'], [
-            'meta_title' => 'nuvion - glass | Protege tus ojos de la luz azul',
-            'meta_description' => 'Lentes con protección de luz azul. Con o sin graduación. Diseño moderno que querrás usar todo el día. Envío gratis a todo México.',
-            'meta_keywords' => 'lentes luz azul, blue light glasses, protección pantallas, nuvion glass, lentes anti luz azul',
+        SeoSetting::updateOrCreate(['page_key' => 'home'], [
+            'meta_title' => 'Belleza Áurea | Cosmética natural, elegante y atemporal',
+            'meta_description' => 'Skincare, fragancias y rituales premium con ingredientes botánicos. Belleza natural, elegante y atemporal. Envío gratis desde $899.',
+            'meta_keywords' => 'skincare natural, cosmética botánica, perfume artesanal, ritual de belleza, belleza áurea, vitamina C, rosa mosqueta',
             'robots' => 'index, follow',
             'og_type' => 'website',
-            'og_title' => 'nuvion - glass | Lentes con protección de luz azul',
-            'og_description' => 'Protege tus ojos de las pantallas. Lentes con filtro de luz azul, con o sin graduación. Envío gratis.',
+            'og_title' => 'Belleza Áurea | Tu ritual de belleza natural',
+            'og_description' => 'Skincare y fragancias premium con ingredientes botánicos. Belleza natural, elegante y atemporal.',
             'twitter_card' => 'summary_large_image',
-            'twitter_title' => 'nuvion - glass | Lentes con protección de luz azul',
-            'twitter_description' => 'Protege tus ojos de las pantallas. Lentes con filtro de luz azul, con o sin graduación. Envío gratis.',
+            'twitter_title' => 'Belleza Áurea | Tu ritual de belleza natural',
+            'twitter_description' => 'Skincare y fragancias premium con ingredientes botánicos. Belleza natural, elegante y atemporal.',
             'is_active' => true,
         ]);
     }
