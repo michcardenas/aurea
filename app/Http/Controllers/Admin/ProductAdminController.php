@@ -59,6 +59,7 @@ class ProductAdminController extends Controller
             'is_active' => 'boolean',
             'is_featured' => 'boolean',
             'images.*' => 'image|mimes:jpg,jpeg,png,webp|max:2048',
+            'variants.*.option_type' => 'nullable|in:color,size,scent,finish,style,material,quantity,other',
             'variants.*.name' => 'nullable|string|max:100',
             'variants.*.value' => 'nullable|string|max:100',
             'variants.*.color' => 'nullable|string|max:100',
@@ -92,9 +93,12 @@ class ProductAdminController extends Controller
                         $imagePath = $request->file("variants.$index.image")->store('variants', 'public');
                     }
                     $product->variants()->create([
+                        'option_type' => $variant['option_type'] ?? 'other',
                         'name' => $variant['name'],
                         'value' => $variant['value'],
-                        'color' => $variant['color'] ?? $variant['value'],
+                        'color' => ($variant['option_type'] ?? null) === 'color'
+                            ? ($variant['color'] ?? $variant['value'])
+                            : ($variant['color'] ?? null),
                         'color_hex' => ! empty($variant['color_hex']) ? $variant['color_hex'] : null,
                         'graduation' => ! empty($variant['graduation']) ? $variant['graduation'] : null,
                         'graduation_type' => ! empty($variant['graduation_type']) ? $variant['graduation_type'] : null,
@@ -145,6 +149,7 @@ class ProductAdminController extends Controller
             'images.*' => 'image|mimes:jpg,jpeg,png,webp|max:2048',
             'remove_images' => 'nullable|array',
             'variants.*.id' => 'nullable|integer',
+            'variants.*.option_type' => 'nullable|in:color,size,scent,finish,style,material,quantity,other',
             'variants.*.name' => 'nullable|string|max:100',
             'variants.*.value' => 'nullable|string|max:100',
             'variants.*.color' => 'nullable|string|max:100',
@@ -187,9 +192,12 @@ class ProductAdminController extends Controller
             foreach ($request->variants as $index => $variant) {
                 if (! empty($variant['name']) && ! empty($variant['value'])) {
                     $payload = [
+                        'option_type' => $variant['option_type'] ?? 'other',
                         'name' => $variant['name'],
                         'value' => $variant['value'],
-                        'color' => $variant['color'] ?? $variant['value'],
+                        'color' => ($variant['option_type'] ?? null) === 'color'
+                            ? ($variant['color'] ?? $variant['value'])
+                            : ($variant['color'] ?? null),
                         'color_hex' => ! empty($variant['color_hex']) ? $variant['color_hex'] : null,
                         'graduation' => ! empty($variant['graduation']) ? $variant['graduation'] : null,
                         'graduation_type' => ! empty($variant['graduation_type']) ? $variant['graduation_type'] : null,

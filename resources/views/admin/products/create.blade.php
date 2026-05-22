@@ -172,83 +172,102 @@
             <p class="mt-2 text-xs text-gray-400">JPG, PNG o WebP. Máximo 2MB por imagen. Puedes seleccionar varias.</p>
         </div>
 
-        {{-- Variants --}}
-        <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6" x-data="{ variants: [{ name: 'Color', value: '', color: '', color_hex: '', graduation: '', graduation_type: '', price_modifier: 0, stock: 0 }] }">
-            <div class="flex items-center justify-between mb-4">
-                <h2 class="text-lg font-semibold text-gray-800">Variantes</h2>
-                <button type="button" @click="variants.push({ name: 'Color', value: '', color: '', color_hex: '', graduation: '', graduation_type: '', price_modifier: 0, stock: 0 })"
-                        class="text-sm text-blue-600 hover:text-blue-800">+ Agregar variante</button>
+        {{-- Variantes — genéricas para cualquier producto de belleza --}}
+        @php
+            $variantTypes = \App\Models\ProductVariant::OPTION_TYPES;
+            $variantLabels = \App\Models\ProductVariant::DEFAULT_LABELS;
+        @endphp
+        <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6"
+             x-data="{
+                variants: [],
+                defaultLabels: {{ json_encode($variantLabels) }},
+                addVariant() {
+                    this.variants.push({
+                        option_type: 'color', name: 'Tono', value: '',
+                        color: '', color_hex: '#D9B56D',
+                        graduation: '', graduation_type: '',
+                        price_modifier: 0, stock: 0
+                    });
+                },
+                onTypeChange(v) {
+                    if (this.defaultLabels[v.option_type] && (!v.name || Object.values(this.defaultLabels).includes(v.name))) {
+                        v.name = this.defaultLabels[v.option_type];
+                    }
+                    if (v.option_type !== 'color') { v.color_hex = ''; }
+                    else if (!v.color_hex) { v.color_hex = '#D9B56D'; }
+                },
+             }">
+            <div class="flex items-center justify-between mb-1">
+                <h2 class="text-lg font-semibold text-gray-800" style="font-family:'Playfair Display',serif;">Variantes</h2>
+                <button type="button" @click="addVariant()"
+                        class="text-sm font-semibold px-3 py-1.5 rounded-lg transition-colors"
+                        style="background:#D9B56D;color:#2E2A26;"
+                        onmouseover="this.style.background='#E8CC92'"
+                        onmouseout="this.style.background='#D9B56D'">
+                    + Agregar variante
+                </button>
             </div>
-            <p class="text-xs text-gray-500 mb-3">Agrega una imagen por variante para que se muestre al seleccionar el color en la tienda.</p>
+            <p class="text-xs text-gray-500 mb-4">
+                Color de esmalte, tamaño de envase, aroma, acabado, etc. Cada variante puede tener su propio precio, stock e imagen.
+            </p>
             <template x-for="(variant, index) in variants" :key="index">
-                <div class="border border-gray-100 rounded-lg p-3 mb-3 bg-gray-50/50">
-                    <div class="grid grid-cols-2 md:grid-cols-7 gap-3 items-end">
-                        <div>
-                            <label class="block text-xs text-gray-500 mb-1">Atributo</label>
-                            <input type="text" :name="'variants['+index+'][name]'" x-model="variant.name" placeholder="Color"
-                                   class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
-                        </div>
-                        <div>
-                            <label class="block text-xs text-gray-500 mb-1">Valor</label>
-                            <input type="text" :name="'variants['+index+'][value]'" x-model="variant.value" placeholder="Negro Mate"
-                                   class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
-                        </div>
-                        <div>
-                            <label class="block text-xs text-gray-500 mb-1">Color (filtro)</label>
-                            <input type="text" :name="'variants['+index+'][color]'" x-model="variant.color" placeholder="Negro"
-                                   class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
-                        </div>
-                        <div>
-                            <label class="block text-xs text-gray-500 mb-1">Hex del círculo</label>
-                            <div class="flex items-center gap-1">
-                                <input type="color" :value="variant.color_hex || '#000000'"
-                                       @input="variant.color_hex = $event.target.value"
-                                       class="w-10 h-9 p-1 border border-gray-300 rounded-lg cursor-pointer"
-                                       title="Elegir color">
-                                <input type="text" :name="'variants['+index+'][color_hex]'" x-model="variant.color_hex"
-                                       placeholder="(auto)" maxlength="7"
-                                       class="flex-1 border border-gray-300 rounded-lg px-2 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-blue-500">
-                            </div>
-                            <p class="text-[10px] text-gray-400 mt-1">Déjalo vacío para usar el color por nombre.</p>
-                        </div>
-                        <div>
-                            <label class="block text-xs text-gray-500 mb-1">Mod. precio</label>
-                            <input type="number" :name="'variants['+index+'][price_modifier]'" x-model="variant.price_modifier" step="0.01"
-                                   class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
-                        </div>
-                        <div>
-                            <label class="block text-xs text-gray-500 mb-1">Stock</label>
-                            <input type="number" :name="'variants['+index+'][stock]'" x-model="variant.stock" min="0"
-                                   class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
-                        </div>
-                        <div>
-                            <button type="button" @click="variants.splice(index, 1)" x-show="variants.length > 1"
-                                    class="text-red-500 hover:text-red-700 text-sm py-2">Eliminar</button>
-                        </div>
-                    </div>
-                    <div class="mt-3 grid grid-cols-1 md:grid-cols-3 gap-3">
-                        <div>
-                            <label class="block text-xs text-gray-500 mb-1">Graduación</label>
-                            <input type="text" :name="'variants['+index+'][graduation]'" x-model="variant.graduation" placeholder="-2.00, +1.50, etc."
-                                   class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
-                        </div>
-                        <div>
-                            <label class="block text-xs text-gray-500 mb-1">Tipo de graduación</label>
-                            <select :name="'variants['+index+'][graduation_type]'" x-model="variant.graduation_type"
-                                    class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
-                                <option value="">—</option>
-                                <option value="miopia">Miopía</option>
-                                <option value="lectura">Lectura</option>
-                                <option value="sin_graduacion">Sin graduación</option>
+                <div class="rounded-xl p-4 mb-3" style="background:#FBF8F2;border:1px solid #E8CC92;">
+                    <input type="hidden" :name="'variants['+index+'][color]'" :value="variant.color || variant.value">
+                    <div class="grid grid-cols-1 md:grid-cols-12 gap-3 items-end">
+                        <div class="md:col-span-3">
+                            <label class="block text-xs font-medium text-gray-600 mb-1">Tipo</label>
+                            <select :name="'variants['+index+'][option_type]'" x-model="variant.option_type" @change="onTypeChange(variant)"
+                                    class="w-full border border-gray-300 rounded-lg px-2 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-yellow-500 bg-white">
+                                @foreach($variantTypes as $key => $label)
+                                    <option value="{{ $key }}">{{ $label }}</option>
+                                @endforeach
                             </select>
                         </div>
-                        <div>
-                            <label class="block text-xs text-gray-500 mb-1">Imagen de esta variante</label>
+                        <div class="md:col-span-2">
+                            <label class="block text-xs font-medium text-gray-600 mb-1">Etiqueta</label>
+                            <input type="text" :name="'variants['+index+'][name]'" x-model="variant.name" :placeholder="defaultLabels[variant.option_type]"
+                                   class="w-full border border-gray-300 rounded-lg px-2 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-yellow-500 bg-white">
+                        </div>
+                        <div class="md:col-span-3">
+                            <label class="block text-xs font-medium text-gray-600 mb-1">Valor *</label>
+                            <input type="text" :name="'variants['+index+'][value]'" x-model="variant.value"
+                                   :placeholder="variant.option_type === 'color' ? 'Rojo Coral' : (variant.option_type === 'size' ? '50 ml' : 'Valor')"
+                                   class="w-full border border-gray-300 rounded-lg px-2 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-yellow-500 bg-white">
+                        </div>
+                        <div class="md:col-span-2" x-show="variant.option_type === 'color'" x-cloak>
+                            <label class="block text-xs font-medium text-gray-600 mb-1">Hex</label>
+                            <div class="flex items-center gap-1">
+                                <input type="color" :value="variant.color_hex || '#D9B56D'" @input="variant.color_hex = $event.target.value"
+                                       class="w-9 h-9 p-0.5 border border-gray-300 rounded-lg cursor-pointer">
+                                <input type="text" :name="'variants['+index+'][color_hex]'" x-model="variant.color_hex" maxlength="7"
+                                       class="flex-1 border border-gray-300 rounded-lg px-2 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-yellow-500 bg-white">
+                            </div>
+                        </div>
+                        <div class="md:col-span-2 flex items-end justify-end">
+                            <button type="button" @click="variants.splice(index, 1)" class="text-xs text-red-600 hover:text-red-800 py-2">Eliminar</button>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-12 gap-3 mt-3 items-end">
+                        <div class="md:col-span-3">
+                            <label class="block text-xs font-medium text-gray-600 mb-1">+/- Precio</label>
+                            <input type="number" :name="'variants['+index+'][price_modifier]'" x-model="variant.price_modifier" step="0.01" placeholder="0"
+                                   class="w-full border border-gray-300 rounded-lg px-2 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-yellow-500 bg-white">
+                        </div>
+                        <div class="md:col-span-2">
+                            <label class="block text-xs font-medium text-gray-600 mb-1">Stock</label>
+                            <input type="number" :name="'variants['+index+'][stock]'" x-model="variant.stock" min="0"
+                                   class="w-full border border-gray-300 rounded-lg px-2 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-yellow-500 bg-white">
+                        </div>
+                        <div class="md:col-span-7">
+                            <label class="block text-xs font-medium text-gray-600 mb-1">Imagen específica de esta variante (opcional)</label>
                             <input type="file" :name="'variants['+index+'][image]'" accept="image/*"
-                                   class="block w-full text-xs text-gray-500 file:mr-3 file:py-1.5 file:px-3 file:rounded-md file:border-0 file:text-xs file:font-medium file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
+                                   class="block w-full text-xs text-gray-500 file:mr-3 file:py-1.5 file:px-3 file:rounded-md file:border-0 file:text-xs file:font-medium file:bg-yellow-50 file:text-yellow-700 hover:file:bg-yellow-100">
                         </div>
                     </div>
                 </div>
+            </template>
+            <template x-if="variants.length === 0">
+                <p class="text-sm text-gray-400 italic">Sin variantes. Haz clic en "+ Agregar variante" para crear una.</p>
             </template>
         </div>
 
