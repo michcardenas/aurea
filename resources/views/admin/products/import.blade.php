@@ -7,12 +7,22 @@
 <div class="max-w-3xl">
     <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
 
-        <div class="px-6 py-5" style="background:#FBF4E6;border-bottom:1px solid #E8CC92;">
-            <h2 class="text-lg font-semibold" style="color:#2E2A26;font-family:'Playfair Display',serif;">Carga masiva de productos</h2>
-            <p class="mt-1 text-sm" style="color:#6b6157;">
-                Sube un archivo Excel (.xlsx, .xls o .csv). Las categorías que no existan se crearán automáticamente.
-                Productos existentes con la misma <code>Referencia</code> se actualizarán.
-            </p>
+        <div class="px-6 py-5 flex items-start justify-between gap-4" style="background:#FBF4E6;border-bottom:1px solid #E8CC92;">
+            <div>
+                <h2 class="text-lg font-semibold" style="color:#2E2A26;font-family:'Playfair Display',serif;">Carga masiva de productos</h2>
+                <p class="mt-1 text-sm" style="color:#6b6157;">
+                    Sube un archivo Excel (.xlsx, .xls o .csv). Las categorías que no existan se crearán automáticamente.
+                    Productos existentes con la misma <code>Referencia</code> se actualizarán.
+                </p>
+            </div>
+            <a href="{{ route('admin.products.import-template') }}"
+               class="inline-flex items-center shrink-0 px-3 py-2 rounded-lg text-xs font-semibold transition-colors"
+               style="background:#FFFFFF;color:#BE9A53;border:1px solid #D9B56D;"
+               onmouseover="this.style.background='#D9B56D';this.style.color='#FFFFFF'"
+               onmouseout="this.style.background='#FFFFFF';this.style.color='#BE9A53'">
+                <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M9 8.25H7.5a2.25 2.25 0 0 0-2.25 2.25v9a2.25 2.25 0 0 0 2.25 2.25h9a2.25 2.25 0 0 0 2.25-2.25v-9a2.25 2.25 0 0 0-2.25-2.25H15M9 12l3 3m0 0 3-3m-3 3V2.25"/></svg>
+                Descargar plantilla
+            </a>
         </div>
 
         <form action="{{ route('admin.products.import.store') }}" method="POST" enctype="multipart/form-data" class="p-6 space-y-6">

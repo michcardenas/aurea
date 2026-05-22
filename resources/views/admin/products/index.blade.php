@@ -6,9 +6,26 @@
 @section('content')
     <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-6">
         <p class="text-gray-500">{{ $products->total() }} productos en total.</p>
-        <div class="flex items-center gap-2">
+        <div class="flex flex-wrap items-center gap-2">
+            <a href="{{ route('admin.products.export') }}"
+               class="inline-flex items-center px-3 py-2 rounded-lg text-sm font-medium transition-colors"
+               style="background:#FFFFFF;color:#6B6157;border:1px solid #D1C7BC;"
+               onmouseover="this.style.background='#FBF8F2';this.style.color='#2E2A26'"
+               onmouseout="this.style.background='#FFFFFF';this.style.color='#6B6157'"
+               title="Descarga un Excel con todos los productos actuales">
+                <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5m-13.5-9L12 3m0 0 4.5 4.5M12 3v13.5"/></svg>
+                Exportar
+            </a>
+            <a href="{{ route('admin.products.import-images') }}"
+               class="inline-flex items-center px-3 py-2 rounded-lg text-sm font-medium transition-colors"
+               style="background:#F0F2EB;color:#8A9680;border:1px solid #A8B29A;"
+               onmouseover="this.style.background='#A8B29A';this.style.color='#FFFFFF'"
+               onmouseout="this.style.background='#F0F2EB';this.style.color='#8A9680'">
+                <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v12a1.5 1.5 0 0 0 1.5 1.5Z"/></svg>
+                Importar imágenes
+            </a>
             <a href="{{ route('admin.products.import') }}"
-               class="inline-flex items-center px-4 py-2 rounded-lg text-sm font-medium transition-colors"
+               class="inline-flex items-center px-3 py-2 rounded-lg text-sm font-medium transition-colors"
                style="background:#FBF4E6;color:#BE9A53;border:1px solid #E8CC92;"
                onmouseover="this.style.background='#E8CC92';this.style.color='#2E2A26'"
                onmouseout="this.style.background='#FBF4E6';this.style.color='#BE9A53'">

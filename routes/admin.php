@@ -3,6 +3,8 @@
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ProductAdminController;
 use App\Http\Controllers\Admin\ProductImportController;
+use App\Http\Controllers\Admin\ProductImageImportController;
+use App\Http\Controllers\Admin\ProductExportController;
 use App\Http\Controllers\Admin\OrderAdminController;
 use App\Http\Controllers\Admin\LeadAdminController;
 use App\Http\Controllers\Admin\BlogAdminController;
@@ -40,8 +42,12 @@ Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 Route::resource('categories', CategoryAdminController::class)->except(['show']);
 
 // Products CRUD
-Route::get('products/import', [ProductImportController::class, 'show'])->name('products.import');
-Route::post('products/import', [ProductImportController::class, 'store'])->name('products.import.store');
+Route::get('products/import',          [ProductImportController::class, 'show'])->name('products.import');
+Route::post('products/import',         [ProductImportController::class, 'store'])->name('products.import.store');
+Route::get('products/import-template', [ProductExportController::class, 'template'])->name('products.import-template');
+Route::get('products/export',          [ProductExportController::class, 'export'])->name('products.export');
+Route::get('products/import-images',   [ProductImageImportController::class, 'show'])->name('products.import-images');
+Route::post('products/import-images',  [ProductImageImportController::class, 'store'])->name('products.import-images.store');
 Route::resource('products', ProductAdminController::class);
 Route::patch('products/{product}/toggle', [ProductAdminController::class, 'toggle'])->name('products.toggle');
 
