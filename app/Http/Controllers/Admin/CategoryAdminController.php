@@ -15,7 +15,10 @@ class CategoryAdminController extends Controller
 {
     public function index(): View
     {
-        $categories = Category::withCount('products')->orderBy('sort_order')->get();
+        $categories = Category::withCount('products')
+            ->orderBy('sort_order')
+            ->orderBy('name')
+            ->get();
 
         return view('admin.categories.index', compact('categories'));
     }
@@ -27,20 +30,12 @@ class CategoryAdminController extends Controller
 
     public function store(Request $request): RedirectResponse|JsonResponse
     {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255|unique:categories,name',
-            'description' => 'nullable|string|max:1000',
-            'type_filter' => 'nullable|array',
-            'type_filter.*' => 'string|in:miopia,lectura,sin_graduacion,toallitas',
-            'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
-            'sort_order' => 'nullable|integer|min:0',
-        ]);
-
+        $validated = $this->validateForm($request);
         $validated['slug'] = Str::slug($validated['name']);
-        $validated['sort_order'] = $validated['sort_order'] ?? 0;
-        $validated['type_filter'] = !empty($validated['type_filter'])
-            ? implode(',', $validated['type_filter'])
-            : null;
+        $validated['sort_order'] = $validated['sort_order'] ?? (Category::max('sort_order') + 1);
+        // type_filter legacy: queda null por defecto. La clasificación se hace
+        // desde el producto, no desde la categoría.
+        $validated['type_filter'] = null;
 
         if ($request->hasFile('image')) {
             $validated['image'] = $request->file('image')->store('categories', 'public');
@@ -48,16 +43,16 @@ class CategoryAdminController extends Controller
 
         $category = Category::create($validated);
 
-        // AJAX request from product form
+        // AJAX desde quick-create dropdown en product form
         if ($request->expectsJson()) {
             return response()->json([
-                'id' => $category->id,
+                'id'   => $category->id,
                 'name' => $category->name,
             ]);
         }
 
         return redirect()->route('admin.categories.index')
-            ->with('success', 'Categoría creada exitosamente.');
+            ->with('success', 'Categoría "'.$category->name.'" creada.');
     }
 
     public function edit(Category $category): View
@@ -67,20 +62,9 @@ class CategoryAdminController extends Controller
 
     public function update(Request $request, Category $category): RedirectResponse
     {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255|unique:categories,name,' . $category->id,
-            'description' => 'nullable|string|max:1000',
-            'type_filter' => 'nullable|array',
-            'type_filter.*' => 'string|in:miopia,lectura,sin_graduacion,toallitas',
-            'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
-            'sort_order' => 'nullable|integer|min:0',
-        ]);
-
+        $validated = $this->validateForm($request, $category->id);
         $validated['slug'] = Str::slug($validated['name']);
         $validated['sort_order'] = $validated['sort_order'] ?? 0;
-        $validated['type_filter'] = !empty($validated['type_filter'])
-            ? implode(',', $validated['type_filter'])
-            : null;
 
         if ($request->hasFile('image')) {
             if ($category->image) {
@@ -89,26 +73,43 @@ class CategoryAdminController extends Controller
             $validated['image'] = $request->file('image')->store('categories', 'public');
         }
 
+        if ($request->boolean('remove_image') && $category->image) {
+            Storage::disk('public')->delete($category->image);
+            $validated['image'] = null;
+        }
+
         $category->update($validated);
 
         return redirect()->route('admin.categories.index')
-            ->with('success', 'Categoría actualizada exitosamente.');
+            ->with('success', 'Categoría actualizada.');
     }
 
     public function destroy(Category $category): RedirectResponse
     {
         if ($category->products()->exists()) {
             return redirect()->route('admin.categories.index')
-                ->with('error', 'No se puede eliminar una categoría con productos asociados.');
+                ->with('error', 'No se puede eliminar "'.$category->name.'" porque tiene productos asociados. Reasigna o elimina esos productos primero.');
         }
 
         if ($category->image) {
             Storage::disk('public')->delete($category->image);
         }
 
+        $name = $category->name;
         $category->delete();
 
         return redirect()->route('admin.categories.index')
-            ->with('success', 'Categoría eliminada.');
+            ->with('success', 'Categoría "'.$name.'" eliminada.');
+    }
+
+    private function validateForm(Request $request, ?int $ignoreId = null): array
+    {
+        $uniqueRule = 'unique:categories,name'.($ignoreId ? ','.$ignoreId : '');
+        return $request->validate([
+            'name'        => 'required|string|max:255|'.$uniqueRule,
+            'description' => 'nullable|string|max:1000',
+            'image'       => 'nullable|image|mimes:jpg,jpeg,png,webp|max:5120',
+            'sort_order'  => 'nullable|integer|min:0',
+        ]);
     }
 }
