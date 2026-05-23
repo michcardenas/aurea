@@ -57,6 +57,8 @@ class ProductAdminController extends Controller
             'stock' => 'required|integer|min:0',
             'meta_title' => 'nullable|string|max:255',
             'meta_description' => 'nullable|string|max:500',
+            'slug' => 'nullable|string|max:255',
+            'sort_order' => 'nullable|integer|min:0',
             'is_active' => 'boolean',
             'is_featured' => 'boolean',
             'images.*' => 'image|mimes:jpg,jpeg,png,webp|max:2048',
@@ -72,7 +74,13 @@ class ProductAdminController extends Controller
             'variants.*.image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
         ]);
 
-        $validated['slug'] = $this->uniqueSlug($validated['name']);
+        // Slug: si el admin lo personalizó, lo usamos (slugificado y único);
+        // si no, lo generamos del nombre.
+        $customSlug = trim((string) $request->input('slug', ''));
+        $validated['slug'] = $customSlug !== ''
+            ? $this->uniqueSlug($customSlug)
+            : $this->uniqueSlug($validated['name']);
+        $validated['sort_order'] = $request->input('sort_order') ?: 0;
         $validated['is_active'] = $request->boolean('is_active');
         $validated['is_featured'] = $request->boolean('is_featured');
 
@@ -146,6 +154,8 @@ class ProductAdminController extends Controller
             'stock' => 'required|integer|min:0',
             'meta_title' => 'nullable|string|max:255',
             'meta_description' => 'nullable|string|max:500',
+            'slug' => 'nullable|string|max:255',
+            'sort_order' => 'nullable|integer|min:0',
             'is_active' => 'boolean',
             'is_featured' => 'boolean',
             'images.*' => 'image|mimes:jpg,jpeg,png,webp|max:2048',
@@ -164,7 +174,11 @@ class ProductAdminController extends Controller
             'variants.*.remove_image' => 'nullable|boolean',
         ]);
 
-        $validated['slug'] = $this->uniqueSlug($validated['name'], $product->id);
+        $customSlug = trim((string) $request->input('slug', ''));
+        $validated['slug'] = $customSlug !== ''
+            ? $this->uniqueSlug($customSlug, $product->id)
+            : $this->uniqueSlug($validated['name'], $product->id);
+        $validated['sort_order'] = $request->input('sort_order') ?: 0;
         $validated['is_active'] = $request->boolean('is_active');
         $validated['is_featured'] = $request->boolean('is_featured');
 

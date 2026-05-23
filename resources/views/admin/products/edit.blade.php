@@ -147,18 +147,7 @@
                     <input type="number" id="stock" name="stock" value="{{ old('stock', $product->stock) }}" min="0" required
                            class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
                 </div>
-                <div class="flex items-center space-x-6 pt-6">
-                    <label class="flex items-center space-x-2 cursor-pointer">
-                        <input type="checkbox" name="is_active" value="1" {{ old('is_active', $product->is_active) ? 'checked' : '' }}
-                               class="w-4 h-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500">
-                        <span class="text-sm text-gray-700">Activo</span>
-                    </label>
-                    <label class="flex items-center space-x-2 cursor-pointer">
-                        <input type="checkbox" name="is_featured" value="1" {{ old('is_featured', $product->is_featured) ? 'checked' : '' }}
-                               class="w-4 h-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500">
-                        <span class="text-sm text-gray-700">Destacado</span>
-                    </label>
-                </div>
+                {{-- Placeholder — la visibilidad ahora vive en un bloque dedicado abajo --}}
                 <div class="md:col-span-2">
                     <label class="block text-sm font-medium text-gray-700 mb-2">Clasificación *</label>
                     <p class="text-xs text-gray-400 mb-2">Define dónde aparece el producto en la tienda. Puedes marcar las dos si aplica.</p>
@@ -355,20 +344,149 @@
             </template>
         </div>
 
-        {{-- SEO --}}
+        {{-- ───────────── VISIBILIDAD EN EL HOME ───────────── --}}
         <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-            <h2 class="text-lg font-semibold text-gray-800 mb-4">SEO</h2>
-            <div class="space-y-4">
+            <div class="flex items-baseline justify-between mb-4 pb-3" style="border-bottom:1px solid #F0EAE0;">
                 <div>
-                    <label for="meta_title" class="block text-sm font-medium text-gray-700 mb-1">Meta título</label>
-                    <input type="text" id="meta_title" name="meta_title" value="{{ old('meta_title', $product->meta_title) }}" maxlength="255"
-                           class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <p class="text-xs font-bold uppercase" style="color:#BE9A53;letter-spacing:.18em;">Visibilidad</p>
+                    <h2 class="text-lg font-semibold mt-1" style="font-family:'Playfair Display',serif;color:#2E2A26;">¿Dónde y cómo aparece este producto?</h2>
                 </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                {{-- ACTIVO --}}
+                <label class="flex items-start gap-3 p-4 rounded-xl border cursor-pointer transition-all"
+                       style="border-color:{{ old('is_active', $product->is_active) ? '#D9B56D' : '#E5DCC9' }};background:{{ old('is_active', $product->is_active) ? '#FBF4E6' : '#FBF8F2' }};">
+                    <input type="checkbox" name="is_active" value="1"
+                           {{ old('is_active', $product->is_active) ? 'checked' : '' }}
+                           class="mt-1 w-4 h-4" style="accent-color:#D9B56D;">
+                    <div class="flex-1">
+                        <p class="text-sm font-semibold" style="color:#2E2A26;">Producto activo</p>
+                        <p class="text-xs mt-1" style="color:#6B6157;">Si está desmarcado, <strong>no se muestra en ningún lugar</strong> del storefront (ni catálogo, ni home, ni búsqueda).</p>
+                    </div>
+                </label>
+
+                {{-- DESTACADO --}}
+                <label class="flex items-start gap-3 p-4 rounded-xl border cursor-pointer transition-all"
+                       style="border-color:{{ old('is_featured', $product->is_featured) ? '#D9B56D' : '#E5DCC9' }};background:{{ old('is_featured', $product->is_featured) ? '#FBF4E6' : '#FBF8F2' }};">
+                    <input type="checkbox" name="is_featured" value="1"
+                           {{ old('is_featured', $product->is_featured) ? 'checked' : '' }}
+                           class="mt-1 w-4 h-4" style="accent-color:#D9B56D;">
+                    <div class="flex-1">
+                        <p class="text-sm font-semibold flex items-center gap-2" style="color:#2E2A26;">
+                            ★ Destacado en el home
+                            <span class="text-[10px] px-2 py-0.5 rounded-full" style="background:#D9B56D;color:#FFFFFF;letter-spacing:.05em;">RECOMENDADO</span>
+                        </p>
+                        <p class="text-xs mt-1" style="color:#6B6157;">Aparece <strong>primero</strong> en la sección "Nuestros productos" del home con un badge dorado. Marca aquí tus 4–8 mejores.</p>
+                    </div>
+                </label>
+            </div>
+
+            <div>
+                <label class="block text-xs font-medium mb-1" style="color:#4B4541;">
+                    Orden de aparición
+                    <span class="text-xs ml-2" style="color:#9CA3AF;">— entre los destacados, controla el orden manual</span>
+                </label>
+                <input type="number" name="sort_order" min="0"
+                       value="{{ old('sort_order', $product->sort_order ?? 0) }}"
+                       class="w-32 rounded-lg px-3 py-2 text-sm"
+                       style="background:#FBF8F2;border:1px solid #E5DCC9;color:#2E2A26;">
+                <p class="mt-2 text-xs" style="color:#9CA3AF;font-style:italic;">
+                    1 = primero · 2 = segundo · etc. Los productos sin orden definido (0) aparecen después.
+                </p>
+            </div>
+
+            <div class="mt-5 p-3 rounded-lg" style="background:#FBF4E6;border:1px solid #E8CC92;">
+                <p class="text-xs flex items-start gap-2" style="color:#6B6157;line-height:1.6;">
+                    <span style="color:#BE9A53;font-size:14px;line-height:1;">💡</span>
+                    <span><strong style="color:#2E2A26;">Cómo aparece en el home:</strong>
+                    primero los <strong>★ Destacados</strong> (los 4-8 que marques arriba), luego el resto por <strong>orden</strong> y por más recientes. Solo se muestran los 8 primeros — los demás van al catálogo completo.</span>
+                </p>
+            </div>
+        </div>
+
+        {{-- ───────────── SEO ───────────── --}}
+        @php
+            $defaultMetaTitle = $product->meta_title ?: $product->name . ' | Belleza Áurea';
+            $defaultMetaDesc  = $product->meta_description
+                ?: \Illuminate\Support\Str::limit(strip_tags($product->description ?? ''), 155);
+        @endphp
+
+        <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6"
+             x-data="seoEditor({
+                title: @js(old('meta_title', $defaultMetaTitle)),
+                desc:  @js(old('meta_description', $defaultMetaDesc)),
+                slug:  @js(old('slug', $product->slug)),
+                productName: @js($product->name),
+                baseUrl: @js(url('/productos')),
+             })">
+
+            <div class="flex items-baseline justify-between mb-4 pb-3" style="border-bottom:1px solid #F0EAE0;">
                 <div>
-                    <label for="meta_description" class="block text-sm font-medium text-gray-700 mb-1">Meta descripción</label>
-                    <textarea id="meta_description" name="meta_description" rows="2" maxlength="500"
-                              class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">{{ old('meta_description', $product->meta_description) }}</textarea>
+                    <p class="text-xs font-bold uppercase" style="color:#BE9A53;letter-spacing:.18em;">SEO</p>
+                    <h2 class="text-lg font-semibold mt-1" style="font-family:'Playfair Display',serif;color:#2E2A26;">Cómo te ve Google</h2>
+                    <p class="text-xs mt-1" style="color:#6B6157;">Define cómo se ve tu producto en los resultados de búsqueda. Si dejas vacío, generamos automático del nombre + descripción.</p>
                 </div>
+            </div>
+
+            {{-- Live preview Google --}}
+            <div class="mb-5 p-4 rounded-xl" style="background:#FBF8F2;border:1px solid #E5DCC9;">
+                <p class="text-[10px] uppercase tracking-wider mb-3" style="color:#9CA3AF;letter-spacing:.18em;">Vista previa en Google</p>
+                <div style="background:#FFFFFF;padding:14px 16px;border-radius:8px;font-family:Arial,sans-serif;">
+                    <p style="font-size:12px;color:#202124;line-height:1.3;margin:0 0 2px;">
+                        <span style="color:#5f6368;">bellezaaurea.com</span>
+                        <span x-text="' › productos › ' + (slug || 'mi-producto')" style="color:#5f6368;"></span>
+                    </p>
+                    <p x-text="title || productName"
+                       style="font-size:18px;color:#1a0dab;line-height:1.3;margin:2px 0 4px;cursor:pointer;font-weight:400;"></p>
+                    <p x-text="desc || 'Sin descripción — se generará desde el nombre y la descripción del producto.'"
+                       style="font-size:13px;color:#4d5156;line-height:1.4;margin:0;"></p>
+                </div>
+            </div>
+
+            {{-- Slug --}}
+            <div class="mb-4">
+                <label class="block text-xs font-medium mb-1" style="color:#4B4541;">
+                    URL (slug) <span class="text-xs ml-2" style="color:#9CA3AF;">— se autogenera del nombre si lo dejas vacío</span>
+                </label>
+                <div class="flex items-center gap-2">
+                    <span class="text-xs" style="color:#9CA3AF;">{{ url('/productos') }}/</span>
+                    <input type="text" name="slug" x-model="slug"
+                           class="flex-1 rounded-lg px-3 py-2 text-sm font-mono"
+                           style="background:#FBF8F2;border:1px solid #E5DCC9;color:#2E2A26;">
+                </div>
+            </div>
+
+            {{-- Meta title --}}
+            <div class="mb-4">
+                <label class="flex justify-between text-xs font-medium mb-1" style="color:#4B4541;">
+                    <span>Meta título (Google muestra ~60 caracteres)</span>
+                    <span x-text="title.length + ' / 60'"
+                          :style="{ color: title.length > 60 ? '#C97B6B' : (title.length > 50 ? '#BE9A53' : '#7C9B7E') }"></span>
+                </label>
+                <input type="text" name="meta_title" x-model="title" maxlength="255"
+                       placeholder="ej. Sérum facial vitamina C 30 ml | Belleza Áurea"
+                       class="w-full rounded-lg px-3 py-2 text-sm"
+                       style="background:#FBF8F2;border:1px solid #E5DCC9;color:#2E2A26;">
+                <p class="mt-1 text-xs italic" style="color:#9CA3AF;">
+                    Idealmente 50–60 caracteres. Incluye palabra clave + nombre + marca al final.
+                </p>
+            </div>
+
+            {{-- Meta description --}}
+            <div>
+                <label class="flex justify-between text-xs font-medium mb-1" style="color:#4B4541;">
+                    <span>Meta descripción (Google muestra ~155 caracteres)</span>
+                    <span x-text="desc.length + ' / 155'"
+                          :style="{ color: desc.length > 155 ? '#C97B6B' : (desc.length > 140 ? '#BE9A53' : '#7C9B7E') }"></span>
+                </label>
+                <textarea name="meta_description" x-model="desc" rows="3" maxlength="500"
+                          placeholder="ej. Sérum iluminador con vitamina C estabilizada y rosa mosqueta. Unifica el tono en 28 días. Envío gratis +$200.000."
+                          class="w-full rounded-lg px-3 py-2 text-sm"
+                          style="background:#FBF8F2;border:1px solid #E5DCC9;color:#2E2A26;"></textarea>
+                <p class="mt-1 text-xs italic" style="color:#9CA3AF;">
+                    Frase atractiva que invite al click. Menciona beneficio principal + diferenciador + CTA suave.
+                </p>
             </div>
         </div>
 
@@ -384,6 +502,15 @@
 
 @push('scripts')
 <script>
+function seoEditor(initial) {
+    return {
+        title: initial.title || '',
+        desc:  initial.desc || '',
+        slug:  initial.slug || '',
+        productName: initial.productName || '',
+        baseUrl: initial.baseUrl || '',
+    };
+}
 function quickCategory() {
     return {
         showModal: false,
