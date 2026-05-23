@@ -138,46 +138,77 @@
         margin-bottom: 48px;
     }
 
+    /* ─────────────────────────────────────────
+       CTAs — Pill premium con shimmer y arrow micro-anim
+       Estilo Aesop / Le Labo / NET-A-PORTER
+       ───────────────────────────────────────── */
     .ba-btn-primary,
     .ba-btn-ghost {
         display: inline-flex;
         align-items: center;
-        gap: 10px;
-        font-size: 14px;
+        gap: 12px;
+        font-size: 13px;
         font-weight: 500;
-        letter-spacing: 0.04em;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
         text-decoration: none;
-        transition: all .35s cubic-bezier(.2,.7,.3,1);
+        transition: all .45s cubic-bezier(.2,.7,.3,1);
         font-family: 'Montserrat', sans-serif;
+        position: relative;
+        white-space: nowrap;
     }
 
+    /* Primary: pill negra → gold al hover, con shimmer diagonal */
     .ba-btn-primary {
         background: #2E2A26;
         color: #FFFFFF;
-        padding: 16px 32px;
-        border-radius: 2px;
-        position: relative;
+        padding: 18px 36px;
+        border-radius: 999px;
         overflow: hidden;
+        box-shadow: 0 8px 24px -8px rgba(46, 42, 38, 0.4);
     }
     .ba-btn-primary::before {
         content: "";
         position: absolute;
         inset: 0;
-        background: #D9B56D;
+        background: linear-gradient(110deg, #D9B56D 0%, #E8CC92 50%, #D9B56D 100%);
         transform: translateX(-101%);
-        transition: transform .45s cubic-bezier(.2,.7,.3,1);
+        transition: transform .55s cubic-bezier(.2,.7,.3,1);
         z-index: 0;
     }
     .ba-btn-primary > * { position: relative; z-index: 1; }
+    .ba-btn-primary:hover {
+        color: #2E2A26;
+        box-shadow: 0 14px 32px -10px rgba(217, 181, 109, 0.55);
+        transform: translateY(-2px);
+    }
     .ba-btn-primary:hover::before { transform: translateX(0); }
-    .ba-btn-primary:hover { color: #2E2A26; }
+    .ba-btn-primary svg { transition: transform .35s cubic-bezier(.2,.7,.3,1); }
+    .ba-btn-primary:hover svg { transform: translateX(4px); }
 
+    /* Secondary: pill outline taupe → gold + ink al hover */
     .ba-btn-ghost {
         color: #2E2A26;
-        padding: 16px 0;
-        border-bottom: 1px solid #2E2A26;
+        padding: 18px 32px;
+        border-radius: 999px;
+        border: 1px solid rgba(184, 169, 153, 0.6);
+        background: transparent;
     }
-    .ba-btn-ghost:hover { color: #D9B56D; border-color: #D9B56D; }
+    .ba-btn-ghost:hover {
+        color: #2E2A26;
+        border-color: #D9B56D;
+        background: rgba(217, 181, 109, 0.08);
+    }
+    .ba-btn-ghost::after {
+        content: "";
+        display: inline-block;
+        width: 18px;
+        height: 1px;
+        background: currentColor;
+        transition: width .35s cubic-bezier(.2,.7,.3,1);
+        margin-left: 2px;
+    }
+    .ba-btn-ghost:hover::after { width: 28px; background: #D9B56D; }
 
     .ba-hero__meta {
         display: flex;
@@ -235,6 +266,8 @@
         justify-content: center;
         padding: 60px;
     }
+    /* Si hay video, quitar padding para fullbleed cinematográfico */
+    .ba-hero__product:has(video) { padding: 0; }
     .ba-hero__product img {
         max-width: 100%;
         max-height: 100%;
@@ -243,6 +276,14 @@
         transition: transform 1.2s cubic-bezier(.2,.7,.3,1);
     }
     .ba-hero__product img:hover { transform: scale(1.03); }
+    /* Video b-roll fullbleed dentro del panel derecho */
+    .ba-hero__video {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 0;
+        display: block;
+    }
 
     .ba-hero__leaf {
         position: absolute;
@@ -1022,7 +1063,29 @@
         </svg>
 
         <div class="ba-hero__product">
-            @if($starProduct && !empty($starProduct->images))
+            @php
+                // Detectar si HeroSetting tiene un video subido. Soportamos
+                // media_type='video' o media_path con extensión de video.
+                $videoExts = ['mp4', 'webm', 'mov'];
+                $heroMedia = $hero->media_path ?? null;
+                $heroExt = $heroMedia ? strtolower(pathinfo($heroMedia, PATHINFO_EXTENSION)) : null;
+                $isHeroVideo = ($hero->media_type ?? null) === 'video'
+                    || ($heroMedia && in_array($heroExt, $videoExts, true));
+                $heroVideoUrl = $isHeroVideo && $heroMedia ? asset('storage/'.$heroMedia) : null;
+                $heroImageUrl = (! $isHeroVideo && $heroMedia) ? asset('storage/'.$heroMedia) : null;
+            @endphp
+
+            @if($heroVideoUrl)
+                {{-- Video b-roll: autoplay muted loop. Sin controles para no distraer. --}}
+                <video class="ba-hero__video"
+                       autoplay muted loop playsinline preload="metadata"
+                       aria-hidden="true"
+                       @if($starProduct && !empty($starProduct->images)) poster="{{ asset('storage/'.$starProduct->images[0]) }}" @endif>
+                    <source src="{{ $heroVideoUrl }}" type="video/{{ $heroExt === 'mov' ? 'quicktime' : $heroExt }}">
+                </video>
+            @elseif($heroImageUrl)
+                <img src="{{ $heroImageUrl }}" alt="{{ $hero->title_line1 ?? 'Belleza Áurea' }}">
+            @elseif($starProduct && !empty($starProduct->images))
                 <img src="{{ asset('storage/'.$starProduct->images[0]) }}" alt="{{ $starProduct->name }} — producto destacado de Belleza Áurea">
             @else
                 <img src="{{ asset('img/brand/logo-transparent.png') }}" alt="Belleza Áurea — cosmética natural">
