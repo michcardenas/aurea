@@ -97,7 +97,13 @@ class StorefrontController extends Controller
             $heroMode = 'video';
         }
 
-        $categories = Category::orderBy('sort_order')->get();
+        // Categorías para el home: ordenadas por sort_order (editable en admin),
+        // con conteo de productos activos. Limit 8 para el grid del home.
+        $categories = Category::withCount(['products' => fn ($q) => $q->where('is_active', true)])
+            ->orderBy('sort_order')
+            ->orderBy('name')
+            ->take(8)
+            ->get();
         $testimonials = Testimonial::where('is_active', true)->orderBy('sort_order')->get();
         $featuredBrands = \App\Models\Brand::active()->featured()->ordered()->get();
 

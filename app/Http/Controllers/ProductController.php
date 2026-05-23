@@ -43,6 +43,16 @@ class ProductController extends Controller
             });
         }
 
+        // Filtro por categoría (link desde las cards del home)
+        if ($catFiltro = request('category')) {
+            $query->whereHas('category', fn ($q) => $q->where('slug', $catFiltro));
+        }
+
+        // Filtro por marca (link desde el carrusel del home)
+        if ($brandFiltro = request('brand')) {
+            $query->whereHas('brand', fn ($q) => $q->where('slug', $brandFiltro));
+        }
+
         if ($colorFiltro) {
             $query->whereHas('variants', fn ($q) => $q->where('color', $colorFiltro)->where('is_active', true)->where('stock', '>', 0));
         }

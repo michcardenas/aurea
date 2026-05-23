@@ -378,72 +378,190 @@
         margin: 24px auto 0;
     }
 
-    /* Category cards */
+    /* ─────────────────────────────────────────
+       Categories — Magazine grid premium
+       Layout asimétrico: primera card 2x, resto 1x
+       Hover sofisticado: zoom imagen + lift + overlay áureo
+       ───────────────────────────────────────── */
     .ba-cats {
         display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 24px;
+        grid-template-columns: repeat(4, 1fr);
+        grid-auto-rows: 320px;
+        gap: 16px;
     }
+    /* Primera card: doble ancho + alto x2 (hero de la sección) */
+    .ba-cats > .ba-cat:first-child {
+        grid-column: span 2;
+        grid-row: span 2;
+    }
+
     .ba-cat {
         position: relative;
         display: block;
-        aspect-ratio: 4/5;
-        border-radius: 2px;
         overflow: hidden;
+        border-radius: 4px;
         text-decoration: none;
         background: #EDE6D8;
-        transition: transform .6s cubic-bezier(.2,.7,.3,1);
+        box-shadow: 0 1px 3px rgba(46,42,38,.05);
+        transition: transform .55s cubic-bezier(.2,.7,.3,1),
+                    box-shadow .55s cubic-bezier(.2,.7,.3,1);
+        isolation: isolate;
     }
-    .ba-cat:hover { transform: translateY(-4px); }
+    .ba-cat:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 24px 50px -16px rgba(190,154,83,.35);
+    }
     .ba-cat__bg {
         position: absolute;
         inset: 0;
         background-size: cover;
         background-position: center;
-        transform: scale(1.05);
-        transition: transform 1.2s cubic-bezier(.2,.7,.3,1);
+        transform: scale(1.02);
+        transition: transform 1.4s cubic-bezier(.2,.7,.3,1), filter .55s ease;
+        z-index: 0;
     }
-    .ba-cat:hover .ba-cat__bg { transform: scale(1.1); }
+    .ba-cat:hover .ba-cat__bg { transform: scale(1.12); }
+
+    /* Overlay base — sutil para legibilidad */
     .ba-cat__overlay {
         position: absolute;
         inset: 0;
-        background: linear-gradient(180deg, rgba(46,42,38,.05) 0%, rgba(46,42,38,.55) 100%);
+        background: linear-gradient(180deg,
+            rgba(46,42,38,0) 0%,
+            rgba(46,42,38,.15) 45%,
+            rgba(46,42,38,.78) 100%);
+        z-index: 1;
+        transition: background .55s ease;
     }
+    .ba-cat:hover .ba-cat__overlay {
+        background: linear-gradient(180deg,
+            rgba(190,154,83,.05) 0%,
+            rgba(46,42,38,.30) 45%,
+            rgba(46,42,38,.88) 100%);
+    }
+
+    /* Marco dorado interior aparece al hover */
+    .ba-cat::after {
+        content: "";
+        position: absolute;
+        inset: 12px;
+        border: 1px solid transparent;
+        border-radius: 2px;
+        transition: border-color .45s ease;
+        z-index: 2;
+        pointer-events: none;
+    }
+    .ba-cat:hover::after {
+        border-color: rgba(217,181,109,.6);
+    }
+
     .ba-cat__body {
         position: absolute;
         inset: 0;
         display: flex;
         flex-direction: column;
         justify-content: flex-end;
-        padding: 36px 32px;
+        padding: 28px;
         color: #FFFFFF;
+        z-index: 3;
     }
+    .ba-cats > .ba-cat:first-child .ba-cat__body { padding: 40px; }
+
+    .ba-cat__count {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 10px;
+        letter-spacing: .18em;
+        text-transform: uppercase;
+        color: #D9B56D;
+        font-weight: 600;
+        margin-bottom: 12px;
+        opacity: .95;
+    }
+    .ba-cat__count::before {
+        content: "";
+        width: 18px;
+        height: 1px;
+        background: #D9B56D;
+    }
+
     .ba-cat__name {
         font-family: 'Playfair Display', serif;
-        font-size: 30px;
+        font-size: clamp(22px, 2.4vw, 28px);
         font-weight: 500;
         line-height: 1.1;
-        margin: 0 0 12px;
+        margin: 0 0 8px;
+        letter-spacing: -.005em;
+        transform: translateY(0);
+        transition: transform .45s cubic-bezier(.2,.7,.3,1);
     }
+    .ba-cats > .ba-cat:first-child .ba-cat__name {
+        font-size: clamp(32px, 3.2vw, 44px);
+    }
+
     .ba-cat__desc {
         font-size: 13px;
         line-height: 1.55;
-        opacity: .85;
-        margin: 0 0 18px;
+        opacity: 0;
+        max-height: 0;
+        margin: 0;
+        transform: translateY(8px);
+        transition: opacity .45s ease, max-height .45s ease,
+                    transform .45s cubic-bezier(.2,.7,.3,1), margin .45s ease;
     }
+    .ba-cat:hover .ba-cat__desc {
+        opacity: .85;
+        max-height: 80px;
+        margin: 0 0 16px;
+        transform: translateY(0);
+    }
+
     .ba-cat__cta {
         display: inline-flex;
         align-items: center;
-        gap: 8px;
-        font-size: 12px;
-        font-weight: 500;
-        letter-spacing: 0.18em;
+        gap: 10px;
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 0.22em;
         text-transform: uppercase;
-        color: #D9B56D;
-        transform: translateX(0);
-        transition: transform .35s ease;
+        color: #FFFFFF;
+        padding-top: 14px;
+        border-top: 1px solid rgba(255,255,255,.18);
+        transition: color .35s ease, border-color .35s ease;
     }
-    .ba-cat:hover .ba-cat__cta { transform: translateX(6px); }
+    .ba-cat:hover .ba-cat__cta {
+        color: #D9B56D;
+        border-color: rgba(217,181,109,.45);
+    }
+    .ba-cat__cta svg {
+        transition: transform .45s cubic-bezier(.2,.7,.3,1);
+    }
+    .ba-cat:hover .ba-cat__cta svg {
+        transform: translateX(8px);
+    }
+
+    @media (max-width: 900px) {
+        .ba-cats {
+            grid-template-columns: repeat(2, 1fr);
+            grid-auto-rows: 280px;
+        }
+        .ba-cats > .ba-cat:first-child {
+            grid-column: span 2;
+            grid-row: span 1;
+        }
+        .ba-cats > .ba-cat:first-child .ba-cat__name {
+            font-size: clamp(28px, 6vw, 36px);
+        }
+    }
+    @media (max-width: 540px) {
+        .ba-cats {
+            grid-template-columns: 1fr;
+            grid-auto-rows: 240px;
+        }
+        .ba-cats > .ba-cat:first-child { grid-column: span 1; }
+        .ba-cat__desc { opacity: .85; max-height: 80px; margin: 0 0 14px; transform: none; }
+    }
 
     /* Products grid */
     .ba-prods {
@@ -1113,60 +1231,62 @@
 @endif
 
 {{-- ============================================================
-     3. CATEGORÍAS — Cards editoriales
+     3. CATEGORÍAS — Magazine grid asimétrico
+     Las 8 categorías top por sort_order (editable en /admin/categories).
+     Primera card ocupa 2x2 (hero); las otras 6 ocupan 1x1.
      ============================================================ --}}
-@php
-    $categoryCards = collect($homePage->category_cards ?? [])
-        ->filter(fn ($c) => !empty($c['name'] ?? ''))
-        ->values();
-    if ($categoryCards->isEmpty()) {
-        $categoryCards = $categories->take(3)->map(fn ($c) => [
-            'name' => $c->name,
-            'description' => $c->description,
-            'link_param' => $c->slug,
-            'image' => $c->image ?? null,
-        ]);
-    }
-@endphp
-@if($categoryCards->isNotEmpty())
+@if(($categories ?? collect())->isNotEmpty())
 <section class="ba-section ba-section--cream-soft" aria-labelledby="cats-title">
     <div class="ba-container">
         <header class="ba-section-head" data-anim="fade-up">
             <span class="ba-section-head__label">{{ $homePage->categories_label ?? 'Categorías' }}</span>
-            <h2 id="cats-title" class="ba-section-head__title">{{ $homePage->categories_title ?? 'Encuentra tu ritual ideal' }}</h2>
+            <h2 id="cats-title" class="ba-section-head__title">{{ $homePage->categories_title ?? 'Encuentra lo que buscas' }}</h2>
             @if($homePage->categories_subtitle)
             <p class="ba-section-head__sub">{{ $homePage->categories_subtitle }}</p>
             @endif
             <div class="ba-divider"></div>
         </header>
 
+        @php
+            // Gradientes áureos como fallback cuando la categoría no tiene imagen.
+            // Sage / blush / gold / cream / taupe / olive
+            $catGradients = [
+                'linear-gradient(135deg,#BE9A53 0%,#E8CC92 60%,#FBF4E6 100%)',  // gold cream
+                'linear-gradient(135deg,#8A9680 0%,#A8B29A 60%,#E5EBD8 100%)',  // sage
+                'linear-gradient(135deg,#C9A693 0%,#E8D1C5 60%,#F7E8DE 100%)',  // blush taupe
+                'linear-gradient(135deg,#A8825A 0%,#D9B56D 60%,#F0DEB0 100%)',  // bronze
+                'linear-gradient(135deg,#7A8470 0%,#9DA890 60%,#D9E0CC 100%)',  // moss
+                'linear-gradient(135deg,#B89A7C 0%,#D4BC9E 60%,#F2E5D2 100%)',  // sand
+                'linear-gradient(135deg,#704A3B 0%,#A47659 60%,#E8C9A8 100%)',  // chocolate
+                'linear-gradient(135deg,#9C7A8E 0%,#C9A8B5 60%,#EBD3DA 100%)',  // mauve
+            ];
+        @endphp
+
         <div class="ba-cats">
-            @foreach($categoryCards as $i => $cat)
+            @foreach($categories as $i => $cat)
                 @php
-                    $catName  = $cat['name'] ?? '';
-                    $catDesc  = $cat['description'] ?? '';
-                    $catImage = $cat['image'] ?? null;
-                    $catLink  = !empty($cat['link_param'])
-                        ? route('products.index', ['type' => $cat['link_param']])
-                        : route('products.index');
-                    $gradients = [
-                        'linear-gradient(160deg,#BE9A53 0%,#E8CC92 100%)',
-                        'linear-gradient(160deg,#8A9680 0%,#A8B29A 100%)',
-                        'linear-gradient(160deg,#C9A693 0%,#E8D1C5 100%)',
-                    ];
-                    $fallback = $gradients[$i % 3];
+                    $count = $cat->products_count ?? 0;
+                    $catLink = route('products.index', ['category' => $cat->slug]);
+                    $fallback = $catGradients[$i % count($catGradients)];
                 @endphp
-                <a href="{{ $catLink }}" class="ba-cat" data-anim="fade-up" style="--stagger: {{ $i }};">
-                    @if($catImage)
-                    <div class="ba-cat__bg" style="background-image:url('{{ asset('storage/'.$catImage) }}');"></div>
+                <a href="{{ $catLink }}"
+                   class="ba-cat"
+                   data-anim="fade-up"
+                   style="--stagger: {{ $i }};"
+                   aria-label="Explorar {{ $cat->name }} — {{ $count }} producto{{ $count === 1 ? '' : 's' }}">
+                    @if($cat->image)
+                        <div class="ba-cat__bg" style="background-image:url('{{ asset('storage/'.$cat->image) }}');"></div>
                     @else
-                    <div class="ba-cat__bg" style="background-image:{{ $fallback }};"></div>
+                        <div class="ba-cat__bg" style="background-image:{{ $fallback }};"></div>
                     @endif
                     <div class="ba-cat__overlay"></div>
                     <div class="ba-cat__body">
-                        <h3 class="ba-cat__name">{{ $catName }}</h3>
-                        @if($catDesc)
-                        <p class="ba-cat__desc">{{ \Illuminate\Support\Str::limit($catDesc, 90) }}</p>
+                        @if($count > 0)
+                        <span class="ba-cat__count">{{ $count }} producto{{ $count === 1 ? '' : 's' }}</span>
+                        @endif
+                        <h3 class="ba-cat__name">{{ $cat->name }}</h3>
+                        @if($cat->description)
+                        <p class="ba-cat__desc">{{ \Illuminate\Support\Str::limit($cat->description, 110) }}</p>
                         @endif
                         <span class="ba-cat__cta">
                             Explorar
@@ -1175,6 +1295,10 @@
                     </div>
                 </a>
             @endforeach
+        </div>
+
+        <div style="text-align:center;margin-top:48px;" data-anim="fade-up">
+            <a href="{{ route('products.index') }}" class="ba-btn-ghost">Ver todas las categorías</a>
         </div>
     </div>
 </section>
