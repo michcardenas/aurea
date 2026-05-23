@@ -174,9 +174,10 @@ class ProductController extends Controller
 
         $seo = $this->seo->forProduct($product);
         $schema = $this->seo->productSchema($product);
+        $howToSchema = $this->seo->howToSchema($product);
         $breadcrumbs = $this->seo->breadcrumbSchema([
-            ['name' => 'Inicio', 'url' => url('/')],
-            ['name' => 'Lentes', 'url' => route('products.index')],
+            ['name' => 'Inicio',    'url' => url('/')],
+            ['name' => 'Productos', 'url' => route('products.index')],
             ['name' => $product->name, 'url' => route('products.show', $product->slug)],
         ]);
 
@@ -185,7 +186,7 @@ class ProductController extends Controller
         return view('storefront.products.show', compact(
             'product', 'colores', 'genericVariants',
             'graduacionesMiopia', 'graduacionesLectura', 'graduacionesSinGrad',
-            'toallitas', 'seo', 'schema', 'breadcrumbs', 'lentesPage',
+            'toallitas', 'seo', 'schema', 'howToSchema', 'breadcrumbs', 'lentesPage',
         ));
     }
 }

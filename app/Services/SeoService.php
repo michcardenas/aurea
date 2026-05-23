@@ -98,34 +98,143 @@ class SeoService
     }
 
     /**
-     * Generate Product schema for a product page.
+     * Generate rich Product schema (AI-ready / GEO) for a product page.
+     *
+     * Incluye brand, offers con priceValidUntil, additionalProperty para
+     * cruelty-free/vegano/origen, GTIN/MPN, peso, ingredientes y howto
+     * para que ChatGPT, Perplexity, Google AI Overviews y Bing Copilot
+     * puedan citar el producto.
      */
     public function productSchema(Product $product): string
     {
+        $brandName = $product->brand?->name ?? 'Belleza Áurea';
+        $hasStock = $product->hasStock();
+        $images = collect($product->images ?? [])
+            ->map(fn ($img) => asset('storage/'.$img))
+            ->all();
+
         $schema = [
-            '@context' => 'https://schema.org',
-            '@type' => 'Product',
-            'name' => $product->name,
-            'description' => mb_substr(strip_tags($product->description), 0, 300),
-            'url' => route('products.show', $product->slug),
-            'brand' => [
+            '@context'    => 'https://schema.org',
+            '@type'       => 'Product',
+            'name'        => $product->name,
+            'description' => mb_substr(strip_tags($product->description ?? ''), 0, 5000),
+            'url'         => route('products.show', $product->slug),
+            'sku'         => $product->internal_code,
+            'brand'       => [
                 '@type' => 'Brand',
-                'name' => 'nuvion - glass',
+                'name'  => $brandName,
+                'url'   => $product->brand
+                    ? route('brands.show', $product->brand->slug)
+                    : url('/'),
             ],
-            'offers' => [
-                '@type' => 'Offer',
-                'url' => route('products.show', $product->slug),
-                'priceCurrency' => 'MXN',
-                'price' => number_format($product->price, 2, '.', ''),
-                'availability' => $product->stock > 0
+            'category'    => $product->category?->name,
+            'offers'      => [
+                '@type'         => 'Offer',
+                'url'           => route('products.show', $product->slug),
+                'priceCurrency' => 'COP',
+                'price'         => number_format((float) $product->price, 2, '.', ''),
+                'availability'  => $hasStock
                     ? 'https://schema.org/InStock'
                     : 'https://schema.org/OutOfStock',
+                'itemCondition' => 'https://schema.org/NewCondition',
+                'priceValidUntil' => now()->addYear()->toDateString(),
+                'seller'        => [
+                    '@type' => 'Organization',
+                    'name'  => 'Belleza Áurea',
+                    'url'   => url('/'),
+                ],
             ],
         ];
 
-        if ($product->images && count($product->images) > 0) {
-            $schema['image'] = array_map(fn ($img) => asset("storage/{$img}"), $product->images);
+        if (! empty($images)) {
+            $schema['image'] = $images;
         }
+
+        // Identificadores comerciales
+        if ($product->gtin) $schema['gtin'] = $product->gtin;
+        if ($product->mpn)  $schema['mpn']  = $product->mpn;
+
+        // Peso / volumen (Schema acepta QuantitativeValue)
+        if ($product->weight_value && $product->weight_unit) {
+            $schema['weight'] = [
+                '@type'    => 'QuantitativeValue',
+                'value'    => (float) $product->weight_value,
+                'unitText' => $product->weight_unit,
+            ];
+        }
+
+        // País de origen (countryOfOrigin)
+        if ($product->country_origin) {
+            $schema['countryOfOrigin'] = [
+                '@type' => 'Country',
+                'name'  => $product->country_origin,
+            ];
+        }
+
+        // Características adicionales como additionalProperty
+        $additionalProps = [];
+        if ($product->is_cruelty_free) {
+            $additionalProps[] = ['@type' => 'PropertyValue', 'name' => 'Cruelty-free', 'value' => 'true'];
+        }
+        if ($product->is_vegan) {
+            $additionalProps[] = ['@type' => 'PropertyValue', 'name' => 'Vegan', 'value' => 'true'];
+        }
+        if ($product->suitable_for) {
+            $additionalProps[] = ['@type' => 'PropertyValue', 'name' => 'Suitable for', 'value' => $product->suitable_for];
+        }
+        if ($product->ingredients) {
+            $additionalProps[] = ['@type' => 'PropertyValue', 'name' => 'Ingredients', 'value' => $product->ingredients];
+        }
+        if (! empty($additionalProps)) {
+            $schema['additionalProperty'] = $additionalProps;
+        }
+
+        // Keywords para AI categorization
+        if ($product->focus_keyword) {
+            $schema['keywords'] = $product->focus_keyword;
+        }
+
+        // Key features → ItemList (AI-friendly bullets)
+        if (! empty($product->key_features) && is_array($product->key_features)) {
+            $schema['hasMeasurement'] = null; // placeholder
+            unset($schema['hasMeasurement']);
+        }
+
+        return $this->toJsonLd($schema);
+    }
+
+    /**
+     * HowTo schema separado — Google y los LLMs lo aman para "how to use".
+     */
+    public function howToSchema(Product $product): ?string
+    {
+        if (! $product->how_to_use) {
+            return null;
+        }
+
+        // Si tiene saltos de línea o numeración tipo "1. ", los convertimos
+        // en pasos. Si no, un paso único.
+        $text = preg_replace('/\s*(?:\\\\n|\r\n|\r|\n)\s*/u', "\n", $product->how_to_use);
+        $text = preg_replace('/(?<=[.;])\s+(?=\d+\.\s)/u', "\n", $text);
+        $lines = collect(preg_split('/\n+/', $text))
+            ->map(fn ($l) => trim(preg_replace('/^\d+\.\s*/', '', $l)))
+            ->filter()
+            ->values();
+
+        $steps = $lines->map(fn ($l, $i) => [
+            '@type'    => 'HowToStep',
+            'position' => $i + 1,
+            'name'     => 'Paso '.($i + 1),
+            'text'     => $l,
+        ])->all();
+
+        $schema = [
+            '@context'    => 'https://schema.org',
+            '@type'       => 'HowTo',
+            'name'        => 'Cómo usar '.$product->name,
+            'description' => 'Modo de uso recomendado de '.$product->name,
+            'step'        => $steps,
+        ];
 
         return $this->toJsonLd($schema);
     }

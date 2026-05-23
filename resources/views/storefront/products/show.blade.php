@@ -11,9 +11,23 @@
 @section('twitter_description', $seo['twitter_description'])
 @section('twitter_image', $seo['twitter_image'])
 
+{{-- noindex toggle por producto --}}
+@if($product->noindex)
+@section('robots', 'noindex, nofollow')
+@endif
+
+{{-- OG image específica del producto si existe --}}
+@if($product->og_image_path)
+@section('og_image', asset('storage/'.$product->og_image_path))
+@section('twitter_image', asset('storage/'.$product->og_image_path))
+@endif
+
 @push('schema')
     {!! $schema !!}
     {!! $breadcrumbs !!}
+    @if($howToSchema ?? false)
+        {!! $howToSchema !!}
+    @endif
 @endpush
 
 @section('content')
@@ -378,6 +392,55 @@
                 </p>
                 @endif
 
+                {{-- Trust badges contextuales (cruelty-free, vegan, origen) --}}
+                @if($product->is_cruelty_free || $product->is_vegan || $product->country_origin)
+                <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px;">
+                    @if($product->is_cruelty_free)
+                    <span style="display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:600;letter-spacing:.06em;color:#5C6B54;background:#F0F2EB;border:1px solid #A8B29A;padding:5px 10px;border-radius:999px;">
+                        🐰 Cruelty-free
+                    </span>
+                    @endif
+                    @if($product->is_vegan)
+                    <span style="display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:600;letter-spacing:.06em;color:#5C6B54;background:#F0F2EB;border:1px solid #A8B29A;padding:5px 10px;border-radius:999px;">
+                        🌱 Vegano
+                    </span>
+                    @endif
+                    @if($product->country_origin)
+                    <span style="display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:600;letter-spacing:.06em;color:#BE9A53;background:#FBF4E6;border:1px solid #E8CC92;padding:5px 10px;border-radius:999px;">
+                        Origen · {{ $product->country_origin }}
+                    </span>
+                    @endif
+                    @if($product->weight_value && $product->weight_unit)
+                    <span style="display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:600;letter-spacing:.06em;color:#6B6157;background:#FBF8F2;border:1px solid #D1C7BC;padding:5px 10px;border-radius:999px;">
+                        {{ rtrim(rtrim(number_format($product->weight_value, 2, '.', ''), '0'), '.') }} {{ $product->weight_unit }}
+                    </span>
+                    @endif
+                </div>
+                @endif
+
+                {{-- Key features bullets — AI-friendly + visual --}}
+                @if(! empty($product->key_features) && is_array($product->key_features))
+                <div style="margin-bottom:20px;">
+                    <p style="font-size:11px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:#BE9A53;margin:0 0 10px;">Características clave</p>
+                    <ul style="list-style:none;padding:0;margin:0;font-size:14px;color:#2E2A26;line-height:1.65;">
+                        @foreach($product->key_features as $feat)
+                            <li style="display:flex;align-items:flex-start;gap:10px;padding:6px 0;">
+                                <span style="color:#D9B56D;font-weight:700;flex-shrink:0;">✦</span>
+                                <span>{{ $feat }}</span>
+                            </li>
+                        @endforeach
+                    </ul>
+                </div>
+                @endif
+
+                {{-- Recomendado para --}}
+                @if($product->suitable_for)
+                <div style="margin-bottom:20px;padding:12px 16px;background:#FBF4E6;border-left:3px solid #D9B56D;border-radius:4px;">
+                    <p style="font-size:10px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:#BE9A53;margin:0 0 4px;">Recomendado para</p>
+                    <p style="font-size:14px;color:#2E2A26;line-height:1.5;margin:0;">{{ $product->suitable_for }}</p>
+                </div>
+                @endif
+
                 {{-- 8. Botón agregar al carrito --}}
                 <div style="margin-top:8px;">
                     <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">
@@ -480,6 +543,64 @@
 
         </div>
     </section>
+
+    {{-- ============================================================
+         CONTENIDO ENRIQUECIDO — Modo de uso + Ingredientes (AI-ready)
+         Visible para humanos, indexable por LLMs (texto plano + Schema HowTo)
+         ============================================================ --}}
+    @if($product->how_to_use || $product->ingredients)
+    <section style="background:#FBF8F2;padding:64px 24px;">
+        <div style="max-width:960px;margin:0 auto;">
+            <div style="display:grid;grid-template-columns:{{ ($product->how_to_use && $product->ingredients) ? '1fr 1fr' : '1fr' }};gap:48px;">
+
+                {{-- Modo de uso --}}
+                @if($product->how_to_use)
+                <article>
+                    <p style="font-size:11px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:#BE9A53;margin:0 0 14px;">Modo de uso</p>
+                    <h2 style="font-family:'Playfair Display',serif;font-size:28px;font-weight:500;color:#2E2A26;margin:0 0 24px;">Cómo aplicarlo</h2>
+                    @php
+                        // Acepta saltos reales, '\n' literales, o numeración '1. ', '2. '
+                        $rawHow = preg_replace('/\s*(?:\\\\n|\r\n|\r|\n)\s*/u', "\n", $product->how_to_use);
+                        $rawHow = preg_replace('/(?<=[.;])\s+(?=\d+\.\s)/u', "\n", $rawHow);
+                        $steps = collect(preg_split('/\n+/', $rawHow))
+                            ->map(fn ($l) => trim(preg_replace('/^\d+\.\s*/', '', $l)))
+                            ->filter()
+                            ->values()
+                            ->all();
+                    @endphp
+                    @if(count($steps) > 1)
+                        <ol style="list-style:none;counter-reset:step;padding:0;margin:0;">
+                            @foreach($steps as $step)
+                            <li style="counter-increment:step;display:flex;align-items:flex-start;gap:18px;padding:12px 0;border-bottom:1px solid rgba(184,169,153,.18);">
+                                <span style="flex-shrink:0;width:32px;height:32px;border-radius:50%;background:#FBF4E6;border:1px solid #E8CC92;display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;color:#BE9A53;font-weight:600;">{{ $loop->iteration }}</span>
+                                <span style="font-size:15px;line-height:1.7;color:#2E2A26;padding-top:5px;">{{ $step }}</span>
+                            </li>
+                            @endforeach
+                        </ol>
+                    @else
+                        <p style="font-size:15px;line-height:1.75;color:#2E2A26;margin:0;">{{ $product->how_to_use }}</p>
+                    @endif
+                </article>
+                @endif
+
+                {{-- Ingredientes --}}
+                @if($product->ingredients)
+                <article>
+                    <p style="font-size:11px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:#BE9A53;margin:0 0 14px;">Composición</p>
+                    <h2 style="font-family:'Playfair Display',serif;font-size:28px;font-weight:500;color:#2E2A26;margin:0 0 24px;">Ingredientes</h2>
+                    <div style="font-size:13px;line-height:1.85;color:#6B6157;font-family:'Montserrat',sans-serif;background:#FFFFFF;padding:24px;border-radius:8px;border:1px solid rgba(184,169,153,.2);">
+                        {{ $product->ingredients }}
+                    </div>
+                    <p style="font-size:11px;color:#9CA3AF;margin-top:10px;font-style:italic;">
+                        Composición declarada por el fabricante. Para alergias específicas, consulta con tu profesional.
+                    </p>
+                </article>
+                @endif
+
+            </div>
+        </div>
+    </section>
+    @endif
 
     {{-- ============================================================
          SUGERENCIA DE TOALLITAS

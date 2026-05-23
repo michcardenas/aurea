@@ -25,6 +25,20 @@ class Product extends Model
         'images',
         'meta_title',
         'meta_description',
+        'og_image_path',
+        'focus_keyword',
+        'noindex',
+        'key_features',     // JSON array de bullets
+        'how_to_use',       // text — instrucciones de uso
+        'ingredients',      // text — lista de ingredientes (INCI)
+        'suitable_for',     // string — tipo de piel/cabello/uso
+        'gtin',             // EAN/UPC/GTIN-14
+        'mpn',              // manufacturer part number
+        'weight_value',
+        'weight_unit',      // g, kg, ml, L, oz
+        'country_origin',
+        'is_cruelty_free',
+        'is_vegan',
         'is_active',
         'is_featured',
         'badge_2x1',
@@ -39,6 +53,11 @@ class Product extends Model
             'cost_price'    => 'decimal:2',
             'images'        => 'array',
             'type'          => 'array',
+            'key_features'  => 'array',
+            'weight_value'  => 'decimal:2',
+            'noindex'       => 'boolean',
+            'is_cruelty_free' => 'boolean',
+            'is_vegan'      => 'boolean',
             'is_active'     => 'boolean',
             'is_featured'   => 'boolean',
             'badge_2x1'     => 'boolean',

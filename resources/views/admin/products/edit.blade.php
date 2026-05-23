@@ -405,6 +405,163 @@
             </div>
         </div>
 
+        {{-- ───────────── CONTENIDO ENRIQUECIDO (AI-friendly / GEO) ───────────── --}}
+        @php
+            $featuresRaw = is_array($product->key_features ?? null)
+                ? implode("\n", $product->key_features)
+                : '';
+        @endphp
+        <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+            <div class="flex items-baseline justify-between mb-4 pb-3" style="border-bottom:1px solid #F0EAE0;">
+                <div>
+                    <p class="text-xs font-bold uppercase" style="color:#BE9A53;letter-spacing:.18em;">Contenido enriquecido</p>
+                    <h2 class="text-lg font-semibold mt-1" style="font-family:'Playfair Display',serif;color:#2E2A26;">Contenido para humanos y para IA</h2>
+                    <p class="text-xs mt-1" style="color:#6B6157;">
+                        Estos campos se muestran en la página del producto y también se exponen como datos estructurados
+                        para que <strong>ChatGPT, Perplexity, Google AI Overviews y Bing Copilot</strong> puedan citar tu producto.
+                    </p>
+                </div>
+            </div>
+
+            <div class="space-y-5">
+                <div>
+                    <label class="block text-xs font-medium mb-1" style="color:#4B4541;">
+                        Características clave <span class="text-xs ml-2" style="color:#9CA3AF;">(una por línea — se rendean como bullets ✦)</span>
+                    </label>
+                    <textarea name="key_features_raw" rows="5"
+                              placeholder="Ej:&#10;Vitamina C estabilizada al 15%&#10;Aceite de rosa mosqueta prensado en frío&#10;Textura ligera, absorción inmediata&#10;Apto para piel sensible&#10;Resultados visibles en 28 días"
+                              class="w-full rounded-lg px-3 py-2 text-sm font-mono"
+                              style="background:#FBF8F2;border:1px solid #E5DCC9;color:#2E2A26;">{{ old('key_features_raw', $featuresRaw) }}</textarea>
+                    <p class="mt-1 text-xs italic" style="color:#9CA3AF;">💡 Los LLMs adoran las listas. 4–8 puntos es el sweet spot.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                    <div>
+                        <label class="block text-xs font-medium mb-1" style="color:#4B4541;">
+                            Modo de uso
+                        </label>
+                        <textarea name="how_to_use" rows="4"
+                                  placeholder="Cómo se aplica el producto, paso a paso. Ej: '1. Limpia el rostro. 2. Aplica 3 gotas sobre piel seca. 3. Masajea con movimientos ascendentes. Usar mañana y noche.'"
+                                  class="w-full rounded-lg px-3 py-2 text-sm"
+                                  style="background:#FBF8F2;border:1px solid #E5DCC9;color:#2E2A26;">{{ old('how_to_use', $product->how_to_use) }}</textarea>
+                        <p class="mt-1 text-xs italic" style="color:#9CA3AF;">Se publica como <code>HowTo</code> Schema.</p>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-medium mb-1" style="color:#4B4541;">
+                            Ingredientes / Composición (INCI)
+                        </label>
+                        <textarea name="ingredients" rows="4"
+                                  placeholder="Lista completa INCI o de composición. Ej: 'Aqua, Ascorbyl Glucoside, Glycerin, Rosa Canina Fruit Oil, Niacinamide, Tocopherol, Citric Acid, Sodium Benzoate.'"
+                                  class="w-full rounded-lg px-3 py-2 text-sm"
+                                  style="background:#FBF8F2;border:1px solid #E5DCC9;color:#2E2A26;">{{ old('ingredients', $product->ingredients) }}</textarea>
+                        <p class="mt-1 text-xs italic" style="color:#9CA3AF;">Mejora confianza + matches con búsquedas tipo "con ácido hialurónico".</p>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-medium mb-1" style="color:#4B4541;">
+                        Recomendado para <span class="text-xs ml-2" style="color:#9CA3AF;">(tipo de piel, cabello, uso, edad...)</span>
+                    </label>
+                    <input type="text" name="suitable_for" maxlength="500"
+                           value="{{ old('suitable_for', $product->suitable_for) }}"
+                           placeholder="ej. Piel sensible y reactiva · Hidratación diaria · Mayores de 25 años"
+                           class="w-full rounded-lg px-3 py-2 text-sm"
+                           style="background:#FBF8F2;border:1px solid #E5DCC9;color:#2E2A26;">
+                    <p class="mt-1 text-xs italic" style="color:#9CA3AF;">Ayuda a la IA a responder "el mejor producto para piel grasa".</p>
+                </div>
+            </div>
+        </div>
+
+        {{-- ───────────── DATOS TÉCNICOS (Schema.org Product) ───────────── --}}
+        <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+            <div class="flex items-baseline justify-between mb-4 pb-3" style="border-bottom:1px solid #F0EAE0;">
+                <div>
+                    <p class="text-xs font-bold uppercase" style="color:#BE9A53;letter-spacing:.18em;">Datos técnicos</p>
+                    <h2 class="text-lg font-semibold mt-1" style="font-family:'Playfair Display',serif;color:#2E2A26;">Para Schema.org & Google Shopping</h2>
+                    <p class="text-xs mt-1" style="color:#6B6157;">Códigos de barras y origen — habilitan rich snippets y Google Shopping.</p>
+                </div>
+            </div>
+
+            <div class="space-y-4">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-medium mb-1" style="color:#4B4541;">
+                            GTIN / EAN / UPC <span class="text-xs ml-2" style="color:#9CA3AF;">(código de barras)</span>
+                        </label>
+                        <input type="text" name="gtin" maxlength="14"
+                               value="{{ old('gtin', $product->gtin) }}"
+                               placeholder="7701234567890"
+                               class="w-full rounded-lg px-3 py-2 text-sm font-mono"
+                               style="background:#FBF8F2;border:1px solid #E5DCC9;color:#2E2A26;">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium mb-1" style="color:#4B4541;">
+                            MPN <span class="text-xs ml-2" style="color:#9CA3AF;">(código del fabricante)</span>
+                        </label>
+                        <input type="text" name="mpn" maxlength="70"
+                               value="{{ old('mpn', $product->mpn) }}"
+                               placeholder="WUH-NP-001"
+                               class="w-full rounded-lg px-3 py-2 text-sm font-mono"
+                               style="background:#FBF8F2;border:1px solid #E5DCC9;color:#2E2A26;">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div>
+                        <label class="block text-xs font-medium mb-1" style="color:#4B4541;">Peso / volumen</label>
+                        <input type="number" name="weight_value" step="0.01" min="0"
+                               value="{{ old('weight_value', $product->weight_value) }}"
+                               placeholder="50"
+                               class="w-full rounded-lg px-3 py-2 text-sm"
+                               style="background:#FBF8F2;border:1px solid #E5DCC9;color:#2E2A26;">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium mb-1" style="color:#4B4541;">Unidad</label>
+                        <select name="weight_unit"
+                                class="w-full rounded-lg px-3 py-2 text-sm"
+                                style="background:#FBF8F2;border:1px solid #E5DCC9;color:#2E2A26;">
+                            <option value="">—</option>
+                            @foreach(['ml' => 'ml', 'L' => 'L', 'g' => 'g', 'kg' => 'kg', 'oz' => 'oz'] as $u => $lbl)
+                                <option value="{{ $u }}" {{ old('weight_unit', $product->weight_unit) === $u ? 'selected' : '' }}>{{ $lbl }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium mb-1" style="color:#4B4541;">País de origen</label>
+                        <input type="text" name="country_origin" maxlength="100"
+                               value="{{ old('country_origin', $product->country_origin) }}"
+                               placeholder="ej. Francia"
+                               class="w-full rounded-lg px-3 py-2 text-sm"
+                               style="background:#FBF8F2;border:1px solid #E5DCC9;color:#2E2A26;">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
+                    <label class="flex items-start gap-3 p-3 rounded-xl border cursor-pointer transition-all"
+                           style="border-color:{{ old('is_cruelty_free', $product->is_cruelty_free) ? '#A8B29A' : '#E5DCC9' }};background:{{ old('is_cruelty_free', $product->is_cruelty_free) ? '#F0F2EB' : '#FBF8F2' }};">
+                        <input type="checkbox" name="is_cruelty_free" value="1"
+                               {{ old('is_cruelty_free', $product->is_cruelty_free) ? 'checked' : '' }}
+                               class="mt-1 w-4 h-4" style="accent-color:#8A9680;">
+                        <div>
+                            <p class="text-sm font-semibold" style="color:#2E2A26;">🐰 Cruelty-free</p>
+                            <p class="text-xs mt-0.5" style="color:#6B6157;">Sin pruebas en animales</p>
+                        </div>
+                    </label>
+                    <label class="flex items-start gap-3 p-3 rounded-xl border cursor-pointer transition-all"
+                           style="border-color:{{ old('is_vegan', $product->is_vegan) ? '#A8B29A' : '#E5DCC9' }};background:{{ old('is_vegan', $product->is_vegan) ? '#F0F2EB' : '#FBF8F2' }};">
+                        <input type="checkbox" name="is_vegan" value="1"
+                               {{ old('is_vegan', $product->is_vegan) ? 'checked' : '' }}
+                               class="mt-1 w-4 h-4" style="accent-color:#8A9680;">
+                        <div>
+                            <p class="text-sm font-semibold" style="color:#2E2A26;">🌱 Vegano</p>
+                            <p class="text-xs mt-0.5" style="color:#6B6157;">Sin ingredientes de origen animal</p>
+                        </div>
+                    </label>
+                </div>
+            </div>
+        </div>
+
         {{-- ───────────── SEO ───────────── --}}
         @php
             $defaultMetaTitle = $product->meta_title ?: $product->name . ' | Belleza Áurea';
@@ -474,7 +631,7 @@
             </div>
 
             {{-- Meta description --}}
-            <div>
+            <div class="mb-5">
                 <label class="flex justify-between text-xs font-medium mb-1" style="color:#4B4541;">
                     <span>Meta descripción (Google muestra ~155 caracteres)</span>
                     <span x-text="desc.length + ' / 155'"
@@ -488,6 +645,50 @@
                     Frase atractiva que invite al click. Menciona beneficio principal + diferenciador + CTA suave.
                 </p>
             </div>
+
+            {{-- Focus keyword --}}
+            <div class="mb-5">
+                <label class="block text-xs font-medium mb-1" style="color:#4B4541;">
+                    Palabra clave principal <span class="text-xs ml-2" style="color:#9CA3AF;">(1–3 palabras que mejor describen el producto)</span>
+                </label>
+                <input type="text" name="focus_keyword" maxlength="120"
+                       value="{{ old('focus_keyword', $product->focus_keyword) }}"
+                       placeholder="ej. sérum vitamina C, esmalte semipermanente, crema karité"
+                       class="w-full rounded-lg px-3 py-2 text-sm"
+                       style="background:#FBF8F2;border:1px solid #E5DCC9;color:#2E2A26;">
+                <p class="mt-1 text-xs italic" style="color:#9CA3AF;">
+                    Se incluye en el JSON-LD como <code>keywords</code>. Ayuda a la IA a categorizar y citar tu producto.
+                </p>
+            </div>
+
+            {{-- OG Image --}}
+            <div class="mb-5">
+                <label class="block text-xs font-medium mb-1" style="color:#4B4541;">
+                    Imagen para redes sociales (Open Graph) <span class="text-xs ml-2" style="color:#9CA3AF;">— 1200×630 ideal</span>
+                </label>
+                @if($product->og_image_path)
+                    <div class="mb-2 flex items-center gap-3 p-2 rounded-lg" style="background:#FBF4E6;border:1px solid #E8CC92;">
+                        <img src="{{ asset('storage/'.$product->og_image_path) }}" alt="" class="h-16 rounded">
+                        <p class="text-xs" style="color:#6B6157;">Actual: <code>{{ basename($product->og_image_path) }}</code></p>
+                    </div>
+                @endif
+                <input type="file" name="og_image" accept="image/*" class="text-xs" style="color:#6B6157;">
+                <p class="mt-1 text-xs italic" style="color:#9CA3AF;">
+                    Si vacío, se usa la primera imagen del producto. Para Facebook/Instagram/X mejor 1200×630 (proporción 1.91:1).
+                </p>
+            </div>
+
+            {{-- Noindex --}}
+            <label class="flex items-start gap-3 p-3 rounded-xl border cursor-pointer transition-all"
+                   style="border-color:{{ old('noindex', $product->noindex) ? '#C97B6B' : '#E5DCC9' }};background:{{ old('noindex', $product->noindex) ? '#FCEFE6' : '#FBF8F2' }};">
+                <input type="checkbox" name="noindex" value="1"
+                       {{ old('noindex', $product->noindex) ? 'checked' : '' }}
+                       class="mt-1 w-4 h-4" style="accent-color:#C97B6B;">
+                <div>
+                    <p class="text-sm font-semibold" style="color:#2E2A26;">🚫 No indexar en Google</p>
+                    <p class="text-xs mt-0.5" style="color:#6B6157;">El producto se ve en tu tienda, pero Google y los buscadores lo ignoran. Útil para productos privados, beta o agotados.</p>
+                </div>
+            </label>
         </div>
 
         {{-- Actions --}}

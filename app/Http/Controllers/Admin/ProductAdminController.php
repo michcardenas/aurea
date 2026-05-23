@@ -59,6 +59,20 @@ class ProductAdminController extends Controller
             'meta_description' => 'nullable|string|max:500',
             'slug' => 'nullable|string|max:255',
             'sort_order' => 'nullable|integer|min:0',
+            'focus_keyword' => 'nullable|string|max:120',
+            'noindex' => 'boolean',
+            'og_image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:4096',
+            'key_features_raw' => 'nullable|string|max:2000',
+            'how_to_use' => 'nullable|string|max:5000',
+            'ingredients' => 'nullable|string|max:5000',
+            'suitable_for' => 'nullable|string|max:500',
+            'gtin' => 'nullable|string|max:14',
+            'mpn' => 'nullable|string|max:70',
+            'weight_value' => 'nullable|numeric|min:0',
+            'weight_unit' => 'nullable|in:g,kg,ml,L,oz',
+            'country_origin' => 'nullable|string|max:100',
+            'is_cruelty_free' => 'boolean',
+            'is_vegan' => 'boolean',
             'is_active' => 'boolean',
             'is_featured' => 'boolean',
             'images.*' => 'image|mimes:jpg,jpeg,png,webp|max:2048',
@@ -83,6 +97,25 @@ class ProductAdminController extends Controller
         $validated['sort_order'] = $request->input('sort_order') ?: 0;
         $validated['is_active'] = $request->boolean('is_active');
         $validated['is_featured'] = $request->boolean('is_featured');
+        $validated['noindex'] = $request->boolean('noindex');
+        $validated['is_cruelty_free'] = $request->boolean('is_cruelty_free');
+        $validated['is_vegan'] = $request->boolean('is_vegan');
+
+        // key_features llega como textarea con un bullet por línea
+        $rawFeatures = $request->input('key_features_raw', '');
+        $features = collect(preg_split('/\r?\n/', $rawFeatures))
+            ->map(fn ($l) => trim($l))
+            ->filter()
+            ->values()
+            ->all();
+        $validated['key_features'] = ! empty($features) ? $features : null;
+        unset($validated['key_features_raw']);
+
+        // OG image upload
+        if ($request->hasFile('og_image')) {
+            $validated['og_image_path'] = $request->file('og_image')->store('og', 'public');
+        }
+        unset($validated['og_image']);
 
         $imagePaths = [];
         if ($request->hasFile('images')) {
@@ -156,6 +189,20 @@ class ProductAdminController extends Controller
             'meta_description' => 'nullable|string|max:500',
             'slug' => 'nullable|string|max:255',
             'sort_order' => 'nullable|integer|min:0',
+            'focus_keyword' => 'nullable|string|max:120',
+            'noindex' => 'boolean',
+            'og_image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:4096',
+            'key_features_raw' => 'nullable|string|max:2000',
+            'how_to_use' => 'nullable|string|max:5000',
+            'ingredients' => 'nullable|string|max:5000',
+            'suitable_for' => 'nullable|string|max:500',
+            'gtin' => 'nullable|string|max:14',
+            'mpn' => 'nullable|string|max:70',
+            'weight_value' => 'nullable|numeric|min:0',
+            'weight_unit' => 'nullable|in:g,kg,ml,L,oz',
+            'country_origin' => 'nullable|string|max:100',
+            'is_cruelty_free' => 'boolean',
+            'is_vegan' => 'boolean',
             'is_active' => 'boolean',
             'is_featured' => 'boolean',
             'images.*' => 'image|mimes:jpg,jpeg,png,webp|max:2048',
@@ -181,6 +228,25 @@ class ProductAdminController extends Controller
         $validated['sort_order'] = $request->input('sort_order') ?: 0;
         $validated['is_active'] = $request->boolean('is_active');
         $validated['is_featured'] = $request->boolean('is_featured');
+        $validated['noindex'] = $request->boolean('noindex');
+        $validated['is_cruelty_free'] = $request->boolean('is_cruelty_free');
+        $validated['is_vegan'] = $request->boolean('is_vegan');
+
+        // key_features llega como textarea con un bullet por línea
+        $rawFeatures = $request->input('key_features_raw', '');
+        $features = collect(preg_split('/\r?\n/', $rawFeatures))
+            ->map(fn ($l) => trim($l))
+            ->filter()
+            ->values()
+            ->all();
+        $validated['key_features'] = ! empty($features) ? $features : null;
+        unset($validated['key_features_raw']);
+
+        // OG image upload
+        if ($request->hasFile('og_image')) {
+            $validated['og_image_path'] = $request->file('og_image')->store('og', 'public');
+        }
+        unset($validated['og_image']);
 
         // Handle image removal
         $currentImages = $product->images ?? [];
