@@ -1335,6 +1335,107 @@
 @endif
 
 {{-- ============================================================
+     9b. MARCAS QUE DISTRIBUIMOS — carrusel infinito de logos
+     SEO: cada logo es un <a> real con anchor text de la marca, lo
+     cual ayuda a indexar /marcas/{slug} y refuerza la autoridad.
+     ============================================================ --}}
+@if(($featuredBrands ?? collect())->isNotEmpty())
+<section class="ba-section" aria-labelledby="brands-title" style="padding:clamp(64px,8vw,100px) 0;">
+    <div class="ba-container">
+        <header class="ba-section-head" data-anim="fade-up">
+            <span class="ba-section-head__label">Marcas que distribuimos</span>
+            <h2 id="brands-title" class="ba-section-head__title">Trabajamos con las mejores</h2>
+            <p class="ba-section-head__sub">Selección curada de marcas premium con ingredientes botánicos, formulaciones limpias y resultados visibles.</p>
+            <div class="ba-divider"></div>
+        </header>
+    </div>
+
+    {{-- Carrusel infinito, full-bleed --}}
+    <div class="ba-brands-marquee" data-anim="fade-in" style="--stagger: 2;">
+        <div class="ba-brands-track">
+            @for($iter = 0; $iter < 2; $iter++)
+                @foreach($featuredBrands as $brand)
+                    <a href="{{ route('brands.show', $brand->slug) }}"
+                       class="ba-brand-logo"
+                       title="{{ $brand->name }} — {{ $brand->short_description ?? 'Ver productos' }}">
+                        @if($brand->logo_path)
+                            <img src="{{ $brand->logo_url }}" alt="{{ $brand->name }}" loading="lazy">
+                        @else
+                            <span class="ba-brand-logo__text">{{ $brand->name }}</span>
+                        @endif
+                    </a>
+                @endforeach
+            @endfor
+        </div>
+    </div>
+
+    <div class="ba-container" style="text-align:center;margin-top:48px;" data-anim="fade-up">
+        <a href="{{ route('brands.index') }}" class="ba-btn-ghost">Ver todas las marcas</a>
+    </div>
+</section>
+
+<style>
+    .ba-brands-marquee {
+        position: relative;
+        overflow: hidden;
+        padding: 32px 0;
+        mask-image: linear-gradient(to right, transparent 0, #000 8%, #000 92%, transparent 100%);
+        -webkit-mask-image: linear-gradient(to right, transparent 0, #000 8%, #000 92%, transparent 100%);
+    }
+    .ba-brands-track {
+        display: flex;
+        align-items: center;
+        gap: 72px;
+        white-space: nowrap;
+        animation: ba-brands-scroll 42s linear infinite;
+        width: max-content;
+    }
+    .ba-brands-marquee:hover .ba-brands-track {
+        animation-play-state: paused;
+    }
+    @keyframes ba-brands-scroll {
+        from { transform: translateX(0); }
+        to   { transform: translateX(-50%); }
+    }
+    .ba-brand-logo {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        height: 80px;
+        min-width: 140px;
+        padding: 0 8px;
+        text-decoration: none;
+        transition: filter .35s ease, opacity .35s ease, transform .35s ease;
+        filter: grayscale(100%);
+        opacity: .55;
+        flex-shrink: 0;
+    }
+    .ba-brand-logo:hover {
+        filter: none;
+        opacity: 1;
+        transform: scale(1.05);
+    }
+    .ba-brand-logo img {
+        max-height: 60px;
+        max-width: 160px;
+        object-fit: contain;
+        display: block;
+    }
+    .ba-brand-logo__text {
+        font-family: 'Playfair Display', serif;
+        font-size: 26px;
+        font-weight: 500;
+        color: #2E2A26;
+        letter-spacing: .04em;
+        white-space: nowrap;
+    }
+    @media (prefers-reduced-motion: reduce) {
+        .ba-brands-track { animation: none; }
+    }
+</style>
+@endif
+
+{{-- ============================================================
      10. TESTIMONIALS
      ============================================================ --}}
 @php

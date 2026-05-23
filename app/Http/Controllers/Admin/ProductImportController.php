@@ -99,6 +99,7 @@ class ProductImportController extends Controller
             'updated' => 0,
             'skipped' => 0,
             'categories_created' => 0,
+            'brands_created' => 0,
             'errors' => [],
         ];
 
@@ -120,6 +121,7 @@ class ProductImportController extends Controller
                 $internalCode = trim((string) $refRaw);
 
                 $categoryName = trim((string) $this->cell($row, $headerMap, 'categoria'));
+                $brandName    = trim((string) $this->cell($row, $headerMap, 'marca'));
                 $description  = trim((string) $this->cell($row, $headerMap, 'descripcion'));
                 $description  = ($description === '-' || $description === '') ? null : $description;
 
@@ -151,12 +153,19 @@ class ProductImportController extends Controller
                     $category = $this->findOrCreateCategory($categoryName, $stats);
                 }
 
+                // Marca: find-or-create por slug
+                $brand = null;
+                if ($brandName !== '') {
+                    $brand = $this->findOrCreateBrand($brandName, $stats);
+                }
+
                 $product = Product::firstOrNew(['internal_code' => $internalCode]);
 
                 $isNew = ! $product->exists;
 
                 $product->fill([
                     'category_id'  => $category?->id ?? $product->category_id,
+                    'brand_id'     => $brand?->id ?? $product->brand_id,
                     'name'         => $name,
                     'slug'         => $product->slug ?: Str::slug($name).'-'.Str::lower($internalCode),
                     'description'  => $description ?? ($product->description ?? $name),
@@ -184,10 +193,11 @@ class ProductImportController extends Controller
 
         // Construir mensaje resultado
         $msg = sprintf(
-            'Importación lista: %d creados, %d actualizados, %d categorías nuevas, %d omitidos.',
+            'Importación lista: %d creados, %d actualizados, %d categorías nuevas, %d marcas nuevas, %d omitidos.',
             $stats['created'],
             $stats['updated'],
             $stats['categories_created'],
+            $stats['brands_created'] ?? 0,
             $stats['skipped'],
         );
 
@@ -196,6 +206,30 @@ class ProductImportController extends Controller
         }
 
         return redirect()->route('admin.products.index')->with('success', $msg);
+    }
+
+    /**
+     * Encuentra o crea una marca por nombre.
+     */
+    private function findOrCreateBrand(string $name, array &$stats): \App\Models\Brand
+    {
+        $slug = Str::slug($name);
+
+        $brand = \App\Models\Brand::where('slug', $slug)->orWhere('name', $name)->first();
+        if ($brand) {
+            return $brand;
+        }
+
+        $brand = \App\Models\Brand::create([
+            'name' => $name,
+            'slug' => $slug,
+            'is_active'   => true,
+            'is_featured' => true,
+            'sort_order'  => (\App\Models\Brand::max('sort_order') ?? 0) + 1,
+        ]);
+
+        $stats['brands_created'] = ($stats['brands_created'] ?? 0) + 1;
+        return $brand;
     }
 
     /**
@@ -245,6 +279,7 @@ class ProductImportController extends Controller
             $key === 'referencia' || $key === 'ref' || $key === 'codigo' || $key === 'sku' => 'referencia',
             $key === 'nombre' || $key === 'producto' || $key === 'descripcion del producto' => 'nombre',
             $key === 'categoria' || $key === 'categoria del producto' => 'categoria',
+            $key === 'marca' || $key === 'brand' || $key === 'fabricante' => 'marca',
             $key === 'descripcion' || $key === 'detalle' => 'descripcion',
             str_contains($key, 'pv centro') || str_contains($key, 'precio centro') => 'pv_centro',
             str_contains($key, 'pv distribuidor') || str_contains($key, 'precio distribuidor') => 'pv_distribuidor',

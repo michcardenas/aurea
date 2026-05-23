@@ -27,6 +27,22 @@
                            class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
                 </div>
                 <div x-data="quickCategory()">
+                    @php $brands = \App\Models\Brand::active()->ordered()->get(); @endphp
+                    <div style="margin-bottom:1rem;">
+                        <label for="brand_id" class="block text-sm font-medium text-gray-700 mb-1">
+                            Marca <span class="text-xs text-gray-400 ml-2">(opcional)</span>
+                        </label>
+                        <select id="brand_id" name="brand_id"
+                                class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-yellow-500">
+                            <option value="">— Sin marca —</option>
+                            @foreach($brands as $b)
+                                <option value="{{ $b->id }}" {{ old('brand_id') == $b->id ? 'selected' : '' }}>{{ $b->name }}</option>
+                            @endforeach
+                        </select>
+                        <p class="mt-1 text-xs text-gray-500">
+                            ¿Falta una marca? <a href="{{ route('admin.brands.create') }}" target="_blank" style="color:#BE9A53;text-decoration:underline;">Créala aquí →</a>
+                        </p>
+                    </div>
                     <label for="category_id" class="block text-sm font-medium text-gray-700 mb-1">Categoría *</label>
                     <div class="flex items-center gap-2">
                         <select id="category_id" name="category_id" required

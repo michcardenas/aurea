@@ -99,12 +99,13 @@ class StorefrontController extends Controller
 
         $categories = Category::orderBy('sort_order')->get();
         $testimonials = Testimonial::where('is_active', true)->orderBy('sort_order')->get();
+        $featuredBrands = \App\Models\Brand::active()->featured()->ordered()->get();
 
         return view('storefront.home', compact(
             'hero', 'heroProduct', 'heroMode', 'homePage', 'seoSettings',
             'lentes', 'toallitas', 'coloresDisponibles',
             'recentPosts', 'infographics', 'organizationSchema', 'faqSchema',
-            'categories', 'testimonials',
+            'categories', 'testimonials', 'featuredBrands',
         ));
     }
 

@@ -47,6 +47,7 @@ class ProductAdminController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'category_id' => 'required|exists:categories,id',
+            'brand_id' => 'nullable|exists:brands,id',
             'description' => 'required|string',
             'type' => 'required|array|min:1',
             'type.*' => 'in:miopia,lectura,sin_graduacion,toallitas',
@@ -135,6 +136,7 @@ class ProductAdminController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'category_id' => 'required|exists:categories,id',
+            'brand_id' => 'nullable|exists:brands,id',
             'description' => 'required|string',
             'type' => 'required|array|min:1',
             'type.*' => 'in:miopia,lectura,sin_graduacion,toallitas',

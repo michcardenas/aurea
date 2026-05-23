@@ -41,6 +41,9 @@ Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 // Categories CRUD
 Route::resource('categories', CategoryAdminController::class)->except(['show']);
 
+// Brands CRUD
+Route::resource('brands', \App\Http\Controllers\Admin\BrandAdminController::class)->except(['show']);
+
 // Products CRUD
 Route::get('products/import',          [ProductImportController::class, 'show'])->name('products.import');
 Route::post('products/import',         [ProductImportController::class, 'store'])->name('products.import.store');

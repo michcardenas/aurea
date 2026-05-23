@@ -32,6 +32,10 @@ Route::get('/envios-y-devoluciones', [StorefrontController::class, 'shippingRetu
 Route::get('/productos', [ProductController::class, 'index'])->name('products.index');
 Route::get('/productos/{slug}', [ProductController::class, 'show'])->name('products.show');
 
+// Marcas (distribuidora)
+Route::get('/marcas',         [\App\Http\Controllers\BrandController::class, 'index'])->name('brands.index');
+Route::get('/marcas/{slug}',  [\App\Http\Controllers\BrandController::class, 'show'])->name('brands.show');
+
 // Redirects 301 desde URLs legacy del esqueleto Nuvion
 Route::permanentRedirect('/lentes', '/productos');
 Route::get('/lentes/{slug}', fn (string $slug) => redirect()->route('products.show', ['slug' => $slug], 301));
