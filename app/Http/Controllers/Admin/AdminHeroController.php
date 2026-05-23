@@ -18,6 +18,22 @@ class AdminHeroController extends Controller
 
     public function update(Request $request)
     {
+        // Permitir uploads grandes (videos pueden pesar 30-50 MB)
+        @ini_set('memory_limit', '2048M');
+        @ini_set('upload_max_filesize', '100M');
+        @ini_set('post_max_size', '100M');
+        @ini_set('max_execution_time', '600');
+        set_time_limit(600);
+
+        // Validar archivo si viene
+        $request->validate([
+            'media_file' => 'nullable|file|mimes:jpg,jpeg,png,webp,mp4,webm,mov|max:102400', // 100 MB
+            'hero_images_files.*' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:8192',
+        ], [
+            'media_file.max'   => 'El archivo es demasiado grande (máx. 100 MB). Comprime el video con HandBrake o Clideo.com antes de subirlo.',
+            'media_file.mimes' => 'Formato no permitido. Usa JPG, PNG, WebP, MP4, WebM o MOV.',
+        ]);
+
         $hero = HeroSetting::getCurrent();
 
         $data = $request->except(['_token', '_method', 'media_file', 'use_gradient', 'media_mode', 'hero_images_files', 'hero_images_existing', 'trust_items', 'trust_items_json']);
