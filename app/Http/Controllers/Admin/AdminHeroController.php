@@ -121,6 +121,12 @@ class AdminHeroController extends Controller
             $data['trust_items'] = $trustItems;
         }
 
+        // is_active viene como checkbox: si no está marcado no llega a la request
+        $data['is_active'] = $request->boolean('is_active');
+
+        // Limpiar campos legacy que ya no se usan en el form rediseñado
+        unset($data['video_position']);
+
         $hero->update($data);
 
         return redirect()->route('admin.hero.edit')
