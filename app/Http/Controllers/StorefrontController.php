@@ -26,6 +26,9 @@ class StorefrontController extends Controller
 
     public function home(): View
     {
+        // Productos principales del home: featured primero, luego sort_order,
+        // luego más recientes. Garantiza stock. Cargamos variantes + categoría
+        // + brand para las cards.
         $lentes = Product::active()
             ->where(fn ($q) => $q->whereJsonContains('type', 'miopia')
                 ->orWhereJsonContains('type', 'lectura')
@@ -34,11 +37,14 @@ class StorefrontController extends Controller
                 $q->where('stock', '>', 0)
                   ->orWhereHas('variants', fn ($v) => $v->where('is_active', true)->where('stock', '>', 0));
             })
-            ->with('variants')
+            ->with(['variants', 'category', 'brand'])
+            ->orderByDesc('is_featured')
             ->orderBy('sort_order')
+            ->orderByDesc('created_at')
             ->get()
             ->filter(fn ($p) => $p->hasStock())
-            ->values();
+            ->values()
+            ->take(8);
 
         $toallitas = Product::active()
             ->whereJsonContains('type', 'toallitas')

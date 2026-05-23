@@ -563,25 +563,36 @@
         .ba-cat__desc { opacity: .85; max-height: 80px; margin: 0 0 14px; transform: none; }
     }
 
-    /* Products grid */
+    /* ─────────────────────────────────────────
+       PRODUCT CARDS — Premium beauty store
+       Estilo Aesop / Glossier / NET-A-PORTER
+       ───────────────────────────────────────── */
     .ba-prods {
         display: grid;
         grid-template-columns: repeat(4, 1fr);
-        gap: 32px 24px;
+        gap: 48px 28px;
     }
+
     .ba-card {
-        background: transparent;
+        position: relative;
+        display: block;
         text-decoration: none;
         color: inherit;
-        display: block;
+        isolation: isolate;
     }
+
+    /* Imagen */
     .ba-card__img {
         position: relative;
         aspect-ratio: 4/5;
-        background: #FBF8F2;
+        background: linear-gradient(135deg, #FBF8F2 0%, #F7F3ED 60%, #EDE6D8 100%);
         overflow: hidden;
-        border-radius: 2px;
+        border-radius: 4px;
         margin-bottom: 18px;
+        transition: box-shadow .55s cubic-bezier(.2,.7,.3,1);
+    }
+    .ba-card:hover .ba-card__img {
+        box-shadow: 0 30px 60px -20px rgba(190,154,83,.4);
     }
     .ba-card__img img {
         position: absolute;
@@ -589,18 +600,148 @@
         width: 100%;
         height: 100%;
         object-fit: cover;
-        transition: transform 1.4s cubic-bezier(.2,.7,.3,1);
+        transition: transform 1.6s cubic-bezier(.2,.7,.3,1),
+                    filter .55s ease;
     }
-    .ba-card:hover .ba-card__img img { transform: scale(1.06); }
+    .ba-card:hover .ba-card__img img {
+        transform: scale(1.08);
+        filter: brightness(1.02);
+    }
+
+    /* Placeholder cuando no hay imagen — botánico decorativo */
     .ba-card__img--ph {
         display: flex;
+        flex-direction: column;
         align-items: center;
         justify-content: center;
-        color: #D9B56D;
+        gap: 12px;
+        background: radial-gradient(circle at 50% 35%, #FBF4E6, #F7F3ED 70%, #E8D1C5 100%);
+        position: relative;
+    }
+    .ba-card__img--ph::before {
+        content: "";
+        position: absolute;
+        inset: 20%;
+        background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' fill='none'%3E%3Cpath d='M20 80 Q 50 50 35 20 M 20 80 Q 60 70 70 35' stroke='%23A8B29A' stroke-width='1' stroke-linecap='round' opacity='0.45'/%3E%3Cellipse cx='42' cy='45' rx='10' ry='4' transform='rotate(-30 42 45)' fill='%23A8B29A' opacity='0.35'/%3E%3Cellipse cx='58' cy='28' rx='8' ry='3' transform='rotate(-15 58 28)' fill='%23A8B29A' opacity='0.35'/%3E%3C/svg%3E") center/contain no-repeat;
+    }
+    .ba-card__img--ph > span {
+        position: relative;
+        z-index: 1;
+        color: #BE9A53;
         font-family: 'Playfair Display', serif;
         font-style: italic;
         font-size: 14px;
-        background: radial-gradient(circle at 50% 40%, #FBF4E6, #F7F3ED 75%);
+        letter-spacing: 0.04em;
+        text-align: center;
+    }
+
+    /* Overlay con gradiente bottom para "Ver detalle" reveal */
+    .ba-card__overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(180deg, transparent 50%, rgba(46,42,38,.55) 100%);
+        opacity: 0;
+        transition: opacity .45s cubic-bezier(.2,.7,.3,1);
+        pointer-events: none;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        padding: 18px;
+    }
+    .ba-card:hover .ba-card__overlay { opacity: 1; }
+
+    .ba-card__quick {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 10px;
+        font-weight: 600;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        color: #FFFFFF;
+        background: rgba(217,181,109,.95);
+        padding: 10px 18px;
+        border-radius: 999px;
+        transform: translateY(10px);
+        opacity: 0;
+        transition: transform .55s cubic-bezier(.2,.7,.3,1), opacity .35s ease;
+        align-self: center;
+    }
+    .ba-card:hover .ba-card__quick {
+        transform: translateY(0);
+        opacity: 1;
+        transition-delay: .08s;
+    }
+
+    /* Badges esquina superior izquierda */
+    .ba-card__badge {
+        position: absolute;
+        top: 12px;
+        left: 12px;
+        z-index: 2;
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        font-size: 9px;
+        font-weight: 700;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        padding: 5px 10px;
+        border-radius: 999px;
+        backdrop-filter: blur(8px);
+    }
+    .ba-card__badge--featured {
+        background: rgba(217,181,109,.95);
+        color: #2E2A26;
+    }
+    .ba-card__badge--new {
+        background: rgba(168,178,154,.95);
+        color: #FFFFFF;
+    }
+    .ba-card__badge--discount {
+        background: rgba(201,123,107,.95);
+        color: #FFFFFF;
+    }
+    .ba-card__badge--out {
+        background: rgba(46,42,38,.85);
+        color: #FFFFFF;
+    }
+
+    /* Wishlist heart top-right */
+    .ba-card__wish {
+        position: absolute;
+        top: 12px;
+        right: 12px;
+        z-index: 2;
+        width: 36px;
+        height: 36px;
+        background: rgba(255,255,255,.92);
+        border: none;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #B8A999;
+        cursor: pointer;
+        opacity: 0;
+        transform: scale(.85);
+        transition: opacity .35s ease, transform .35s ease, color .25s ease;
+        backdrop-filter: blur(6px);
+    }
+    .ba-card:hover .ba-card__wish {
+        opacity: 1;
+        transform: scale(1);
+    }
+    .ba-card__wish:hover { color: #C97B6B; }
+
+    /* Info debajo de la imagen */
+    .ba-card__brand {
+        font-size: 10px;
+        letter-spacing: 0.24em;
+        text-transform: uppercase;
+        color: #BE9A53;
+        font-weight: 600;
+        margin: 0 0 4px;
     }
     .ba-card__cat {
         font-size: 10px;
@@ -611,28 +752,115 @@
     }
     .ba-card__name {
         font-family: 'Playfair Display', serif;
-        font-size: 18px;
+        font-size: 17px;
         font-weight: 500;
         color: #2E2A26;
         line-height: 1.25;
         margin: 0 0 10px;
         transition: color .25s ease;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
     }
     .ba-card:hover .ba-card__name { color: #BE9A53; }
+
     .ba-card__price-row {
         display: flex;
         align-items: baseline;
         gap: 10px;
+        flex-wrap: wrap;
     }
     .ba-card__price {
-        font-size: 16px;
-        font-weight: 500;
+        font-size: 17px;
+        font-weight: 600;
         color: #2E2A26;
+        font-family: 'Playfair Display', serif;
     }
     .ba-card__compare {
         font-size: 13px;
         color: #B8A999;
         text-decoration: line-through;
+    }
+    .ba-card__discount {
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        color: #C97B6B;
+        background: #FCEFE6;
+        padding: 2px 7px;
+        border-radius: 4px;
+    }
+
+    /* Color dots para variantes */
+    .ba-card__dots {
+        display: flex;
+        gap: 5px;
+        margin-top: 10px;
+        flex-wrap: wrap;
+    }
+    .ba-card__dot {
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+        border: 1px solid rgba(184,169,153,.4);
+        box-shadow: inset 0 0 0 1px rgba(255,255,255,.5);
+        transition: transform .25s ease;
+    }
+    .ba-card:hover .ba-card__dot { transform: scale(1.08); }
+    .ba-card__dot--more {
+        font-size: 9px;
+        color: #B8A999;
+        border: none;
+        background: transparent;
+        font-weight: 600;
+        align-self: center;
+        margin-left: 2px;
+    }
+
+    /* ─── Tabs filtro de productos ─── */
+    .ba-tabs {
+        display: flex;
+        justify-content: center;
+        gap: 8px;
+        margin: 0 auto 48px;
+        flex-wrap: wrap;
+        padding: 6px;
+        background: #FFFFFF;
+        border: 1px solid rgba(184,169,153,.25);
+        border-radius: 999px;
+        width: fit-content;
+        max-width: 100%;
+    }
+    .ba-tab {
+        padding: 10px 22px;
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: #6B6157;
+        background: transparent;
+        border: none;
+        border-radius: 999px;
+        cursor: pointer;
+        transition: all .35s cubic-bezier(.2,.7,.3,1);
+        white-space: nowrap;
+    }
+    .ba-tab:hover { color: #2E2A26; }
+    .ba-tab.is-active {
+        background: #2E2A26;
+        color: #FFFFFF;
+        box-shadow: 0 6px 18px -6px rgba(46,42,38,.35);
+    }
+
+    /* Animación cuando cambia el filtro */
+    .ba-card[hidden] { display: none !important; }
+    .ba-card.ba-filtering {
+        animation: cardFadeIn .55s cubic-bezier(.2,.7,.3,1) both;
+    }
+    @keyframes cardFadeIn {
+        from { opacity: 0; transform: translateY(20px) scale(.98); }
+        to   { opacity: 1; transform: none; }
     }
 
     /* Star product split */
@@ -1305,10 +1533,22 @@
 @endif
 
 {{-- ============================================================
-     4. CATÁLOGO — Productos destacados
+     4. CATÁLOGO — Productos destacados con tabs filtro
      ============================================================ --}}
-@if($lentes->isNotEmpty())
-<section class="ba-section" aria-labelledby="catalog-title">
+@php
+    // Mezclamos lentes (productos principales) + toallitas (sets) para los tabs.
+    $allProducts = $lentes->concat($toallitas)->take(12);
+
+    // Cuántos están realmente en cada tab (para mostrar/ocultar tabs vacíos)
+    $countAll       = $allProducts->count();
+    $countFeatured  = $allProducts->where('is_featured', true)->count();
+    $countDiscount  = $allProducts->filter(fn($p) => $p->compare_price && $p->compare_price > $p->price)->count();
+    $countSets      = $allProducts->filter(fn($p) => collect($p->type ?? [])->contains('toallitas'))->count();
+@endphp
+
+@if($allProducts->isNotEmpty())
+<section class="ba-section" aria-labelledby="catalog-title"
+         x-data="{ tab: 'all' }">
     <div class="ba-container">
         <header class="ba-section-head" data-anim="fade-up">
             <span class="ba-section-head__label">{{ $homePage->catalog_label ?? 'Catálogo' }}</span>
@@ -1319,29 +1559,119 @@
             <div class="ba-divider"></div>
         </header>
 
-        <div class="ba-prods">
-            @foreach($lentes->take(8) as $i => $p)
+        {{-- Tabs filtro --}}
+        <div class="ba-tabs" data-anim="fade-up">
+            <button type="button"
+                    class="ba-tab" :class="tab === 'all' ? 'is-active' : ''"
+                    @click="tab = 'all'; refreshCards()">Todos · {{ $countAll }}</button>
+            @if($countFeatured > 0)
+            <button type="button"
+                    class="ba-tab" :class="tab === 'featured' ? 'is-active' : ''"
+                    @click="tab = 'featured'; refreshCards()">★ Destacados · {{ $countFeatured }}</button>
+            @endif
+            @if($countDiscount > 0)
+            <button type="button"
+                    class="ba-tab" :class="tab === 'discount' ? 'is-active' : ''"
+                    @click="tab = 'discount'; refreshCards()">Con descuento · {{ $countDiscount }}</button>
+            @endif
+            @if($countSets > 0)
+            <button type="button"
+                    class="ba-tab" :class="tab === 'sets' ? 'is-active' : ''"
+                    @click="tab = 'sets'; refreshCards()">Sets · {{ $countSets }}</button>
+            @endif
+        </div>
+
+        <div class="ba-prods" id="ba-prods-grid">
+            @foreach($allProducts as $i => $p)
+                @php
+                    // Tags para el filtro
+                    $tags = ['all'];
+                    if ($p->is_featured) $tags[] = 'featured';
+                    if ($p->compare_price && $p->compare_price > $p->price) $tags[] = 'discount';
+                    if (collect($p->type ?? [])->contains('toallitas')) $tags[] = 'sets';
+
+                    $discountPct = ($p->compare_price && $p->compare_price > $p->price)
+                        ? (int) round((($p->compare_price - $p->price) / $p->compare_price) * 100)
+                        : 0;
+
+                    // Color variants (max 4 dots)
+                    $colorVariants = collect($p->variants ?? [])
+                        ->filter(fn ($v) => $v->is_active && $v->color_hex)
+                        ->take(4);
+                    $moreColors = collect($p->variants ?? [])
+                        ->filter(fn ($v) => $v->is_active && $v->color_hex)
+                        ->count() - $colorVariants->count();
+
+                    $isNew = $p->created_at && $p->created_at->gt(now()->subDays(30));
+                @endphp
                 <a href="{{ route('products.show', ['slug' => $p->slug]) }}"
                    class="ba-card"
+                   data-tags="{{ implode(',', $tags) }}"
                    data-anim="fade-up"
                    style="--stagger: {{ $i % 4 }};">
+
+                    {{-- Imagen + overlay + badges --}}
                     <div class="ba-card__img {{ empty($p->images) ? 'ba-card__img--ph' : '' }}">
+                        @if($p->is_featured)
+                            <span class="ba-card__badge ba-card__badge--featured">★ Destacado</span>
+                        @elseif($isNew)
+                            <span class="ba-card__badge ba-card__badge--new">Nuevo</span>
+                        @elseif($discountPct >= 15)
+                            <span class="ba-card__badge ba-card__badge--discount">-{{ $discountPct }}%</span>
+                        @endif
+
+                        <button type="button" class="ba-card__wish"
+                                onclick="event.preventDefault();event.stopPropagation();this.style.color='#C97B6B';"
+                                aria-label="Guardar en favoritos">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                            </svg>
+                        </button>
+
                         @if(!empty($p->images))
-                            <img src="{{ asset('storage/'.$p->images[0]) }}" alt="{{ $p->name }} — Belleza Áurea" loading="lazy">
+                            <img src="{{ asset('storage/'.$p->images[0]) }}" alt="{{ $p->name }}" loading="lazy">
                         @else
                             <span>Próximamente</span>
                         @endif
+
+                        <div class="ba-card__overlay">
+                            <span class="ba-card__quick">
+                                Ver detalle
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            </span>
+                        </div>
                     </div>
-                    @if($p->category)
-                    <p class="ba-card__cat">{{ $p->category->name }}</p>
+
+                    {{-- Info textual --}}
+                    @if($p->brand)
+                        <p class="ba-card__brand">{{ $p->brand->name }}</p>
+                    @elseif($p->category)
+                        <p class="ba-card__cat">{{ $p->category->name }}</p>
                     @endif
+
                     <h3 class="ba-card__name">{{ $p->name }}</h3>
+
                     <div class="ba-card__price-row">
                         <span class="ba-card__price">${{ number_format($p->price, 0, ',', '.') }}</span>
                         @if($p->compare_price && $p->compare_price > $p->price)
-                        <span class="ba-card__compare">${{ number_format($p->compare_price, 0, ',', '.') }}</span>
+                            <span class="ba-card__compare">${{ number_format($p->compare_price, 0, ',', '.') }}</span>
+                            @if($discountPct >= 5)
+                                <span class="ba-card__discount">-{{ $discountPct }}%</span>
+                            @endif
                         @endif
                     </div>
+
+                    {{-- Color dots --}}
+                    @if($colorVariants->isNotEmpty())
+                    <div class="ba-card__dots">
+                        @foreach($colorVariants as $cv)
+                            <span class="ba-card__dot" style="background:{{ $cv->color_hex }};" title="{{ $cv->value }}"></span>
+                        @endforeach
+                        @if($moreColors > 0)
+                            <span class="ba-card__dot--more">+{{ $moreColors }}</span>
+                        @endif
+                    </div>
+                    @endif
                 </a>
             @endforeach
         </div>
@@ -1350,6 +1680,34 @@
             <a href="{{ route('products.index') }}" class="ba-btn-ghost">Ver catálogo completo</a>
         </div>
     </div>
+
+    {{-- Filtrado Alpine + reanimación --}}
+    <script>
+        function refreshCards() {
+            // No-op placeholder; el binding x-effect abajo hace el trabajo.
+            // Mantenido por compatibilidad con @click.
+        }
+    </script>
+    <div x-effect="
+        const grid = document.getElementById('ba-prods-grid');
+        if (!grid) return;
+        const cards = grid.querySelectorAll('.ba-card');
+        cards.forEach((c, i) => {
+            const tags = (c.dataset.tags || '').split(',');
+            const match = tab === 'all' || tags.includes(tab);
+            if (match) {
+                c.hidden = false;
+                c.classList.remove('ba-filtering');
+                // Force reflow then add class for re-animation
+                void c.offsetWidth;
+                c.classList.add('ba-filtering');
+                c.style.animationDelay = (i % 4) * 60 + 'ms';
+            } else {
+                c.hidden = true;
+                c.classList.remove('ba-filtering');
+            }
+        });
+    "></div>
 </section>
 @endif
 
