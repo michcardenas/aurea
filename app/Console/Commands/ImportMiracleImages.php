@@ -257,6 +257,12 @@ class ImportMiracleImages extends Command
         $img = @imagecreatefromstring($bytes);
         if (! $img) return null;
 
+        // PNG en modo paleta indexada no es compatible con WebP — convertir
+        // a truecolor primero (necesario para que imagewebp funcione).
+        if (function_exists('imageistruecolor') && ! imageistruecolor($img)) {
+            imagepalettetotruecolor($img);
+        }
+
         $w = imagesx($img); $h = imagesy($img);
         if (max($w, $h) > self::MAX_DIM) {
             if ($w >= $h) {
