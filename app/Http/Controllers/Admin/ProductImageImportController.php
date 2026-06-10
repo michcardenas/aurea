@@ -45,9 +45,47 @@ class ProductImageImportController extends Controller
     /** Extensiones aceptadas */
     const VALID_EXT = ['jpg', 'jpeg', 'png', 'webp', 'gif'];
 
-    public function show()
+    public function show(\Illuminate\Http\Request $request)
     {
-        return view('admin.products.import-images');
+        // Productos activos sin imágenes — paginados 10 por página
+        $query = \App\Models\Product::with('category')
+            ->where('is_active', true)
+            ->whereRaw('(images IS NULL OR JSON_LENGTH(images) = 0)');
+
+        if ($search = trim((string) $request->input('q', ''))) {
+            $query->where(function ($qq) use ($search) {
+                $qq->where('name', 'like', "%{$search}%")
+                   ->orWhere('internal_code', 'like', "%{$search}%");
+            });
+        }
+
+        if ($catFilter = $request->input('cat')) {
+            $query->where('category_id', $catFilter);
+        }
+
+        $missingProducts = $query
+            ->orderBy('category_id')
+            ->orderBy('name')
+            ->paginate(10)
+            ->withQueryString();
+
+        // Conteos para los stats del header
+        $missingTotal = \App\Models\Product::where('is_active', true)
+            ->whereRaw('(images IS NULL OR JSON_LENGTH(images) = 0)')
+            ->count();
+        $totalActive = \App\Models\Product::where('is_active', true)->count();
+
+        // Categorías con conteo de faltantes (para filtro)
+        $categoriesWithMissing = \App\Models\Category::select('categories.*')
+            ->selectRaw('(SELECT COUNT(*) FROM products WHERE products.category_id = categories.id AND products.is_active = 1 AND (products.images IS NULL OR JSON_LENGTH(products.images) = 0)) AS missing_count')
+            ->orderBy('name')
+            ->get()
+            ->filter(fn ($c) => $c->missing_count > 0)
+            ->values();
+
+        return view('admin.products.import-images', compact(
+            'missingProducts', 'missingTotal', 'totalActive', 'categoriesWithMissing'
+        ));
     }
 
     public function store(Request $request): RedirectResponse
