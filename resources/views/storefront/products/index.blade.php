@@ -35,153 +35,170 @@
     </section>
 
     {{-- ============================================================
-         FILTROS STICKY · BELLEZA
+         FILTROS · BARRA ÚNICA MINIMALISTA
          ============================================================ --}}
     @php
-        $activeFilterCount = ($catFiltro ? 1 : 0) + ($brandFiltro ? 1 : 0) + ($priceFiltro ? 1 : 0);
+        $activeFilterCount = ($qFiltro ? 1 : 0) + ($catFiltro ? 1 : 0) + ($brandFiltro ? 1 : 0) + ($priceFiltro ? 1 : 0);
         $currentCat = $catFiltro ? $categoriasFiltro->firstWhere('slug', $catFiltro) : null;
         $currentBrand = $brandFiltro && $marcasFiltro->count() ? $marcasFiltro->firstWhere('slug', $brandFiltro) : null;
     @endphp
-    <section x-data="{ filtersOpen: true }" style="background:#f8f9fa;border-bottom:1px solid rgba(0,0,0,0.06);position:sticky;top:72px;z-index:10;">
+    <section style="background:#fff;border-bottom:1px solid rgba(0,0,0,0.06);position:sticky;top:72px;z-index:10;">
+        <div style="max-width:1200px;margin:0 auto;padding:16px 24px;">
 
-        {{-- Mobile toggle bar (visible ≤640px) --}}
-        <div class="filters-mobile-toggle" style="display:none;padding:12px 24px;">
-            <div style="max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;">
-                <div style="display:flex;align-items:center;gap:10px;flex:1;min-width:0;">
-                    <button @click="filtersOpen = !filtersOpen"
-                            style="display:flex;align-items:center;gap:6px;background:#fff;border:1px solid #ddd;
-                                   border-radius:8px;padding:8px 14px;font-size:13px;color:#555;cursor:pointer;
-                                   font-family:inherit;transition:all .2s;white-space:nowrap;"
-                            :style="filtersOpen ? 'border-color:#D9B56D;color:#D9B56D;background:#FBF4E6' : ''">
-                        <svg style="width:16px;height:16px;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.5 6h9.75M10.5 6a1.5 1.5 0 1 1-3 0m3 0a1.5 1.5 0 1 0-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-9.75 0h9.75"/>
-                        </svg>
-                        Filtros
-                        @if($activeFilterCount > 0)
-                        <span style="background:#D9B56D;color:#fff;font-size:11px;font-weight:600;
-                                     width:18px;height:18px;border-radius:50%;display:flex;
-                                     align-items:center;justify-content:center;">{{ $activeFilterCount }}</span>
-                        @endif
-                    </button>
+            {{-- Barra única: buscador + selects --}}
+            <form method="GET" action="{{ route('products.index') }}" id="catalogFilters"
+                  style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
 
-                    {{-- Active filter pills (compact summary) --}}
-                    @if($activeFilterCount > 0)
-                    <div style="display:flex;align-items:center;gap:6px;overflow-x:auto;flex:1;min-width:0;scrollbar-width:none;">
-                        @if($currentCat)
-                        <span style="background:#FBF4E6;color:#BE9A53;font-size:11px;padding:4px 10px;border-radius:20px;white-space:nowrap;display:flex;align-items:center;gap:4px;">
-                            {{ $currentCat->name }}
-                            <span onclick="setFilter('category','')" style="cursor:pointer;font-size:13px;line-height:1;">&times;</span>
-                        </span>
-                        @endif
-                        @if($currentBrand)
-                        <span style="background:#FBF4E6;color:#BE9A53;font-size:11px;padding:4px 10px;border-radius:20px;white-space:nowrap;display:flex;align-items:center;gap:4px;">
-                            {{ $currentBrand->name }}
-                            <span onclick="setFilter('brand','')" style="cursor:pointer;font-size:13px;line-height:1;">&times;</span>
-                        </span>
-                        @endif
-                        @if($priceFiltro && isset($rangosPrecios[$priceFiltro]))
-                        <span style="background:#FBF4E6;color:#BE9A53;font-size:11px;padding:4px 10px;border-radius:20px;white-space:nowrap;display:flex;align-items:center;gap:4px;">
-                            {{ $rangosPrecios[$priceFiltro] }}
-                            <span onclick="setFilter('price','')" style="cursor:pointer;font-size:13px;line-height:1;">&times;</span>
-                        </span>
-                        @endif
-                    </div>
-                    @endif
+                {{-- Buscador --}}
+                <div style="position:relative;flex:1;min-width:220px;max-width:380px;">
+                    <svg style="position:absolute;left:14px;top:50%;transform:translateY(-50%);width:16px;height:16px;color:#999;pointer-events:none;"
+                         fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"/>
+                    </svg>
+                    <input type="search" name="q" value="{{ $qFiltro }}"
+                           placeholder="Buscar productos…" autocomplete="off"
+                           style="width:100%;border:1px solid #e5e5e5;border-radius:10px;
+                                  padding:10px 14px 10px 40px;font-size:14px;background:#fafafa;
+                                  color:#2E2A26;font-family:inherit;outline:none;transition:border-color .15s;"
+                           onfocus="this.style.borderColor='#D9B56D';this.style.background='#fff'"
+                           onblur="this.style.borderColor='#e5e5e5';this.style.background='#fafafa'">
                 </div>
 
-                <span style="font-size:12px;color:#888;white-space:nowrap;margin-left:10px;">
-                    {{ $products->count() }} resultado{{ $products->count() !== 1 ? 's' : '' }}
-                </span>
-            </div>
-        </div>
-
-        {{-- Filter content (always visible on desktop, collapsible on mobile) --}}
-        <div class="filters-content" :class="{ 'filters-hidden-mobile': !filtersOpen }"
-             style="padding:20px 24px;">
-            <div style="max-width:1200px;margin:0 auto;">
-
-                {{-- ── Fila 1: Categoría ── --}}
-                <div style="display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:14px;">
-                    <span style="font-size:11px;color:#888;margin-right:4px;letter-spacing:.08em;text-transform:uppercase;font-weight:600;">Categoría</span>
-                    <button onclick="setFilter('category','')"
-                            style="border:1px solid {{ !$catFiltro ? '#D9B56D' : '#ddd' }};background:{{ !$catFiltro ? '#D9B56D' : '#fff' }};color:{{ !$catFiltro ? '#fff' : '#555' }};border-radius:20px;padding:5px 14px;font-size:13px;cursor:pointer;transition:all .2s;font-family:inherit;white-space:nowrap;">
-                        Todas
-                    </button>
+                {{-- Categoría --}}
+                <select name="category" onchange="document.getElementById('catalogFilters').submit()"
+                        aria-label="Categoría" class="filter-select">
+                    <option value="">Todas las categorías</option>
                     @foreach($categoriasFiltro as $cat)
-                        @php $isAct = $catFiltro === $cat->slug; @endphp
-                        <button onclick="setFilter('category','{{ $cat->slug }}')"
-                                style="border:1px solid {{ $isAct ? '#D9B56D' : '#ddd' }};background:{{ $isAct ? '#D9B56D' : '#fff' }};color:{{ $isAct ? '#fff' : '#555' }};border-radius:20px;padding:5px 14px;font-size:13px;cursor:pointer;transition:all .2s;font-family:inherit;white-space:nowrap;display:inline-flex;align-items:center;gap:6px;">
-                            {{ $cat->name }}
-                            <span style="font-size:10px;opacity:.7;">{{ $cat->products_count }}</span>
-                        </button>
+                        <option value="{{ $cat->slug }}" {{ $catFiltro === $cat->slug ? 'selected' : '' }}>
+                            {{ $cat->name }} ({{ $cat->products_count }})
+                        </option>
                     @endforeach
-                </div>
+                </select>
 
-                {{-- ── Fila 2: Marca ── --}}
+                {{-- Marca (solo si hay) --}}
                 @if($marcasFiltro->count() > 0)
-                <div style="display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:14px;">
-                    <span style="font-size:11px;color:#888;margin-right:4px;letter-spacing:.08em;text-transform:uppercase;font-weight:600;">Marca</span>
-                    <button onclick="setFilter('brand','')"
-                            style="border:1px solid {{ !$brandFiltro ? '#D9B56D' : '#ddd' }};background:{{ !$brandFiltro ? '#D9B56D' : '#fff' }};color:{{ !$brandFiltro ? '#fff' : '#555' }};border-radius:20px;padding:5px 14px;font-size:13px;cursor:pointer;transition:all .2s;font-family:inherit;">
-                        Todas
-                    </button>
+                <select name="brand" onchange="document.getElementById('catalogFilters').submit()"
+                        aria-label="Marca" class="filter-select">
+                    <option value="">Todas las marcas</option>
                     @foreach($marcasFiltro as $marca)
-                        @php $isAct = $brandFiltro === $marca->slug; @endphp
-                        <button onclick="setFilter('brand','{{ $marca->slug }}')"
-                                style="border:1px solid {{ $isAct ? '#D9B56D' : '#ddd' }};background:{{ $isAct ? '#D9B56D' : '#fff' }};color:{{ $isAct ? '#fff' : '#555' }};border-radius:20px;padding:5px 14px;font-size:13px;cursor:pointer;transition:all .2s;font-family:inherit;display:inline-flex;align-items:center;gap:6px;">
+                        <option value="{{ $marca->slug }}" {{ $brandFiltro === $marca->slug ? 'selected' : '' }}>
                             {{ $marca->name }}
-                            <span style="font-size:10px;opacity:.7;">{{ $marca->products_count }}</span>
-                        </button>
+                        </option>
                     @endforeach
-                </div>
+                </select>
                 @endif
 
-                {{-- ── Fila 3: Precio + Ordenar (en línea) ── --}}
-                <div style="display:flex;align-items:center;flex-wrap:wrap;gap:14px;margin-bottom:6px;">
-                    {{-- Precio --}}
-                    <div style="display:flex;align-items:center;flex-wrap:wrap;gap:6px;">
-                        <span style="font-size:11px;color:#888;margin-right:2px;letter-spacing:.08em;text-transform:uppercase;font-weight:600;">Precio</span>
-                        <button onclick="setFilter('price','')"
-                                style="border:1px solid {{ !$priceFiltro ? '#D9B56D' : '#ddd' }};background:{{ !$priceFiltro ? '#D9B56D' : '#fff' }};color:{{ !$priceFiltro ? '#fff' : '#555' }};border-radius:20px;padding:4px 12px;font-size:12px;cursor:pointer;transition:all .2s;font-family:inherit;">
-                            Todos
-                        </button>
-                        @foreach($rangosPrecios as $val => $label)
-                            @php $isAct = $priceFiltro === $val; @endphp
-                            <button onclick="setFilter('price','{{ $val }}')"
-                                    style="border:1px solid {{ $isAct ? '#D9B56D' : '#ddd' }};background:{{ $isAct ? '#D9B56D' : '#fff' }};color:{{ $isAct ? '#fff' : '#555' }};border-radius:20px;padding:4px 12px;font-size:12px;cursor:pointer;transition:all .2s;font-family:inherit;white-space:nowrap;">
-                                {{ $label }}
-                            </button>
-                        @endforeach
-                    </div>
+                {{-- Precio --}}
+                <select name="price" onchange="document.getElementById('catalogFilters').submit()"
+                        aria-label="Rango de precio" class="filter-select">
+                    <option value="">Cualquier precio</option>
+                    @foreach($rangosPrecios as $val => $label)
+                        <option value="{{ $val }}" {{ $priceFiltro === $val ? 'selected' : '' }}>{{ $label }}</option>
+                    @endforeach
+                </select>
 
-                    {{-- Spacer to push sort to the right --}}
-                    <div style="flex:1;min-width:20px;"></div>
+                {{-- Spacer --}}
+                <div style="flex:1;min-width:0;"></div>
 
-                    {{-- Ordenar dropdown --}}
-                    <div style="display:flex;align-items:center;gap:8px;">
-                        <label style="font-size:11px;color:#888;letter-spacing:.08em;text-transform:uppercase;font-weight:600;">Ordenar</label>
-                        <select onchange="setFilter('sort', this.value)"
-                                style="border:1px solid #ddd;border-radius:20px;padding:5px 14px;font-size:13px;background:#fff;color:#2E2A26;cursor:pointer;font-family:inherit;outline:none;">
-                            @foreach($opcionesOrden as $val => $label)
-                                <option value="{{ $val }}" {{ $sortFiltro === $val ? 'selected' : '' }}>{{ $label }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                </div>
+                {{-- Ordenar --}}
+                <select name="sort" onchange="document.getElementById('catalogFilters').submit()"
+                        aria-label="Ordenar resultados" class="filter-select">
+                    @foreach($opcionesOrden as $val => $label)
+                        <option value="{{ $val }}" {{ $sortFiltro === $val ? 'selected' : '' }}>{{ $label }}</option>
+                    @endforeach
+                </select>
 
-                {{-- Conteo (desktop) --}}
-                <p class="filters-count-desktop" style="font-size:13px;color:#888;margin-top:12px;">
-                    {{ $products->count() }} producto{{ $products->count() !== 1 ? 's' : '' }} encontrado{{ $products->count() !== 1 ? 's' : '' }}
-                    @if($activeFilterCount > 0 || $sortFiltro !== 'relevant')
-                        <a href="{{ route('products.index') }}" style="color:#D9B56D;margin-left:8px;text-decoration:none;font-size:12px;"
-                           onmouseover="this.style.textDecoration='underline'" onmouseout="this.style.textDecoration='none'">
-                            Limpiar filtros
-                        </a>
+                {{-- Botón aplicar (solo para search; los selects auto-envían) --}}
+                <noscript>
+                    <button type="submit"
+                            style="background:#2E2A26;color:#fff;border:none;border-radius:10px;
+                                   padding:10px 18px;font-size:14px;cursor:pointer;font-family:inherit;">
+                        Aplicar
+                    </button>
+                </noscript>
+            </form>
+
+            {{-- Chips de filtros activos + conteo + limpiar --}}
+            <div style="display:flex;align-items:center;flex-wrap:wrap;gap:10px;margin-top:12px;min-height:24px;">
+                <span style="font-size:13px;color:#888;">
+                    {{ $products->count() }} producto{{ $products->count() !== 1 ? 's' : '' }}
+                </span>
+
+                @if($activeFilterCount > 0)
+                    <span style="color:#ddd;">·</span>
+
+                    @if($qFiltro)
+                    <span class="active-chip">
+                        “{{ $qFiltro }}”
+                        <a href="{{ route('products.index', request()->except('q')) }}" aria-label="Quitar búsqueda">&times;</a>
+                    </span>
                     @endif
-                </p>
+                    @if($currentCat)
+                    <span class="active-chip">
+                        {{ $currentCat->name }}
+                        <a href="{{ route('products.index', request()->except('category')) }}" aria-label="Quitar categoría">&times;</a>
+                    </span>
+                    @endif
+                    @if($currentBrand)
+                    <span class="active-chip">
+                        {{ $currentBrand->name }}
+                        <a href="{{ route('products.index', request()->except('brand')) }}" aria-label="Quitar marca">&times;</a>
+                    </span>
+                    @endif
+                    @if($priceFiltro && isset($rangosPrecios[$priceFiltro]))
+                    <span class="active-chip">
+                        {{ $rangosPrecios[$priceFiltro] }}
+                        <a href="{{ route('products.index', request()->except('price')) }}" aria-label="Quitar precio">&times;</a>
+                    </span>
+                    @endif
 
+                    <a href="{{ route('products.index') }}"
+                       style="font-size:12px;color:#D9B56D;text-decoration:none;margin-left:4px;"
+                       onmouseover="this.style.textDecoration='underline'" onmouseout="this.style.textDecoration='none'">
+                        Limpiar todo
+                    </a>
+                @endif
             </div>
         </div>
+
+        <style>
+            .filter-select {
+                border: 1px solid #e5e5e5;
+                border-radius: 10px;
+                padding: 10px 36px 10px 14px;
+                font-size: 14px;
+                color: #2E2A26;
+                background: #fafafa;
+                background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23999' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+                background-repeat: no-repeat;
+                background-position: right 12px center;
+                cursor: pointer;
+                font-family: inherit;
+                outline: none;
+                appearance: none;
+                -webkit-appearance: none;
+                max-width: 200px;
+                transition: border-color .15s, background-color .15s;
+            }
+            .filter-select:hover, .filter-select:focus { border-color:#D9B56D; background-color:#fff; }
+            .active-chip {
+                display:inline-flex; align-items:center; gap:6px;
+                background:#F7F3ED; color:#8a6d3b;
+                font-size:12px; padding:4px 10px; border-radius:999px;
+                white-space:nowrap;
+            }
+            .active-chip a {
+                color:#b08549; text-decoration:none; font-size:14px; line-height:1;
+                display:inline-flex; align-items:center; justify-content:center;
+                width:14px; height:14px;
+            }
+            .active-chip a:hover { color:#2E2A26; }
+
+            @media (max-width: 640px) {
+                .filter-select { flex:1 1 calc(50% - 5px); max-width:none; }
+            }
+        </style>
     </section>
 
     {{-- ============================================================

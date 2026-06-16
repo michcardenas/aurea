@@ -20,6 +20,7 @@ class ProductController extends Controller
     public function index(Request $request): View
     {
         // ── Filtros de belleza ──
+        $qFiltro      = trim((string) $request->input('q', ''));    // búsqueda libre
         $catFiltro    = $request->input('category', '');   // slug categoría
         $brandFiltro  = $request->input('brand', '');      // slug marca
         $priceFiltro  = $request->input('price', '');      // ej: '0-10000', '10000-25000', etc.
@@ -30,6 +31,17 @@ class ProductController extends Controller
                 $q->where('stock', '>', 0)
                   ->orWhereHas('variants', fn ($v) => $v->where('is_active', true)->where('stock', '>', 0));
             });
+
+        if ($qFiltro !== '') {
+            $like = '%'.str_replace(['%', '_'], ['\\%', '\\_'], $qFiltro).'%';
+            $query->where(function ($w) use ($like) {
+                $w->where('name', 'like', $like)
+                  ->orWhere('description', 'like', $like)
+                  ->orWhere('internal_code', 'like', $like)
+                  ->orWhereHas('brand', fn ($b) => $b->where('name', 'like', $like))
+                  ->orWhereHas('category', fn ($c) => $c->where('name', 'like', $like));
+            });
+        }
 
         if ($catFiltro) {
             $query->whereHas('category', fn ($q) => $q->where('slug', $catFiltro));
@@ -119,6 +131,7 @@ class ProductController extends Controller
             'marcasFiltro'     => $marcasFiltro,
             'rangosPrecios'    => $rangosPrecios,
             'opcionesOrden'    => $opcionesOrden,
+            'qFiltro'          => $qFiltro,
             'catFiltro'        => $catFiltro,
             'brandFiltro'      => $brandFiltro,
             'priceFiltro'      => $priceFiltro,
