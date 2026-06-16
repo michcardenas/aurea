@@ -29,7 +29,16 @@ class ProductController extends Controller
             : [];
         $tiposEfectivos = array_values(array_filter($tipos, fn ($t) => $t !== '' && $t !== 'todos'));
 
-        $query = Product::active()->with('variants')->orderBy('sort_order')
+        $query = Product::active()->with('variants')
+            // Prioridad de ordenamiento del catálogo:
+            //   1. Productos con imagen primero (los sin foto al final)
+            //   2. Destacados antes que el resto
+            //   3. sort_order manual
+            //   4. Más recientes
+            ->orderByRaw('CASE WHEN images IS NOT NULL AND JSON_LENGTH(images) > 0 THEN 0 ELSE 1 END')
+            ->orderByDesc('is_featured')
+            ->orderBy('sort_order')
+            ->orderByDesc('created_at')
             ->where(function ($q) {
                 $q->where('stock', '>', 0)
                   ->orWhereHas('variants', fn ($v) => $v->where('is_active', true)->where('stock', '>', 0));
