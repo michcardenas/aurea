@@ -29,6 +29,8 @@ class StorefrontController extends Controller
         // Productos principales del home: featured primero, luego sort_order,
         // luego más recientes. Garantiza stock. Cargamos variantes + categoría
         // + brand para las cards.
+        // Filtro de imagen: solo productos con al menos 1 imagen (campo images
+        // es JSON array). En el home solo se ven productos "presentables".
         $lentes = Product::active()
             ->where(fn ($q) => $q->whereJsonContains('type', 'miopia')
                 ->orWhereJsonContains('type', 'lectura')
@@ -37,6 +39,8 @@ class StorefrontController extends Controller
                 $q->where('stock', '>', 0)
                   ->orWhereHas('variants', fn ($v) => $v->where('is_active', true)->where('stock', '>', 0));
             })
+            ->whereNotNull('images')
+            ->whereRaw('JSON_LENGTH(images) > 0')
             ->with(['variants', 'category', 'brand'])
             ->orderByDesc('is_featured')
             ->orderBy('sort_order')
@@ -52,6 +56,8 @@ class StorefrontController extends Controller
                 $q->where('stock', '>', 0)
                   ->orWhereHas('variants', fn ($v) => $v->where('is_active', true)->where('stock', '>', 0));
             })
+            ->whereNotNull('images')
+            ->whereRaw('JSON_LENGTH(images) > 0')
             ->with('variants')
             ->orderBy('sort_order')
             ->get()
