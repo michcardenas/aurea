@@ -94,13 +94,13 @@
                 x{{ $item->qty }}
             </td>
             <td align="right" style="padding:12px 16px;border-bottom:1px solid #F3F4F6;font-size:14px;color:#1A1A2E;font-weight:600;" width="90">
-                ${{ number_format($item->total, 2) }}
+                ${{ number_format($item->total, 0, ',', '.') }}
             </td>
         </tr>
         @endforeach
         <tr>
             <td colspan="2" style="padding:12px 16px;font-size:15px;font-weight:700;color:#2E2A26;background-color:#F9FAFB;">Total</td>
-            <td align="right" style="padding:12px 16px;font-size:15px;font-weight:700;color:#2E2A26;background-color:#F9FAFB;">${{ number_format($order->total, 2) }}</td>
+            <td align="right" style="padding:12px 16px;font-size:15px;font-weight:700;color:#2E2A26;background-color:#F9FAFB;">${{ number_format($order->total, 0, ',', '.') }}</td>
         </tr>
     </table>
 

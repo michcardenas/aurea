@@ -124,7 +124,7 @@
                             <template x-if="!editing">
                                 <td class="px-6 py-4">
                                     <span class="text-sm font-medium {{ $rate->price == 0 ? 'text-green-600' : 'text-gray-900' }}">
-                                        {{ $rate->price == 0 ? 'Gratis' : '$' . number_format($rate->price, 2) }}
+                                        {{ $rate->price == 0 ? 'Gratis' : '$' . number_format($rate->price, 0, ',', '.') }}
                                     </span>
                                 </td>
                             </template>

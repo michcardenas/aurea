@@ -178,7 +178,7 @@
                             <div class="flex justify-between"><span class="text-text-muted">No. cuenta:</span><span class="font-semibold text-text-dark">{{ $bankDetails['account_number'] }}</span></div>
                             @endif
                             <div class="flex justify-between"><span class="text-text-muted">Referencia:</span><span class="font-bold text-secondary">Pedido #{{ $order->id }}</span></div>
-                            <div class="flex justify-between"><span class="text-text-muted">Monto:</span><span class="font-bold text-secondary text-base">${{ number_format($order->total, 2) }} MXN</span></div>
+                            <div class="flex justify-between"><span class="text-text-muted">Monto:</span><span class="font-bold text-secondary text-base">${{ number_format($order->total, 0, ',', '.') }} MXN</span></div>
                         </div>
                         @endif
 
@@ -237,7 +237,7 @@
                             @endif
                             <p class="text-sm text-text-muted">Cant: {{ $item->qty }}</p>
                         </div>
-                        <p class="font-semibold text-text-dark">${{ number_format($item->total, 2) }}</p>
+                        <p class="font-semibold text-text-dark">${{ number_format($item->total, 0, ',', '.') }}</p>
                     </div>
                     @endforeach
                 </div>
@@ -245,33 +245,33 @@
                 <div class="px-6 py-4 bg-bg-light space-y-2">
                     <div class="flex justify-between text-sm text-text-muted">
                         <span>Subtotal</span>
-                        <span>${{ number_format($order->subtotal, 2) }}</span>
+                        <span>${{ number_format($order->subtotal, 0, ',', '.') }}</span>
                     </div>
                     @if($order->discount_2x1 > 0)
                     <div class="flex justify-between text-sm text-success">
                         <span>Descuento 2×1</span>
-                        <span>-${{ number_format($order->discount_2x1, 2) }}</span>
+                        <span>-${{ number_format($order->discount_2x1, 0, ',', '.') }}</span>
                     </div>
                     @endif
                     @if($order->discount_coupon > 0)
                     <div class="flex justify-between text-sm text-success">
                         <span>Cupón{{ $order->discount_code ? " ({$order->discount_code})" : '' }}</span>
-                        <span>-${{ number_format($order->discount_coupon, 2) }}</span>
+                        <span>-${{ number_format($order->discount_coupon, 0, ',', '.') }}</span>
                     </div>
                     @elseif($order->discount_amount > 0 && $order->discount_2x1 == 0)
                     {{-- Backward compat: legacy orders without split --}}
                     <div class="flex justify-between text-sm text-success">
                         <span>Descuento {{ $order->discount_code ? "({$order->discount_code})" : '' }}</span>
-                        <span>-${{ number_format($order->discount_amount, 2) }}</span>
+                        <span>-${{ number_format($order->discount_amount, 0, ',', '.') }}</span>
                     </div>
                     @endif
                     <div class="flex justify-between text-sm text-text-muted">
                         <span>Envío</span>
-                        <span>{{ $order->shipping > 0 ? '$' . number_format($order->shipping, 2) : 'Gratis' }}</span>
+                        <span>{{ $order->shipping > 0 ? '$' . number_format($order->shipping, 0, ',', '.') : 'Gratis' }}</span>
                     </div>
                     <div class="flex justify-between text-lg font-bold text-primary pt-2 border-t border-border-light">
                         <span>Total</span>
-                        <span>${{ number_format($order->total, 2) }}</span>
+                        <span>${{ number_format($order->total, 0, ',', '.') }}</span>
                     </div>
                 </div>
             </div>

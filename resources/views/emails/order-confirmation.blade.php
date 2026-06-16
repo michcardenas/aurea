@@ -61,7 +61,7 @@
                 x{{ $item->qty }}
             </td>
             <td align="right" style="padding:14px 16px;border-bottom:1px solid #F3F4F6;font-size:14px;color:#1A1A2E;font-weight:600;" width="100">
-                ${{ number_format($item->total, 2) }}
+                ${{ number_format($item->total, 0, ',', '.') }}
             </td>
         </tr>
         @endforeach
@@ -74,30 +74,30 @@
                 <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
                     <tr>
                         <td style="padding:4px 0;font-size:14px;color:#6B7280;">Subtotal</td>
-                        <td align="right" style="padding:4px 0;font-size:14px;color:#6B7280;">${{ number_format($order->subtotal, 2) }}</td>
+                        <td align="right" style="padding:4px 0;font-size:14px;color:#6B7280;">${{ number_format($order->subtotal, 0, ',', '.') }}</td>
                     </tr>
                     @if($order->discount_2x1 > 0)
                     <tr>
                         <td style="padding:4px 0;font-size:14px;color:#059669;">Descuento 2×1</td>
-                        <td align="right" style="padding:4px 0;font-size:14px;color:#059669;">-${{ number_format($order->discount_2x1, 2) }}</td>
+                        <td align="right" style="padding:4px 0;font-size:14px;color:#059669;">-${{ number_format($order->discount_2x1, 0, ',', '.') }}</td>
                     </tr>
                     @endif
                     @if($order->discount_coupon > 0)
                     <tr>
                         <td style="padding:4px 0;font-size:14px;color:#059669;">Cupón{{ $order->discount_code ? " ({$order->discount_code})" : '' }}</td>
-                        <td align="right" style="padding:4px 0;font-size:14px;color:#059669;">-${{ number_format($order->discount_coupon, 2) }}</td>
+                        <td align="right" style="padding:4px 0;font-size:14px;color:#059669;">-${{ number_format($order->discount_coupon, 0, ',', '.') }}</td>
                     </tr>
                     @elseif($order->discount_amount > 0 && $order->discount_2x1 == 0)
                     <tr>
                         <td style="padding:4px 0;font-size:14px;color:#059669;">Descuento {{ $order->discount_code ? "({$order->discount_code})" : '' }}</td>
-                        <td align="right" style="padding:4px 0;font-size:14px;color:#059669;">-${{ number_format($order->discount_amount, 2) }}</td>
+                        <td align="right" style="padding:4px 0;font-size:14px;color:#059669;">-${{ number_format($order->discount_amount, 0, ',', '.') }}</td>
                     </tr>
                     @endif
                     <tr>
                         <td style="padding:4px 0;font-size:14px;color:#6B7280;">Envío</td>
                         <td align="right" style="padding:4px 0;font-size:14px;color:#6B7280;">
                             @if($order->shipping > 0)
-                                ${{ number_format($order->shipping, 2) }}
+                                ${{ number_format($order->shipping, 0, ',', '.') }}
                             @else
                                 <span style="color:#059669;">Gratis</span>
                             @endif
@@ -108,7 +108,7 @@
                     </tr>
                     <tr>
                         <td style="padding:8px 0 0;font-size:20px;font-weight:700;color:#2E2A26;">Total</td>
-                        <td align="right" style="padding:8px 0 0;font-size:20px;font-weight:700;color:#2E2A26;">${{ number_format($order->total, 2) }} MXN</td>
+                        <td align="right" style="padding:8px 0 0;font-size:20px;font-weight:700;color:#2E2A26;">${{ number_format($order->total, 0, ',', '.') }} MXN</td>
                     </tr>
                 </table>
             </td>
@@ -155,7 +155,7 @@
                                 <tr><td style="padding:4px 0;color:#6B7280;">No. cuenta:</td><td style="padding:4px 0;font-weight:600;">{{ $bankDetails['account_number'] }}</td></tr>
                                 @endif
                                 <tr><td style="padding:4px 0;color:#6B7280;">Referencia:</td><td style="padding:4px 0;font-weight:700;color:#2E2A26;">Pedido #{{ $order->id }}</td></tr>
-                                <tr><td style="padding:4px 0;color:#6B7280;">Monto:</td><td style="padding:4px 0;font-weight:700;color:#2E2A26;font-size:16px;">${{ number_format($order->total, 2) }} MXN</td></tr>
+                                <tr><td style="padding:4px 0;color:#6B7280;">Monto:</td><td style="padding:4px 0;font-weight:700;color:#2E2A26;font-size:16px;">${{ number_format($order->total, 0, ',', '.') }} MXN</td></tr>
                             </table>
                             @if($bankDetails['reference_instructions'])
                             <p style="margin:12px 0 0;font-size:13px;color:#4B5563;">{{ $bankDetails['reference_instructions'] }}</p>

@@ -197,7 +197,7 @@
                     </span>
                     @if($product->compare_price && $product->compare_price > $product->price)
                     <span style="font-size:16px;color:#bbb;text-decoration:line-through;">
-                        ${{ number_format($product->compare_price, 2) }}
+                        ${{ number_format($product->compare_price, 0, ',', '.') }}
                     </span>
                     @endif
                 </div>
@@ -662,7 +662,7 @@
                         @endif
                         <div style="display:flex;align-items:center;justify-content:space-between;">
                             <span style="font-size:18px;font-weight:700;color:#2E2A26;">
-                                ${{ number_format($toallita->price, 2) }}
+                                ${{ number_format($toallita->price, 0, ',', '.') }}
                             </span>
                             <a href="{{ route('products.show', $toallita->slug) }}"
                                onclick="event.stopPropagation()"

@@ -236,7 +236,7 @@
                                     @endif
                                     <p class="text-xs text-text-muted/60">Cant: {{ $item['qty'] }}</p>
                                 </div>
-                                <p class="text-sm font-semibold text-text-dark">${{ number_format($item['total'], 2) }}</p>
+                                <p class="text-sm font-semibold text-text-dark">${{ number_format($item['total'], 0, ',', '.') }}</p>
                             </div>
                             @endforeach
                         </div>
@@ -282,12 +282,12 @@
                         <div class="mt-4 pt-4 border-t border-border-light space-y-2.5 text-sm">
                             <div class="flex justify-between">
                                 <span class="text-text-muted">Subtotal</span>
-                                <span class="text-text-dark">${{ number_format($subtotal, 2) }}</span>
+                                <span class="text-text-dark">${{ number_format($subtotal, 0, ',', '.') }}</span>
                             </div>
                             @if($discount2x1 > 0)
                             <div class="flex justify-between text-green-600">
                                 <span>Descuento 2×1</span>
-                                <span>-${{ number_format($discount2x1, 2) }}</span>
+                                <span>-${{ number_format($discount2x1, 0, ',', '.') }}</span>
                             </div>
                             @endif
                             <div class="flex justify-between">

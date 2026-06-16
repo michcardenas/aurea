@@ -66,7 +66,7 @@
                                     <div class="text-sm font-medium text-gray-900">{{ $order->customer->name }}</div>
                                     <div class="text-xs text-gray-500">{{ $order->customer->email }}</div>
                                 </td>
-                                <td class="px-6 py-4 text-sm font-medium">${{ number_format($order->total, 2) }}</td>
+                                <td class="px-6 py-4 text-sm font-medium">${{ number_format($order->total, 0, ',', '.') }}</td>
                                 <td class="px-6 py-4">
                                     <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-{{ $sc }}-100 text-{{ $sc }}-800">
                                         {{ $statusLabels[$order->status] ?? $order->status }}

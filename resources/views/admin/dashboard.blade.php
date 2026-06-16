@@ -13,7 +13,7 @@
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6v12m-3-2.818.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>
                 </span>
             </div>
-            <p class="mt-2 text-3xl font-bold text-gray-900">${{ number_format($todaySales, 2) }}</p>
+            <p class="mt-2 text-3xl font-bold text-gray-900">${{ number_format($todaySales, 0, ',', '.') }}</p>
         </div>
         <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
             <div class="flex items-center justify-between">
@@ -73,7 +73,7 @@
                                 <a href="{{ route('admin.orders.show', $order) }}" class="text-blue-600 hover:underline">#{{ $order->id }}</a>
                             </td>
                             <td class="px-6 py-4 text-sm text-gray-700">{{ $order->customer->name }}</td>
-                            <td class="px-6 py-4 text-sm font-medium">${{ number_format($order->total, 2) }}</td>
+                            <td class="px-6 py-4 text-sm font-medium">${{ number_format($order->total, 0, ',', '.') }}</td>
                             <td class="px-6 py-4">
                                 @php
                                     $colors = ['pending' => 'yellow', 'confirmed' => 'blue', 'shipped' => 'indigo', 'delivered' => 'green', 'cancelled' => 'red'];

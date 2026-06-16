@@ -105,7 +105,7 @@ class CheckoutController extends Controller
             } elseif ($discountCode->max_uses !== null && $discountCode->times_used >= $discountCode->max_uses) {
                 $message = 'Este código ha alcanzado su límite de usos.';
             } elseif ($discountCode->min_order_amount && $subtotalAfter2x1 < (float) $discountCode->min_order_amount) {
-                $message = 'Compra mínima de $' . number_format($discountCode->min_order_amount, 2) . ' requerida.';
+                $message = 'Compra mínima de $' . number_format($discountCode->min_order_amount, 0, ',', '.') . ' requerida.';
             } elseif (! $discountCode->is_active) {
                 $message = 'Este código no está activo.';
             }
@@ -124,7 +124,7 @@ class CheckoutController extends Controller
             'code' => $discountCode->code,
             'description' => $discountCode->type === 'percentage'
                 ? $discountCode->value . '% de descuento'
-                : '$' . number_format($discountCode->value, 2) . ' de descuento',
+                : '$' . number_format($discountCode->value, 0, ',', '.') . ' de descuento',
             'discount_amount' => $discountAmount,
             'shipping' => $shipping,
             'new_total' => $newTotal,

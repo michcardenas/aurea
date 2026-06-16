@@ -63,7 +63,7 @@ class AppServiceProvider extends ServiceProvider
                     $couponDiscount = $discountCode->calculateDiscount($subtotalConDescuento);
                     $couponDescription = $discountCode->type === 'percentage'
                         ? $discountCode->value . '% de descuento'
-                        : '$' . number_format($discountCode->value, 2) . ' de descuento';
+                        : '$' . number_format($discountCode->value, 0, ',', '.') . ' de descuento';
                 } else {
                     session()->forget('discount_code_id');
                 }

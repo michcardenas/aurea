@@ -90,9 +90,9 @@
                             <h3 class="font-semibold group-hover:text-secondary transition-colors">{{ $product->name }}</h3>
                             <p class="text-sm text-muted/60 mt-1">{{ $product->category->name ?? '' }}</p>
                             <div class="mt-3 flex items-baseline gap-2">
-                                <span class="text-xl font-bold text-secondary">${{ number_format($product->price, 2) }}</span>
+                                <span class="text-xl font-bold text-secondary">${{ number_format($product->price, 0, ',', '.') }}</span>
                                 @if($product->compare_price)
-                                    <span class="text-sm text-muted/40 line-through">${{ number_format($product->compare_price, 2) }}</span>
+                                    <span class="text-sm text-muted/40 line-through">${{ number_format($product->compare_price, 0, ',', '.') }}</span>
                                 @endif
                             </div>
                         </div>

@@ -107,9 +107,9 @@
                                 </td>
                                 <td class="px-6 py-4 text-sm text-gray-500">{{ $product->category->name }}</td>
                                 <td class="px-6 py-4 text-sm">
-                                    <span class="font-medium">${{ number_format($product->price, 2) }}</span>
+                                    <span class="font-medium">${{ number_format($product->price, 0, ',', '.') }}</span>
                                     @if($product->compare_price)
-                                        <span class="text-gray-400 line-through text-xs ml-1">${{ number_format($product->compare_price, 2) }}</span>
+                                        <span class="text-gray-400 line-through text-xs ml-1">${{ number_format($product->compare_price, 0, ',', '.') }}</span>
                                     @endif
                                 </td>
                                 @php

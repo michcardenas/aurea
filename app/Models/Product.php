@@ -195,7 +195,7 @@ class Product extends Model
             return null;
         }
 
-        return '2x1 · $' . number_format($this->price, 2) . ' c/u';
+        return '2x1 · $' . number_format($this->price, 0, ',', '.') . ' c/u';
     }
 
     // ── 2x1 Logic ──

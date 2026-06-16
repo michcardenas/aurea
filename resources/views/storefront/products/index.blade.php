@@ -322,11 +322,11 @@
                             {{-- Precio --}}
                             <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:14px;">
                                 <span style="font-size:20px;font-weight:700;color:#2E2A26;">
-                                    ${{ number_format($product->price, 2) }}
+                                    ${{ number_format($product->price, 0, ',', '.') }}
                                 </span>
                                 @if($product->compare_price)
                                 <span style="font-size:13px;color:#bbb;text-decoration:line-through;">
-                                    ${{ number_format($product->compare_price, 2) }}
+                                    ${{ number_format($product->compare_price, 0, ',', '.') }}
                                 </span>
                                 @endif
                             </div>
@@ -422,11 +422,11 @@
 
                             <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:14px;">
                                 <span style="font-size:20px;font-weight:700;color:#2E2A26;">
-                                    ${{ number_format($product->price, 2) }}
+                                    ${{ number_format($product->price, 0, ',', '.') }}
                                 </span>
                                 @if($product->compare_price)
                                 <span style="font-size:13px;color:#bbb;text-decoration:line-through;">
-                                    ${{ number_format($product->compare_price, 2) }}
+                                    ${{ number_format($product->compare_price, 0, ',', '.') }}
                                 </span>
                                 @endif
                             </div>

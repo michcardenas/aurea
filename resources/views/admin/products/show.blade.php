@@ -29,9 +29,9 @@
                         </div>
                         <div class="flex justify-between">
                             <dt class="text-gray-500">Precio</dt>
-                            <dd class="font-medium">${{ number_format($product->price, 2) }}
+                            <dd class="font-medium">${{ number_format($product->price, 0, ',', '.') }}
                                 @if($product->compare_price)
-                                    <span class="text-gray-400 line-through ml-1">${{ number_format($product->compare_price, 2) }}</span>
+                                    <span class="text-gray-400 line-through ml-1">${{ number_format($product->compare_price, 0, ',', '.') }}</span>
                                 @endif
                             </dd>
                         </div>
@@ -106,7 +106,7 @@
                                 <td class="px-6 py-3 text-sm">{{ $variant->name }}</td>
                                 <td class="px-6 py-3 text-sm font-medium">{{ $variant->value }}</td>
                                 <td class="px-6 py-3 text-sm">{{ $variant->color ?? '—' }}</td>
-                                <td class="px-6 py-3 text-sm">{{ $variant->price_modifier > 0 ? '+' : '' }}${{ number_format($variant->price_modifier, 2) }}</td>
+                                <td class="px-6 py-3 text-sm">{{ $variant->price_modifier > 0 ? '+' : '' }}${{ number_format($variant->price_modifier, 0, ',', '.') }}</td>
                                 <td class="px-6 py-3 text-sm">{{ $variant->stock }}</td>
                             </tr>
                         @endforeach

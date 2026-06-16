@@ -56,10 +56,10 @@
                             </td>
                             <td class="px-6 py-4">
                                 <span class="text-sm font-medium text-gray-900">
-                                    {{ $code->type === 'percentage' ? $code->value . '%' : '$' . number_format($code->value, 2) }}
+                                    {{ $code->type === 'percentage' ? $code->value . '%' : '$' . number_format($code->value, 0, ',', '.') }}
                                 </span>
                                 @if($code->min_order_amount)
-                                    <p class="text-xs text-gray-400">Min: ${{ number_format($code->min_order_amount, 2) }}</p>
+                                    <p class="text-xs text-gray-400">Min: ${{ number_format($code->min_order_amount, 0, ',', '.') }}</p>
                                 @endif
                             </td>
                             <td class="px-6 py-4">
