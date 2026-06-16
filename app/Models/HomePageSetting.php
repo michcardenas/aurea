@@ -20,6 +20,12 @@ class HomePageSetting extends Model
         'comparison_with_items' => 'array',
     ];
 
+    /** Relación al producto estrella elegido por el admin. */
+    public function starProduct()
+    {
+        return $this->belongsTo(Product::class, 'star_product_id');
+    }
+
     public static function getCurrent(): static
     {
         return static::where('is_active', true)->latest()->first()

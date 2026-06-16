@@ -145,6 +145,11 @@ class AdminHomePageController extends Controller
 
         unset($data['promo_background_file'], $data['promo_background_remove']);
 
+        // Producto estrella: convertir cadena vacía a null para que el FK funcione
+        if (array_key_exists('star_product_id', $data) && $data['star_product_id'] === '') {
+            $data['star_product_id'] = null;
+        }
+
         $page->update($data);
 
         return redirect()->route('admin.pages.home.edit')

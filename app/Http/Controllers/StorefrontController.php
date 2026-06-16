@@ -94,12 +94,27 @@ class StorefrontController extends Controller
             ])->all()
         );
 
-        // Producto estrella para el split layout del hero
-        $heroProduct = Product::active()
-            ->with('variants')
-            ->whereIn('internal_code', ['WUHAO', 'YT2212'])
-            ->first()
-            ?? Product::active()->first();
+        // Producto estrella (cascade):
+        //   1. El elegido en HomePageSetting->star_product_id (admin lo configura)
+        //   2. Primer producto activo, con stock y con imagen
+        //   3. Fallback final: cualquier activo
+        $heroProduct = null;
+        if ($homePage->star_product_id) {
+            $heroProduct = Product::active()
+                ->where('id', $homePage->star_product_id)
+                ->with('variants')
+                ->first();
+        }
+        if (! $heroProduct) {
+            $heroProduct = Product::active()
+                ->where('stock', '>', 0)
+                ->whereNotNull('images')
+                ->whereRaw('JSON_LENGTH(images) > 0')
+                ->orderByDesc('is_featured')
+                ->with('variants')
+                ->first()
+                ?? Product::active()->first();
+        }
 
         // Determinar modo del hero
         $heroMode = 'split';

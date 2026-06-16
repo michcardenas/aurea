@@ -157,6 +157,42 @@
                 </svg>
             </button>
             <div x-show="openSection === 'promo'" x-collapse class="px-6 pb-6 space-y-4">
+                {{-- ⭐ Producto estrella --}}
+                <div class="p-4 rounded-xl" style="background:#FBF4E6;border:1px solid #E8CC92;">
+                    <label class="block text-sm font-semibold mb-1" style="color:#2E2A26;">
+                        ⭐ Producto estrella del home
+                    </label>
+                    <p class="text-xs mb-3" style="color:#6B6157;">
+                        Es el producto destacado que se muestra en la sección split con imagen grande.
+                        Solo aparecen productos activos, con stock y con al menos 1 imagen.
+                    </p>
+                    <select name="star_product_id"
+                            class="w-full rounded-lg text-sm px-3 py-2"
+                            style="background:#FFFFFF;border:1px solid #D9B56D;color:#2E2A26;">
+                        <option value="">— Auto (primer producto destacado con imagen)</option>
+                        @php
+                            $eligibleProducts = \App\Models\Product::where('is_active', true)
+                                ->where('stock', '>', 0)
+                                ->whereNotNull('images')
+                                ->whereRaw('JSON_LENGTH(images) > 0')
+                                ->with('category')
+                                ->orderByDesc('is_featured')
+                                ->orderBy('name')
+                                ->get();
+                        @endphp
+                        @foreach($eligibleProducts as $prod)
+                            <option value="{{ $prod->id }}" {{ $page->star_product_id == $prod->id ? 'selected' : '' }}>
+                                [{{ $prod->internal_code }}] {{ $prod->name }}
+                                @if($prod->category) · {{ $prod->category->name }} @endif
+                                — ${{ number_format($prod->price, 0, ',', '.') }}
+                            </option>
+                        @endforeach
+                    </select>
+                    <p class="text-xs mt-2" style="color:#9CA3AF;font-style:italic;">
+                        💡 Tip: si dejas "Auto", el sistema elige el mejor candidato automáticamente.
+                    </p>
+                </div>
+
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">Etiqueta</label>
                     <input type="text" name="promo_label" value="{{ $page->promo_label }}"
