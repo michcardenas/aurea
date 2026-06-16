@@ -108,14 +108,6 @@
                                     transition:transform .2s ease;transform-origin:center center;
                                     position:absolute;top:0;left:0;display:none;z-index:1;">
 
-                        {{-- Badge 2x1 --}}
-                        @if($product->badge_2x1)
-                        <div style="position:absolute;top:16px;left:16px;background:#D9B56D;
-                                    color:#fff;font-size:13px;font-weight:600;padding:6px 16px;
-                                    border-radius:20px;z-index:2;">
-                            2 × 1
-                        </div>
-                        @endif
                     </div>
 
                     {{-- Thumbnails --}}
@@ -142,13 +134,6 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="0.75" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
                         </svg>
 
-                        @if($product->badge_2x1)
-                        <div style="position:absolute;top:16px;left:16px;background:#D9B56D;
-                                    color:#fff;font-size:13px;font-weight:600;padding:6px 16px;
-                                    border-radius:20px;">
-                            2 × 1
-                        </div>
-                        @endif
                     </div>
                 @endif
             </div>
@@ -213,36 +198,9 @@
                     </span>
                     @endif
                 </div>
-                @if($product->badge_2x1)
-                <p style="font-size:13px;color:#888;margin-top:4px;">
-                    Precio por unidad · 2×1 aplicado a la segunda
-                </p>
-                @endif
-
-                {{-- 5. Banner 2x1 --}}
-                @if($product->badge_2x1)
-                <div style="background:linear-gradient(135deg,#FBF4E6,#F0F2EB);
-                            border:1px solid #E8CC92;border-radius:12px;
-                            padding:16px 20px;margin:20px 0;">
-                    <div style="display:flex;align-items:flex-start;gap:12px;">
-                        <svg style="width:24px;height:24px;color:#BE9A53;flex-shrink:0;margin-top:2px;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 11.25v8.25a1.5 1.5 0 0 1-1.5 1.5H5.25a1.5 1.5 0 0 1-1.5-1.5v-8.25M12 4.875A2.625 2.625 0 1 0 9.375 7.5H12m0-2.625V7.5m0-2.625A2.625 2.625 0 1 1 14.625 7.5H12m0 0V21m-8.625-9.75h18c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125h-18c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125Z"/>
-                        </svg>
-                        <div>
-                            <p style="font-size:15px;font-weight:600;color:#2E2A26;margin:0;">
-                                ¡Llévate la segunda unidad gratis!
-                            </p>
-                            <p style="font-size:13px;color:#555;margin:4px 0 0;">
-                                Agrega dos al carrito y la más económica va sin costo.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                @endif
-
                 {{-- 6. Selector de color --}}
                 @if($colores->count() > 0)
-                <div style="margin-bottom:20px;{{ $product->badge_2x1 ? '' : 'margin-top:20px;' }}">
+                <div style="margin-bottom:20px;margin-top:20px;">
                     <p style="font-size:14px;font-weight:500;color:#2E2A26;margin:0 0 10px;display:flex;align-items:center;gap:8px;">
                         <span>Color: <span id="selected-color-name" style="font-weight:400;color:#666;">{{ $colores->first() }}</span></span>
                         <button type="button" id="clear-color-btn" onclick="clearColor()" style="display:none;background:none;border:none;color:#D9B56D;font-size:12px;font-weight:500;cursor:pointer;text-decoration:underline;padding:0;">Quitar</button>
@@ -456,11 +414,6 @@
                         <span x-show="added" x-cloak>✓ Agregado</span>
                     </button>
 
-                    @if($product->badge_2x1)
-                    <p style="font-size:12px;color:#888;text-align:center;margin-top:8px;">
-                        ¿Buscas el 2×1? Agrega dos unidades al carrito
-                    </p>
-                    @endif
                 </div>
 
                 {{-- 9. Beneficios rápidos --}}

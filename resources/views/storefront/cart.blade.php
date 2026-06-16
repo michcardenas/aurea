@@ -85,19 +85,6 @@
                         </div>
                     </template>
 
-                    {{-- 2x1 Banner --}}
-                    <template x-if="free_items.length > 0">
-                        <div style="border:1px dashed #E8CC92;border-radius:8px;padding:12px 16px;background:#FBF4E6;margin:12px 4px;display:flex;align-items:center;gap:10px;">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" style="flex-shrink:0;">
-                                <path d="M21 11.25v8.25a1.5 1.5 0 0 1-1.5 1.5H5.25a1.5 1.5 0 0 1-1.5-1.5v-8.25M12 4.875A2.625 2.625 0 1 0 9.375 7.5H12m0-2.625V7.5m0-2.625A2.625 2.625 0 1 1 14.625 7.5H12m0 0V21m-8.625-9.75h18c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125h-18c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125Z" stroke="#BE9A53" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                            </svg>
-                            <div>
-                                <p style="font-size:13px;font-weight:600;color:#BE9A53;margin:0;">¡2×1 aplicado!</p>
-                                <p style="font-size:12px;color:#D9B56D;margin:0;" x-text="free_items.join(', ') + ' — va sin costo'"></p>
-                            </div>
-                        </div>
-                    </template>
-
                     {{-- Toallitas suggestion --}}
                     <template x-if="!items.some(i => i.type && i.type.includes('toallitas')) && toallitasData.length > 0">
                         <div style="border-top:1px solid #e5e7eb;padding:16px 4px 0;margin-top:8px;">
@@ -140,14 +127,6 @@
                                 <span style="color:#2E2A26;" x-text="'$' + fmt(subtotal)"></span>
                             </div>
 
-                            {{-- 2x1 discount --}}
-                            <template x-if="discount_2x1 > 0">
-                                <div class="flex justify-between">
-                                    <span style="color:#16a34a;">Descuento 2×1</span>
-                                    <span style="color:#16a34a;" x-text="'-$' + fmt(discount_2x1)"></span>
-                                </div>
-                            </template>
-
                             {{-- Shipping --}}
                             <div class="flex justify-between">
                                 <span style="color:#6b7280;">Envío</span>
@@ -156,21 +135,21 @@
                             </div>
 
                             {{-- Progreso para envio gratis (basado en TOTAL post-descuentos) --}}
-                            <template x-if="freeThreshold > 0 && shipping > 0 && (subtotal - discount_2x1 - coupon_discount) > 0 && (subtotal - discount_2x1 - coupon_discount) < freeThreshold">
+                            <template x-if="freeThreshold > 0 && shipping > 0 && (subtotal - coupon_discount) > 0 && (subtotal - coupon_discount) < freeThreshold">
                                 <div style="padding:10px 14px;background:#f9fafb;border-radius:8px;border:1px solid #f3f4f6;">
                                     <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:6px;">
                                         <span style="color:#9ca3af;">Envío gratis</span>
-                                        <span style="color:#D9B56D;font-weight:500;" x-text="'$' + fmt(freeThreshold - (subtotal - discount_2x1 - coupon_discount)) + ' más'"></span>
+                                        <span style="color:#D9B56D;font-weight:500;" x-text="'$' + fmt(freeThreshold - (subtotal - coupon_discount)) + ' más'"></span>
                                     </div>
                                     <div style="background:#e5e7eb;border-radius:2px;height:4px;overflow:hidden;">
                                         <div style="background:#D9B56D;height:100%;border-radius:2px;transition:width .3s ease;"
-                                             :style="'width:' + Math.min(((subtotal - discount_2x1 - coupon_discount) / freeThreshold) * 100, 100) + '%'"></div>
+                                             :style="'width:' + Math.min(((subtotal - coupon_discount) / freeThreshold) * 100, 100) + '%'"></div>
                                     </div>
                                 </div>
                             </template>
 
                             {{-- Envio gratis conseguido (solo cuando shipping real es 0) --}}
-                            <template x-if="shipping === 0 && (subtotal - discount_2x1 - coupon_discount) > 0">
+                            <template x-if="shipping === 0 && (subtotal - coupon_discount) > 0">
                                 <div style="text-align:center;font-size:13px;color:#16a34a;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:8px 14px;">
                                     ✓ ¡Envío sin costo!
                                 </div>

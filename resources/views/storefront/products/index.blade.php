@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title', 'Catálogo de lentes | Belleza Áurea')
-@section('meta_description', 'Catálogo completo de lentes Belleza Áurea con protección de luz azul. Con y sin graduación. 2×1 combinables. Envío gratis +$999.')
+@section('meta_description', 'Catálogo completo Belleza Áurea: cosmética, esmaltes, pestañas, herramientas y más. Envío a toda Colombia.')
 @section('canonical', route('products.index'))
 @section('og_title', 'Catálogo de lentes | Belleza Áurea')
 @section('og_description', 'Catálogo completo de lentes Belleza Áurea con protección de luz azul. Con y sin graduación.')
@@ -248,15 +248,6 @@
                                 </div>
                             @endif
 
-                            {{-- Badge 2x1 --}}
-                            @if($product->badge_2x1)
-                            <div style="position:absolute;top:10px;left:10px;
-                                background:#D9B56D;color:#fff;font-size:11px;
-                                font-weight:600;padding:3px 10px;border-radius:20px;">
-                                2 × 1
-                            </div>
-                            @endif
-
                             {{-- Badge tipo --}}
                             @if($product->category)
                             <div style="position:absolute;top:10px;right:10px;
@@ -308,15 +299,6 @@
                                     {{ $graduaciones->count() }} graduaciones
                                 @endif
                             </p>
-                            @endif
-
-                            {{-- Badge texto 2x1 --}}
-                            @if($product->badge_2x1)
-                            <div style="background:#FBF4E6;color:#BE9A53;font-size:11px;
-                                padding:4px 10px;border-radius:6px;margin-bottom:12px;
-                                display:inline-block;font-weight:500;">
-                                Llévate uno y el siguiente gratis
-                            </div>
                             @endif
 
                             {{-- Precio --}}
