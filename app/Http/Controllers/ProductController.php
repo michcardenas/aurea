@@ -19,121 +19,111 @@ class ProductController extends Controller
 
     public function index(Request $request): View
     {
-        $tipoFiltro = $request->input('type', 'todos');
-        $colorFiltro = $request->input('color');
-        $graduacionFiltro = $request->input('graduation');
+        // ── Filtros de belleza ──
+        $catFiltro    = $request->input('category', '');   // slug categoría
+        $brandFiltro  = $request->input('brand', '');      // slug marca
+        $priceFiltro  = $request->input('price', '');      // ej: '0-10000', '10000-25000', etc.
+        $sortFiltro   = $request->input('sort', 'relevant'); // relevant|price-asc|price-desc|new|az
 
-        // Allow comma-separated types (e.g. "miopia,lectura" → match either).
-        $tipos = is_string($tipoFiltro)
-            ? array_values(array_filter(array_map('trim', explode(',', $tipoFiltro))))
-            : [];
-        $tiposEfectivos = array_values(array_filter($tipos, fn ($t) => $t !== '' && $t !== 'todos'));
-
-        $query = Product::active()->with('variants')
-            // Prioridad de ordenamiento del catálogo:
-            //   1. Productos con imagen primero (los sin foto al final)
-            //   2. Destacados antes que el resto
-            //   3. sort_order manual
-            //   4. Más recientes
-            ->orderByRaw('CASE WHEN images IS NOT NULL AND JSON_LENGTH(images) > 0 THEN 0 ELSE 1 END')
-            ->orderByDesc('is_featured')
-            ->orderBy('sort_order')
-            ->orderByDesc('created_at')
+        $query = Product::active()->with(['variants', 'category', 'brand'])
             ->where(function ($q) {
                 $q->where('stock', '>', 0)
                   ->orWhereHas('variants', fn ($v) => $v->where('is_active', true)->where('stock', '>', 0));
             });
 
-        if (!empty($tiposEfectivos)) {
-            $query->where(function ($q) use ($tiposEfectivos) {
-                foreach ($tiposEfectivos as $t) {
-                    $q->orWhereJsonContains('type', $t);
-                }
-            });
-        }
-
-        // Filtro por categoría (link desde las cards del home)
-        if ($catFiltro = request('category')) {
+        if ($catFiltro) {
             $query->whereHas('category', fn ($q) => $q->where('slug', $catFiltro));
         }
 
-        // Filtro por marca (link desde el carrusel del home)
-        if ($brandFiltro = request('brand')) {
+        if ($brandFiltro) {
             $query->whereHas('brand', fn ($q) => $q->where('slug', $brandFiltro));
         }
 
-        if ($colorFiltro) {
-            $query->whereHas('variants', fn ($q) => $q->where('color', $colorFiltro)->where('is_active', true)->where('stock', '>', 0));
+        if ($priceFiltro && preg_match('/^(\d+)-(\d+|max)$/', $priceFiltro, $m)) {
+            $query->where('price', '>=', (int) $m[1]);
+            if ($m[2] !== 'max') {
+                $query->where('price', '<=', (int) $m[2]);
+            }
         }
 
-        if ($graduacionFiltro) {
-            $query->whereHas('variants', fn ($q) => $q->where('graduation', $graduacionFiltro)->where('is_active', true)->where('stock', '>', 0));
-        }
+        // ── Ordenamiento ──
+        // Base: con imagen primero siempre (sin foto al final)
+        $query->orderByRaw('CASE WHEN images IS NOT NULL AND JSON_LENGTH(images) > 0 THEN 0 ELSE 1 END');
+
+        match ($sortFiltro) {
+            'price-asc'  => $query->orderBy('price', 'asc'),
+            'price-desc' => $query->orderBy('price', 'desc'),
+            'new'        => $query->orderByDesc('created_at'),
+            'az'         => $query->orderBy('name', 'asc'),
+            default      => $query->orderByDesc('is_featured')->orderBy('sort_order')->orderByDesc('created_at'),
+        };
 
         $products = $query->get()->filter(fn ($p) => $p->hasStock())->values();
 
-        // Available colors (only from variants with stock)
-        $variantsWithStock = ProductVariant::whereHas('product', fn ($q) => $q->active())
-            ->where('is_active', true)
-            ->where('stock', '>', 0)
-            ->whereNotNull('color')
-            ->get();
-
-        $coloresDisponibles = $variantsWithStock->pluck('color')->unique()->filter()->sort()->values();
-
-        // Map of color_name => color_hex (first non-empty, non-default-black hex wins)
-        $colorHexMap = $variantsWithStock
-            ->filter(function ($v) {
-                if (! $v->color_hex) {
-                    return false;
-                }
-                // Treat the HTML color-picker default (#000000) as "not set" unless the color is "Negro".
-                $isBlackDefault = strtolower($v->color_hex) === '#000000'
-                    && stripos($v->color, 'negro') === false;
-                return ! $isBlackDefault;
+        // ── Datos para los filtros ──
+        // Categorías con conteo de productos activos con stock
+        $categoriasFiltro = Category::orderBy('sort_order')->orderBy('name')->get()
+            ->map(function ($c) {
+                $count = Product::active()
+                    ->where('category_id', $c->id)
+                    ->where(function ($q) {
+                        $q->where('stock', '>', 0)
+                          ->orWhereHas('variants', fn ($v) => $v->where('is_active', true)->where('stock', '>', 0));
+                    })->count();
+                $c->products_count = $count;
+                return $c;
             })
-            ->groupBy('color')
-            ->map(fn ($g) => $g->first()->color_hex)
-            ->toArray();
-
-        // Available graduations sorted numerically (only variants with stock)
-        $graduacionesDisponibles = ProductVariant::whereHas('product', fn ($q) => $q->active()->where(fn ($qq) => $qq->whereJsonContains('type', 'miopia')->orWhereJsonContains('type', 'lectura')->orWhereJsonContains('type', 'sin_graduacion')))
-            ->where('is_active', true)
-            ->where('stock', '>', 0)
-            ->whereNotNull('graduation')
-            ->pluck('graduation')
-            ->unique()
-            ->filter()
-            ->sortBy(fn ($g) => (float) $g)
+            ->filter(fn ($c) => $c->products_count > 0)
             ->values();
 
-        // Toallitas always available separately
-        $toallitas = Product::active()
-            ->whereJsonContains('type', 'toallitas')
-            ->with('variants')
-            ->get()
-            ->filter(fn ($p) => $p->hasStock())
+        // Marcas con conteo (solo si hay productos con marca)
+        $marcasFiltro = \App\Models\Brand::orderBy('name')->get()
+            ->map(function ($b) {
+                $count = Product::active()
+                    ->where('brand_id', $b->id)
+                    ->where(function ($q) {
+                        $q->where('stock', '>', 0)
+                          ->orWhereHas('variants', fn ($v) => $v->where('is_active', true)->where('stock', '>', 0));
+                    })->count();
+                $b->products_count = $count;
+                return $b;
+            })
+            ->filter(fn ($b) => $b->products_count > 0)
             ->values();
+
+        // Rangos de precio (configurados pensando en el catálogo de belleza CO)
+        $rangosPrecios = [
+            '0-10000'        => 'Hasta $10.000',
+            '10000-25000'    => '$10.000 – $25.000',
+            '25000-50000'    => '$25.000 – $50.000',
+            '50000-100000'   => '$50.000 – $100.000',
+            '100000-max'     => 'Más de $100.000',
+        ];
+
+        $opcionesOrden = [
+            'relevant'   => 'Más relevantes',
+            'price-asc'  => 'Precio: menor a mayor',
+            'price-desc' => 'Precio: mayor a menor',
+            'new'        => 'Más recientes',
+            'az'         => 'Nombre A → Z',
+        ];
 
         $breadcrumbs = $this->seo->breadcrumbSchema([
-            ['name' => 'Inicio', 'url' => url('/')],
-            ['name' => 'Lentes', 'url' => route('products.index')],
+            ['name' => 'Inicio',    'url' => url('/')],
+            ['name' => 'Productos', 'url' => route('products.index')],
         ]);
 
-        $lentesPage = LentesPageSetting::getCurrent();
-
         return view('storefront.products.index', [
-            'products' => $products,
-            'toallitas' => $toallitas,
-            'coloresDisponibles' => $coloresDisponibles,
-            'colorHexMap' => $colorHexMap,
-            'graduacionesDisponibles' => $graduacionesDisponibles,
-            'tipoFiltro' => $tipoFiltro,
-            'colorFiltro' => $colorFiltro,
-            'graduacionFiltro' => $graduacionFiltro,
-            'breadcrumbs' => $breadcrumbs,
-            'colorHelper' => ColorHelper::all(),
-            'lentesPage' => $lentesPage,
+            'products'         => $products,
+            'categoriasFiltro' => $categoriasFiltro,
+            'marcasFiltro'     => $marcasFiltro,
+            'rangosPrecios'    => $rangosPrecios,
+            'opcionesOrden'    => $opcionesOrden,
+            'catFiltro'        => $catFiltro,
+            'brandFiltro'      => $brandFiltro,
+            'priceFiltro'      => $priceFiltro,
+            'sortFiltro'       => $sortFiltro,
+            'breadcrumbs'      => $breadcrumbs,
         ]);
     }
 
