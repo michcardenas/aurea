@@ -66,16 +66,6 @@
             ->map(fn ($group) => (int) $group->sum('stock'))
             ->toArray();
 
-        $stockByGradMiopia = $product->variants->where('is_active', true)->where('graduation_type', 'miopia')
-            ->groupBy('graduation')
-            ->map(fn ($group) => (int) $group->sum('stock'))
-            ->toArray();
-
-        $stockByGradLectura = $product->variants->where('is_active', true)->where('graduation_type', 'lectura')
-            ->groupBy('graduation')
-            ->map(fn ($group) => (int) $group->sum('stock'))
-            ->toArray();
-
         $productHasStock = $product->hasStock();
         $availableStock = $product->availableStock();
     @endphp
@@ -171,23 +161,45 @@
                        onmouseover="this.style.color='#D9B56D'" onmouseout="this.style.color='#aaa'">Inicio</a>
                     <span style="margin:0 6px;">·</span>
                     <a href="{{ route('products.index') }}" style="color:#aaa;text-decoration:none;"
-                       onmouseover="this.style.color='#D9B56D'" onmouseout="this.style.color='#aaa'">Lentes</a>
+                       onmouseover="this.style.color='#D9B56D'" onmouseout="this.style.color='#aaa'">Productos</a>
+                    @if($product->category)
+                    <span style="margin:0 6px;">·</span>
+                    <a href="{{ route('products.index', ['category' => $product->category->slug]) }}"
+                       style="color:#aaa;text-decoration:none;"
+                       onmouseover="this.style.color='#D9B56D'" onmouseout="this.style.color='#aaa'">{{ $product->category->name }}</a>
+                    @endif
                     <span style="margin:0 6px;">·</span>
                     <span style="color:#666;">{{ $product->name }}</span>
                 </nav>
 
-                {{-- 2. Nombre --}}
+                {{-- 2. Marca + Categoría --}}
+                <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:10px;">
+                    @if($product->brand)
+                    <span style="font-size:11px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:#BE9A53;">
+                        {{ $product->brand->name }}
+                    </span>
+                    @endif
+                    @if($product->brand && $product->category)
+                    <span style="color:#ddd;">·</span>
+                    @endif
+                    @if($product->category)
+                    <span style="font-size:11px;color:#888;letter-spacing:.06em;">
+                        {{ $product->category->name }}
+                    </span>
+                    @endif
+                </div>
+
+                {{-- 3. Nombre --}}
                 <h1 style="font-family:'Playfair Display',serif;font-size:28px;font-weight:700;
-                           color:#2E2A26;margin:0 0 8px;">
+                           color:#2E2A26;margin:0 0 16px;">
                     {{ $product->name }}
                 </h1>
 
-                {{-- 3. Badge tipo --}}
-                @if($product->type && !$product->hasType('toallitas'))
-                <div style="display:inline-block;background:#FBF4E6;color:#BE9A53;font-size:12px;
-                            padding:4px 12px;border-radius:20px;margin-bottom:16px;">
-                    {{ $product->type_labels }}
-                </div>
+                {{-- Código de referencia (útil para distribuidores) --}}
+                @if($product->internal_code)
+                <p style="font-size:12px;color:#aaa;margin:0 0 16px;">
+                    Ref. <span style="font-family:'Montserrat',monospace;color:#666;">{{ $product->internal_code }}</span>
+                </p>
                 @endif
 
                 {{-- 4. Precio --}}
@@ -203,13 +215,13 @@
                 </div>
                 @if($product->badge_2x1)
                 <p style="font-size:13px;color:#888;margin-top:4px;">
-                    Precio por lente · 2×1 aplicado al segundo
+                    Precio por unidad · 2×1 aplicado a la segunda
                 </p>
                 @endif
 
                 {{-- 5. Banner 2x1 --}}
                 @if($product->badge_2x1)
-                <div style="background:linear-gradient(135deg,#FBF4E6,#DBEAFE);
+                <div style="background:linear-gradient(135deg,#FBF4E6,#F0F2EB);
                             border:1px solid #E8CC92;border-radius:12px;
                             padding:16px 20px;margin:20px 0;">
                     <div style="display:flex;align-items:flex-start;gap:12px;">
@@ -218,16 +230,11 @@
                         </svg>
                         <div>
                             <p style="font-size:15px;font-weight:600;color:#2E2A26;margin:0;">
-                                ¡Llévate el segundo par gratis!
+                                ¡Llévate la segunda unidad gratis!
                             </p>
                             <p style="font-size:13px;color:#555;margin:4px 0 0;">
-                                Agrega dos lentes al carrito y el más económico va sin costo. Combinables entre todos los modelos.
+                                Agrega dos al carrito y la más económica va sin costo.
                             </p>
-                            <a href="{{ route('products.index') }}"
-                               style="font-size:13px;color:#D9B56D;text-decoration:none;display:inline-block;margin-top:6px;"
-                               onmouseover="this.style.textDecoration='underline'" onmouseout="this.style.textDecoration='none'">
-                                Ver todos los lentes →
-                            </a>
                         </div>
                     </div>
                 </div>
@@ -319,70 +326,6 @@
                             </div>
                         </div>
                     @endforeach
-                @endif
-
-                {{-- 7. Selector de graduación --}}
-                @if($graduacionesMiopia->count() > 0)
-                <div style="margin-bottom:20px;">
-                    <p style="font-size:14px;font-weight:500;color:#2E2A26;margin:0 0 10px;display:flex;align-items:center;gap:8px;">
-                        <span>Graduación Miopía: <span id="selected-grad-miopia" style="font-weight:400;color:#666;">— Selecciona</span></span>
-                        <button type="button" id="clear-grad-miopia-btn" onclick="clearGraduation()" style="display:none;background:none;border:none;color:#D9B56D;font-size:12px;font-weight:500;cursor:pointer;text-decoration:underline;padding:0;">Quitar</button>
-                    </p>
-                    <div style="display:flex;flex-wrap:wrap;gap:8px;">
-                        @foreach($graduacionesMiopia as $grad)
-                            @php $gradOutOfStock = ($stockByGradMiopia[$grad] ?? 0) <= 0; @endphp
-                            <div class="grad-btn grad-miopia"
-                                 data-grad="{{ $grad }}"
-                                 data-tipo="miopia"
-                                 data-grad-type="miopia"
-                                 data-out-of-stock="{{ $gradOutOfStock ? '1' : '0' }}"
-                                 @if(!$gradOutOfStock) onclick="selectGrad(this,'miopia')" @endif
-                                 title="{{ $gradOutOfStock ? 'Agotado' : '' }}"
-                                 style="padding:6px 14px;border-radius:8px;border:1px solid #ddd;
-                                        background:#fff;font-size:13px;color:#444;
-                                        transition:all .15s;
-                                        {{ $gradOutOfStock ? 'opacity:0.45;cursor:not-allowed;text-decoration:line-through;' : 'cursor:pointer;' }}">
-                                {{ $grad }}
-                            </div>
-                        @endforeach
-                    </div>
-                </div>
-                @endif
-
-                @if($graduacionesLectura->count() > 0)
-                <div style="margin-bottom:20px;">
-                    <p style="font-size:14px;font-weight:500;color:#2E2A26;margin:0 0 10px;display:flex;align-items:center;gap:8px;">
-                        <span>Graduación Lectura: <span id="selected-grad-lectura" style="font-weight:400;color:#666;">— Selecciona</span></span>
-                        <button type="button" id="clear-grad-lectura-btn" onclick="clearGraduation()" style="display:none;background:none;border:none;color:#D9B56D;font-size:12px;font-weight:500;cursor:pointer;text-decoration:underline;padding:0;">Quitar</button>
-                    </p>
-                    <div style="display:flex;flex-wrap:wrap;gap:8px;">
-                        @foreach($graduacionesLectura as $grad)
-                            @php $gradOutOfStock = ($stockByGradLectura[$grad] ?? 0) <= 0; @endphp
-                            <div class="grad-btn grad-lectura"
-                                 data-grad="{{ $grad }}"
-                                 data-tipo="lectura"
-                                 data-grad-type="lectura"
-                                 data-out-of-stock="{{ $gradOutOfStock ? '1' : '0' }}"
-                                 @if(!$gradOutOfStock) onclick="selectGrad(this,'lectura')" @endif
-                                 title="{{ $gradOutOfStock ? 'Agotado' : '' }}"
-                                 style="padding:6px 14px;border-radius:8px;border:1px solid #ddd;
-                                        background:#fff;font-size:13px;color:#444;
-                                        transition:all .15s;
-                                        {{ $gradOutOfStock ? 'opacity:0.45;cursor:not-allowed;text-decoration:line-through;' : 'cursor:pointer;' }}">
-                                {{ $grad }}
-                            </div>
-                        @endforeach
-                    </div>
-                </div>
-                @endif
-
-                @if($graduacionesSinGrad->count() > 0 || ($product->hasType('sin_graduacion') && $graduacionesMiopia->count() === 0 && $graduacionesLectura->count() === 0))
-                <div style="margin-bottom:20px;">
-                    <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;
-                                padding:10px 14px;font-size:13px;color:#166534;">
-                        ✓ Sin graduación — protección de luz azul pura
-                    </div>
-                </div>
                 @endif
 
                 {{-- Descripción corta --}}
@@ -515,7 +458,7 @@
 
                     @if($product->badge_2x1)
                     <p style="font-size:12px;color:#888;text-align:center;margin-top:8px;">
-                        ¿Buscas el 2×1? Agrega dos lentes al carrito
+                        ¿Buscas el 2×1? Agrega dos unidades al carrito
                     </p>
                     @endif
                 </div>
@@ -523,16 +466,16 @@
                 {{-- 9. Beneficios rápidos --}}
                 <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:24px;">
                     @php
-                        $beneficios = $lentesPage->product_benefits ?? [
-                            'Envío gratis +$999',
-                            'Garantía 6 meses',
-                            '30 días devolución',
-                            'Filtro luz azul certificado',
+                        $beneficios = [
+                            'Envío a toda Colombia',
+                            'Productos 100 % originales',
+                            'Pago seguro',
+                            'Soporte WhatsApp',
                         ];
                     @endphp
                     @foreach($beneficios as $b)
                     <div style="display:flex;align-items:center;gap:6px;font-size:12px;color:#666;">
-                        <svg style="width:14px;height:14px;color:#16a34a;flex-shrink:0;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg style="width:14px;height:14px;color:#A8B29A;flex-shrink:0;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="m4.5 12.75 6 6 9-13.5"/>
                         </svg>
                         {{ $b }}
@@ -603,83 +546,61 @@
     @endif
 
     {{-- ============================================================
-         SUGERENCIA DE TOALLITAS
+         PRODUCTOS RELACIONADOS (misma categoría)
          ============================================================ --}}
-    @if($toallitas->count() > 0 && !$product->hasType('toallitas'))
-    <section style="background:#f8f9fa;padding:48px 24px;">
+    @if(($relatedProducts ?? collect())->count() > 0)
+    <section style="background:#FBF8F2;padding:64px 24px;">
         <div style="max-width:1100px;margin:0 auto;">
-
-            {{-- Separador --}}
-            <div style="display:flex;align-items:center;gap:16px;margin-bottom:32px;">
-                <div style="flex:1;height:1px;background:#e5e5e5;"></div>
-                <span style="font-size:13px;color:#aaa;white-space:nowrap;">Te sugerimos complementar tu compra con...</span>
-                <div style="flex:1;height:1px;background:#e5e5e5;"></div>
+            <div style="text-align:center;margin-bottom:32px;">
+                <p style="font-size:11px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:#BE9A53;margin:0 0 8px;">También te puede gustar</p>
+                <h2 style="font-family:'Playfair Display',serif;font-size:26px;font-weight:500;color:#2E2A26;margin:0;">
+                    Más en {{ $product->category?->name ?? 'esta categoría' }}
+                </h2>
             </div>
 
-            <h2 style="font-size:20px;font-weight:600;color:#2E2A26;text-align:center;margin:0 0 8px;">
-                Mantén tus lentes impecables
-            </h2>
-            <p style="font-size:14px;color:#888;text-align:center;margin:0 0 32px;">
-                Kit limpiador 2 en 1 — paño húmedo + seco
-            </p>
+            <div class="related-grid" style="display:grid;grid-template-columns:repeat(4,1fr);gap:18px;">
+                @foreach($relatedProducts as $rel)
+                @php $rImg = $rel->images[0] ?? null; @endphp
+                <a href="{{ route('products.show', $rel->slug) }}"
+                   style="background:#fff;border-radius:12px;overflow:hidden;
+                          border:0.5px solid rgba(0,0,0,0.08);text-decoration:none;color:inherit;
+                          transition:transform .2s ease,box-shadow .2s ease;display:block;"
+                   onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 12px 32px rgba(0,0,0,0.08)'"
+                   onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='none'">
 
-            <div class="toallitas-grid" style="display:grid;gap:20px;max-width:600px;margin:0 auto;">
-                @foreach($toallitas as $toallita)
-                @php $tImg = $toallita->images[0] ?? null; @endphp
-                <div style="background:#fff;border-radius:12px;overflow:hidden;
-                            border:0.5px solid rgba(0,0,0,0.08);cursor:pointer;
-                            transition:transform .2s ease,box-shadow .2s ease;"
-                     onclick="location.href='{{ route('products.show', $toallita->slug) }}'"
-                     onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 12px 32px rgba(0,0,0,0.1)'"
-                     onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='none'">
-
-                    <div style="height:140px;overflow:hidden;">
-                        @if($tImg)
-                            <img src="{{ asset('storage/' . $tImg) }}" alt="{{ $toallita->name }}"
+                    <div style="height:180px;background:#f8f9fa;overflow:hidden;">
+                        @if($rImg)
+                            <img src="{{ asset('storage/' . $rImg) }}" alt="{{ $rel->name }}"
                                  loading="lazy" style="width:100%;height:100%;object-fit:cover;">
                         @else
-                            <div style="width:100%;height:100%;
-                                background:linear-gradient(135deg,#2d1a0d,#6e3d1a);
-                                display:flex;align-items:center;justify-content:center;">
-                                <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
-                                    <rect x="8" y="14" width="32" height="22" rx="4"
-                                          stroke="rgba(255,255,255,0.3)" stroke-width="2"/>
-                                    <path d="M14 20h20M14 26h14"
-                                          stroke="rgba(255,255,255,0.3)" stroke-width="1.5" stroke-linecap="round"/>
-                                </svg>
-                            </div>
+                            <div style="width:100%;height:100%;background:linear-gradient(135deg,#F7F3ED,#E8D1C5);"></div>
                         @endif
                     </div>
 
-                    <div style="padding:14px 16px;">
-                        <h4 style="font-size:14px;font-weight:600;color:#2E2A26;margin:0 0 6px;">
-                            {{ $toallita->name }}
-                        </h4>
-                        @if($toallita->description)
-                        <p style="font-size:12px;color:#888;margin:0 0 12px;line-height:1.5;">
-                            {{ Str::limit($toallita->description, 80) }}
+                    <div style="padding:14px 16px 18px;">
+                        @if($rel->brand)
+                        <p style="font-size:10px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:#BE9A53;margin:0 0 4px;">
+                            {{ $rel->brand->name }}
                         </p>
                         @endif
-                        <div style="display:flex;align-items:center;justify-content:space-between;">
-                            <span style="font-size:18px;font-weight:700;color:#2E2A26;">
-                                ${{ number_format($toallita->price, 0, ',', '.') }}
+                        <h4 style="font-size:14px;font-weight:500;color:#2E2A26;margin:0 0 10px;line-height:1.35;
+                                   overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;">
+                            {{ $rel->name }}
+                        </h4>
+                        <div style="display:flex;align-items:baseline;gap:6px;">
+                            <span style="font-size:16px;font-weight:700;color:#2E2A26;">
+                                ${{ number_format($rel->price, 0, ',', '.') }}
                             </span>
-                            <a href="{{ route('products.show', $toallita->slug) }}"
-                               onclick="event.stopPropagation()"
-                               style="font-size:13px;color:#D9B56D;font-weight:500;text-decoration:none;"
-                               onmouseover="this.style.textDecoration='underline'" onmouseout="this.style.textDecoration='none'">
-                                Ver detalle →
-                            </a>
+                            @if($rel->compare_price && $rel->compare_price > $rel->price)
+                            <span style="font-size:12px;color:#bbb;text-decoration:line-through;">
+                                ${{ number_format($rel->compare_price, 0, ',', '.') }}
+                            </span>
+                            @endif
                         </div>
                     </div>
-                </div>
+                </a>
                 @endforeach
             </div>
-
-            <p style="font-size:12px;color:#aaa;text-align:center;margin-top:20px;font-style:italic;">
-                Compatibles con todos los modelos de lentes nuvion glass y cualquier superficie óptica
-            </p>
-
         </div>
     </section>
     @endif
@@ -735,49 +656,33 @@
 /* ── Variant images map (color → image URL) ── */
 window.variantImagesByColor = @json($variantImagesByColor);
 
-/* ── Lista completa de variantes activas con stock para calcular disponibilidad cruzada ── */
+/* ── Lista de variantes activas con stock para calcular disponibilidad por color ── */
 @php
-    $variantStockData = $product->variants->where('is_active', true)->map(function ($v) {
-        return [
-            'color' => $v->color,
-            'graduation' => $v->graduation,
-            'graduation_type' => $v->graduation_type,
-            'stock' => (int) $v->stock,
-        ];
-    })->values();
+    $variantStockData = $product->variants->where('is_active', true)->map(fn ($v) => [
+        'color' => $v->color,
+        'stock' => (int) $v->stock,
+    ])->values();
 @endphp
 window.variantStockData = @json($variantStockData);
-window.currentSelection = { color: null, gradType: null, grad: null };
+window.currentSelection = { color: null };
 
 /**
- * Recalcula qué colores y qué graduaciones siguen disponibles dado lo que ya se eligió.
- * - Un color está disponible si existe alguna variante con ese color y la graduación
- *   seleccionada (si la hay) que tenga stock > 0.
- * - Una graduación está disponible si existe alguna variante con esa graduación y el
- *   color seleccionado (si lo hay) que tenga stock > 0.
+ * Recalcula qué colores siguen disponibles según el stock total de cada uno.
  */
 function refreshVariantAvailability() {
-    var sel = window.currentSelection;
     var data = window.variantStockData || [];
 
-    // ── Colores ──
     document.querySelectorAll('.color-btn').forEach(function (btn) {
         var color = btn.dataset.color;
         var stock = data
-            .filter(function (v) {
-                if (v.color !== color) return false;
-                if (sel.gradType && sel.grad) {
-                    return v.graduation_type === sel.gradType && v.graduation === sel.grad;
-                }
-                return true;
-            })
+            .filter(function (v) { return v.color === color; })
             .reduce(function (sum, v) { return sum + (v.stock || 0); }, 0);
 
         var outOfStock = stock <= 0;
         btn.dataset.outOfStock = outOfStock ? '1' : '0';
         btn.style.opacity = outOfStock ? '0.4' : '1';
         btn.style.cursor = outOfStock ? 'not-allowed' : 'pointer';
-        btn.title = color + (outOfStock ? ' (Agotado para esta combinación)' : '');
+        btn.title = color + (outOfStock ? ' (Agotado)' : '');
 
         var xMark = btn.querySelector('.color-out-x');
         if (outOfStock && !xMark) {
@@ -794,41 +699,6 @@ function refreshVariantAvailability() {
             btn.onclick = null;
         } else {
             btn.onclick = (function (c) { return function () { selectColor(c); }; })(color);
-        }
-    });
-
-    // ── Graduaciones ──
-    document.querySelectorAll('.grad-btn').forEach(function (btn) {
-        var grad = btn.dataset.grad;
-        var gradType = btn.dataset.gradType || (btn.closest('[data-grad-type]') && btn.closest('[data-grad-type]').dataset.gradType);
-        // Fallback: deducir gradType del onclick original (miopia/lectura).
-        if (!gradType) {
-            var oc = btn.getAttribute('onclick') || '';
-            if (oc.indexOf("'miopia'") !== -1) gradType = 'miopia';
-            else if (oc.indexOf("'lectura'") !== -1) gradType = 'lectura';
-        }
-
-        var stock = data
-            .filter(function (v) {
-                if (v.graduation !== grad || v.graduation_type !== gradType) return false;
-                if (sel.color) {
-                    return v.color === sel.color;
-                }
-                return true;
-            })
-            .reduce(function (sum, v) { return sum + (v.stock || 0); }, 0);
-
-        var outOfStock = stock <= 0;
-        btn.dataset.outOfStock = outOfStock ? '1' : '0';
-        btn.style.opacity = outOfStock ? '0.45' : '1';
-        btn.style.textDecoration = outOfStock ? 'line-through' : 'none';
-        btn.style.cursor = outOfStock ? 'not-allowed' : 'pointer';
-        btn.title = outOfStock ? 'Agotado para esta combinación' : '';
-
-        if (outOfStock) {
-            btn.onclick = null;
-        } else {
-            btn.onclick = (function (b, t) { return function () { selectGrad(b, t); }; })(btn, gradType);
         }
     });
 }
@@ -863,20 +733,12 @@ function hideVariantImage() {
     }
 }
 
-/* ── Helpers para mostrar/ocultar los botones "Quitar" ── */
+/* ── Helper para mostrar/ocultar el botón "Quitar" de color ── */
 function updateClearButtons() {
     var sel = window.currentSelection;
     var clearColorBtn = document.getElementById('clear-color-btn');
     if (clearColorBtn) {
         clearColorBtn.style.display = sel.color ? 'inline-block' : 'none';
-    }
-    var clearMiopiaBtn = document.getElementById('clear-grad-miopia-btn');
-    var clearLecturaBtn = document.getElementById('clear-grad-lectura-btn');
-    if (clearMiopiaBtn) {
-        clearMiopiaBtn.style.display = (sel.gradType === 'miopia') ? 'inline-block' : 'none';
-    }
-    if (clearLecturaBtn) {
-        clearLecturaBtn.style.display = (sel.gradType === 'lectura') ? 'inline-block' : 'none';
     }
 }
 
@@ -932,80 +794,6 @@ function clearColor() {
     if (overlay) { overlay.src = ''; overlay.style.display = 'none'; }
 
     window.currentSelection.color = null;
-    refreshVariantAvailability();
-    updateClearButtons();
-    window.dispatchEvent(new CustomEvent('variant-selection-changed'));
-}
-
-/* ── Graduation selector ── */
-function selectGrad(el, tipo) {
-    // Toggle: si la graduación ya está seleccionada, la deseleccionamos.
-    if (window.currentSelection.gradType === tipo && window.currentSelection.grad === el.dataset.grad) {
-        clearGraduation();
-        return;
-    }
-
-    // Reset ALL graduation buttons (both miopia and lectura) — only one can be selected at a time
-    document.querySelectorAll('.grad-btn').forEach(function(b) {
-        b.style.background = '#fff';
-        b.style.borderColor = '#ddd';
-        b.style.color = '#444';
-    });
-
-    // Reset both labels
-    var labelMiopia = document.getElementById('selected-grad-miopia');
-    var labelLectura = document.getElementById('selected-grad-lectura');
-    if (labelMiopia) labelMiopia.textContent = '— Selecciona';
-    if (labelLectura) labelLectura.textContent = '— Selecciona';
-
-    // Activate the clicked one
-    el.style.background = '#2E2A26';
-    el.style.borderColor = '#2E2A26';
-    el.style.color = '#fff';
-    var label = document.getElementById('selected-grad-' + tipo);
-    if (label) label.textContent = el.dataset.grad;
-
-    window.currentSelection.gradType = tipo;
-    window.currentSelection.grad = el.dataset.grad;
-
-    // Si el color actualmente seleccionado no tiene stock para esta graduación, lo deseleccionamos.
-    var sel = window.currentSelection;
-    var data = window.variantStockData || [];
-    if (sel.color) {
-        var stillValid = data.some(function (v) {
-            return v.color === sel.color && v.graduation_type === sel.gradType && v.graduation === sel.grad && v.stock > 0;
-        });
-        if (!stillValid) {
-            sel.color = null;
-            var lbl = document.getElementById('selected-color-name');
-            if (lbl) lbl.textContent = '— Selecciona un color';
-            document.querySelectorAll('.color-btn').forEach(function (b) {
-                b.style.borderColor = 'transparent';
-                b.style.boxShadow = 'none';
-            });
-        }
-    }
-
-    refreshVariantAvailability();
-    updateClearButtons();
-    window.dispatchEvent(new CustomEvent('variant-selection-changed'));
-}
-
-/* ── Limpiar graduación ── */
-function clearGraduation() {
-    document.querySelectorAll('.grad-btn').forEach(function (b) {
-        b.style.background = '#fff';
-        b.style.borderColor = '#ddd';
-        b.style.color = '#444';
-    });
-    var labelMiopia = document.getElementById('selected-grad-miopia');
-    var labelLectura = document.getElementById('selected-grad-lectura');
-    if (labelMiopia) labelMiopia.textContent = '— Selecciona';
-    if (labelLectura) labelLectura.textContent = '— Selecciona';
-
-    window.currentSelection.gradType = null;
-    window.currentSelection.grad = null;
-
     refreshVariantAvailability();
     updateClearButtons();
     window.dispatchEvent(new CustomEvent('variant-selection-changed'));
@@ -1156,9 +944,6 @@ function productDetail() {
             } else {
                 var stock = data.reduce(function (sum, v) {
                     if (sel.color && v.color !== sel.color) return sum;
-                    if (sel.gradType && sel.grad) {
-                        if (v.graduation_type !== sel.gradType || v.graduation !== sel.grad) return sum;
-                    }
                     return sum + (v.stock || 0);
                 }, 0);
                 // Cap superior de 10 (limite de la API).
@@ -1199,50 +984,29 @@ function productDetail() {
             this.adding = true;
             this.added = false;
 
-            // Find selected variant
+            // Buscar la variante seleccionada (por color o por opción genérica)
             var selectedColor = document.getElementById('selected-color-name');
             var colorName = selectedColor ? selectedColor.textContent : null;
 
-            // Find the matching variant ID
             var variantId = null;
             @if($product->variants->count())
             @php
-                $variantData = $product->variants->where('is_active', true)->map(function($v) {
-                    return ['id' => $v->id, 'color' => $v->color, 'graduation' => $v->graduation, 'graduation_type' => $v->graduation_type];
-                })->values();
+                $variantData = $product->variants->where('is_active', true)->map(fn ($v) => [
+                    'id' => $v->id, 'color' => $v->color,
+                ])->values();
             @endphp
             var variants = @json($variantData);
 
-            // Try to match by color + selected graduation
-            var selectedGradMiopia = document.getElementById('selected-grad-miopia');
-            var selectedGradLectura = document.getElementById('selected-grad-lectura');
-            var gradMiopia = selectedGradMiopia && selectedGradMiopia.textContent !== '— Selecciona' ? selectedGradMiopia.textContent : null;
-            var gradLectura = selectedGradLectura && selectedGradLectura.textContent !== '— Selecciona' ? selectedGradLectura.textContent : null;
-
+            // Match por color si el cliente eligió uno
             for (var i = 0; i < variants.length; i++) {
-                var v = variants[i];
-                if (colorName && v.color === colorName) {
-                    if (gradMiopia && v.graduation === gradMiopia && v.graduation_type === 'miopia') {
-                        variantId = v.id;
-                        break;
-                    }
-                    if (gradLectura && v.graduation === gradLectura && v.graduation_type === 'lectura') {
-                        variantId = v.id;
-                        break;
-                    }
-                    if (!gradMiopia && !gradLectura) {
-                        variantId = v.id;
-                        break;
-                    }
+                if (colorName && variants[i].color === colorName) {
+                    variantId = variants[i].id;
+                    break;
                 }
             }
-            // Fallback to first variant if none matched
-            if (!variantId && variants.length > 0) {
-                variantId = variants[0].id;
-            }
 
-            // Si el cliente seleccionó una variante genérica (Tamaño/Aroma/etc),
-            // tiene prioridad sobre la heurística de color/graduación arriba.
+            // Si el cliente eligió una variante genérica (Tamaño / Aroma / Acabado…),
+            // ésa tiene prioridad.
             if (window.selectedGenericVariantId) {
                 variantId = window.selectedGenericVariantId;
             }
@@ -1300,17 +1064,17 @@ function productDetail() {
     gap: 48px;
     align-items: start;
 }
-.toallitas-grid {
-    grid-template-columns: repeat(2, 1fr);
+@media (max-width: 900px) {
+    .related-grid { grid-template-columns: repeat(2, 1fr) !important; }
 }
 @media (max-width: 768px) {
     .product-layout {
         grid-template-columns: 1fr;
         gap: 32px;
     }
-    .toallitas-grid {
-        grid-template-columns: 1fr;
-    }
+}
+@media (max-width: 480px) {
+    .related-grid { grid-template-columns: 1fr !important; }
 }
 </style>
 @endpush

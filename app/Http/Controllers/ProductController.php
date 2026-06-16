@@ -144,7 +144,7 @@ class ProductController extends Controller
     {
         $product = Product::active()
             ->where('slug', $slug)
-            ->with('variants')
+            ->with(['variants', 'category', 'brand'])
             ->firstOrFail();
 
         $activeVariants = $product->variants->where('is_active', true);
@@ -161,28 +161,23 @@ class ProductController extends Controller
             ->filter(fn ($v) => $v->option_type !== 'color' && empty($v->graduation_type))
             ->groupBy(fn ($v) => $v->name ?: \App\Models\ProductVariant::DEFAULT_LABELS[$v->option_type] ?? 'Opción');
 
-        // Graduations grouped by type
-        $graduacionesMiopia = $activeVariants
-            ->where('graduation_type', 'miopia')
-            ->pluck('graduation')->unique()->filter()
-            ->sortBy(fn ($g) => (float) $g)->values();
-
-        $graduacionesLectura = $activeVariants
-            ->where('graduation_type', 'lectura')
-            ->pluck('graduation')->unique()->filter()
-            ->sortBy(fn ($g) => (float) $g)->values();
-
-        $graduacionesSinGrad = $activeVariants
-            ->where('graduation_type', 'sin_graduacion')
-            ->pluck('graduation')->unique()->filter()->values();
-
-        // Toallitas for suggestion
-        $toallitas = Product::active()
-            ->whereJsonContains('type', 'toallitas')
-            ->with('variants')
-            ->get()
-            ->filter(fn ($p) => $p->hasStock())
-            ->values();
+        // Productos relacionados: misma categoría, otros productos con stock e imagen.
+        $relatedProducts = collect();
+        if ($product->category_id) {
+            $relatedProducts = Product::active()
+                ->where('category_id', $product->category_id)
+                ->where('id', '!=', $product->id)
+                ->where(function ($q) {
+                    $q->where('stock', '>', 0)
+                      ->orWhereHas('variants', fn ($v) => $v->where('is_active', true)->where('stock', '>', 0));
+                })
+                ->whereNotNull('images')
+                ->whereRaw('JSON_LENGTH(images) > 0')
+                ->with(['brand'])
+                ->inRandomOrder()
+                ->take(4)
+                ->get();
+        }
 
         $seo = $this->seo->forProduct($product);
         $schema = $this->seo->productSchema($product);
@@ -193,12 +188,9 @@ class ProductController extends Controller
             ['name' => $product->name, 'url' => route('products.show', $product->slug)],
         ]);
 
-        $lentesPage = LentesPageSetting::getCurrent();
-
         return view('storefront.products.show', compact(
             'product', 'colores', 'genericVariants',
-            'graduacionesMiopia', 'graduacionesLectura', 'graduacionesSinGrad',
-            'toallitas', 'seo', 'schema', 'howToSchema', 'breadcrumbs', 'lentesPage',
+            'relatedProducts', 'seo', 'schema', 'howToSchema', 'breadcrumbs',
         ));
     }
 }
