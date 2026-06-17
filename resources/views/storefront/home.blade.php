@@ -283,6 +283,8 @@
         object-fit: cover;
         border-radius: 0;
         display: block;
+        /* Fondo durante la carga del video — gradiente áureo en vez de imagen flash */
+        background: linear-gradient(135deg, #F7F3ED 0%, #E8D1C5 100%);
     }
 
     .ba-hero__leaf {
@@ -1422,11 +1424,11 @@
             @endphp
 
             @if($heroVideoUrl)
-                {{-- Video b-roll: autoplay muted loop. Sin controles para no distraer. --}}
+                {{-- Video b-roll: autoplay muted loop. preload="auto" para que arranque sin flash de imagen
+                     y SIN poster (que provocaba el "salto" de imagen → video que veía el cliente). --}}
                 <video class="ba-hero__video"
-                       autoplay muted loop playsinline preload="metadata"
-                       aria-hidden="true"
-                       @if($starProduct && !empty($starProduct->images)) poster="{{ asset('storage/'.$starProduct->images[0]) }}" @endif>
+                       autoplay muted loop playsinline preload="auto"
+                       aria-hidden="true">
                     <source src="{{ $heroVideoUrl }}" type="video/{{ $heroExt === 'mov' ? 'quicktime' : $heroExt }}">
                 </video>
             @elseif($heroImageUrl)
