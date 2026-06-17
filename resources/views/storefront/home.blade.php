@@ -1730,15 +1730,17 @@
                 @endif
             </div>
             <div class="ba-star__body" data-anim="fade-left" style="--stagger: 2;">
-                <span class="ba-star__label">{{ $homePage->promo_label ?? 'Producto estrella' }}</span>
-                <h2 id="star-title" class="ba-star__title">{{ $homePage->promo_title ?? $starProduct->name }}</h2>
-                <p class="ba-star__desc">{{ $homePage->promo_description ?? \Illuminate\Support\Str::limit(strip_tags($starProduct->description), 220) }}</p>
+                <span class="ba-star__label">{{ $homePage->promo_label ?: 'Producto estrella' }}</span>
+                <h2 id="star-title" class="ba-star__title">{{ $starProduct->name }}</h2>
+                <p class="ba-star__desc">{{ \Illuminate\Support\Str::limit(strip_tags($starProduct->description), 220) }}</p>
                 <div class="ba-star__price-block">
-                    <span class="ba-star__price">{{ $homePage->promo_price ?? '$'.number_format($starProduct->price, 0, ',', '.') }}</span>
-                    <span class="ba-star__note">{{ $homePage->promo_price_note ?? 'Envío gratis en compras +$899' }}</span>
+                    <span class="ba-star__price">${{ number_format($starProduct->price, 0, ',', '.') }}</span>
+                    @if($homePage->promo_price_note)
+                    <span class="ba-star__note">{{ $homePage->promo_price_note }}</span>
+                    @endif
                 </div>
                 <a href="{{ route('products.show', ['slug' => $starProduct->slug]) }}" class="ba-btn-primary">
-                    <span>{{ $homePage->promo_btn_text ?? 'Descubrir el ritual' }}</span>
+                    <span>{{ $homePage->promo_btn_text ?: 'Ver producto' }}</span>
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12h14M13 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/></svg>
                 </a>
             </div>

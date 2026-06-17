@@ -94,26 +94,37 @@ class StorefrontController extends Controller
             ])->all()
         );
 
-        // Producto estrella (cascade):
-        //   1. El elegido en HomePageSetting->star_product_id (admin lo configura)
-        //   2. Primer producto activo, con stock y con imagen
-        //   3. Fallback final: cualquier activo
+        // Producto estrella:
+        //   1. Si el admin fijó star_product_id Y ese producto cumple los criterios
+        //      (imagen + descripción + precio > 0), se respeta.
+        //   2. En cualquier otro caso → rota aleatoriamente entre productos activos
+        //      con stock, imagen, descripción y precio. Cada visita carga uno distinto.
         $heroProduct = null;
         if ($homePage->star_product_id) {
-            $heroProduct = Product::active()
+            $candidate = Product::active()
                 ->where('id', $homePage->star_product_id)
+                ->whereNotNull('images')
+                ->whereRaw('JSON_LENGTH(images) > 0')
+                ->whereNotNull('description')
+                ->where('description', '!=', '')
+                ->where('price', '>', 0)
                 ->with('variants')
                 ->first();
+            if ($candidate) {
+                $heroProduct = $candidate;
+            }
         }
         if (! $heroProduct) {
             $heroProduct = Product::active()
                 ->where('stock', '>', 0)
                 ->whereNotNull('images')
                 ->whereRaw('JSON_LENGTH(images) > 0')
-                ->orderByDesc('is_featured')
+                ->whereNotNull('description')
+                ->where('description', '!=', '')
+                ->where('price', '>', 0)
                 ->with('variants')
-                ->first()
-                ?? Product::active()->first();
+                ->inRandomOrder()
+                ->first();
         }
 
         // Determinar modo del hero
