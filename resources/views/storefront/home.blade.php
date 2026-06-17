@@ -1038,37 +1038,99 @@
     }
 
     /* Editorial quote */
+    /* ───────── Editorial Manifesto — rediseño ornamental ───────── */
+    .ba-manifesto {
+        position: relative;
+        background: linear-gradient(180deg, #FBF8F2 0%, #F4EFE5 60%, #FBF8F2 100%);
+        padding: clamp(72px, 9vw, 128px) 24px;
+        overflow: hidden;
+    }
+    .ba-manifesto::before,
+    .ba-manifesto::after {
+        content: '';
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(100px);
+        pointer-events: none;
+        z-index: 0;
+    }
+    .ba-manifesto::before {
+        top: -180px; left: 8%;
+        width: 380px; height: 380px;
+        background: radial-gradient(circle, rgba(217,181,109,.20), transparent 70%);
+    }
+    .ba-manifesto::after {
+        bottom: -180px; right: 6%;
+        width: 420px; height: 420px;
+        background: radial-gradient(circle, rgba(168,178,154,.16), transparent 70%);
+    }
+    /* Hojas decorativas botánicas en las esquinas */
+    .ba-manifesto__leaf {
+        position: absolute;
+        z-index: 0;
+        opacity: .35;
+        pointer-events: none;
+    }
+    .ba-manifesto__leaf--tl { top: 40px; left: 40px; width: 96px; transform: rotate(8deg); }
+    .ba-manifesto__leaf--br { bottom: 40px; right: 40px; width: 110px; transform: rotate(190deg) scaleX(-1); }
+
     .ba-quote {
         text-align: center;
         max-width: 880px;
         margin: 0 auto;
-        padding: 0 24px;
+        position: relative;
+        z-index: 1;
+    }
+    .ba-quote__mark {
+        font-family: 'Playfair Display', serif;
+        font-size: clamp(90px, 12vw, 160px);
+        font-style: italic;
+        line-height: 1;
+        color: #D9B56D;
+        opacity: .25;
+        margin: 0 0 -.4em;
+        user-select: none;
     }
     .ba-quote__text {
         font-family: 'Playfair Display', serif;
         font-style: italic;
-        font-size: clamp(26px, 3.4vw, 44px);
+        font-size: clamp(24px, 3.2vw, 40px);
         font-weight: 400;
-        line-height: 1.35;
+        line-height: 1.4;
         color: #2E2A26;
-        margin: 0 0 32px;
+        margin: 0 0 36px;
+        letter-spacing: -.005em;
     }
-    .ba-quote__text::before,
-    .ba-quote__text::after {
-        content: "";
-        display: block;
-        width: 24px;
+    .ba-quote__text em {
+        font-style: italic;
+        background: linear-gradient(180deg, transparent 65%, rgba(217,181,109,.22) 65%, rgba(217,181,109,.22) 95%, transparent 95%);
+        padding: 0 2px;
+    }
+    /* Ornamento central: línea — diamante — línea */
+    .ba-quote__ornament {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 14px;
+        margin: 0 0 22px;
+    }
+    .ba-quote__ornament-line {
+        width: 56px;
         height: 1px;
-        background: #D9B56D;
-        margin: 0 auto;
+        background: linear-gradient(90deg, transparent, #D9B56D 50%, transparent);
     }
-    .ba-quote__text::before { margin-bottom: 32px; }
-    .ba-quote__text::after  { margin-top: 32px; }
+    .ba-quote__ornament-dot {
+        width: 8px; height: 8px;
+        background: #D9B56D;
+        transform: rotate(45deg);
+        box-shadow: 0 0 0 4px rgba(217,181,109,.18);
+    }
     .ba-quote__author {
         font-size: 11px;
-        letter-spacing: 0.28em;
+        letter-spacing: 0.32em;
         text-transform: uppercase;
-        color: #B8A999;
+        color: #BE9A53;
+        font-weight: 600;
     }
 
     /* Sets split */
@@ -1880,12 +1942,30 @@
 {{-- ============================================================
      7. EDITORIAL QUOTE — Manifesto
      ============================================================ --}}
-<section class="ba-section ba-section--cream-soft" aria-label="Filosofía de marca">
+<section class="ba-manifesto" aria-label="Filosofía de marca">
+    {{-- Hojas botánicas decorativas en esquinas --}}
+    <svg class="ba-manifesto__leaf ba-manifesto__leaf--tl" viewBox="0 0 120 120" fill="none" aria-hidden="true">
+        <path d="M20 100 Q 60 60 40 20 M 20 100 Q 70 80 90 40" stroke="#A8B29A" stroke-width="1" stroke-linecap="round"/>
+        <ellipse cx="48" cy="50" rx="11" ry="4" transform="rotate(-30 48 50)" fill="#A8B29A" opacity=".6"/>
+        <ellipse cx="68" cy="32" rx="9" ry="3.5" transform="rotate(-15 68 32)" fill="#A8B29A" opacity=".6"/>
+    </svg>
+    <svg class="ba-manifesto__leaf ba-manifesto__leaf--br" viewBox="0 0 120 120" fill="none" aria-hidden="true">
+        <path d="M20 100 Q 60 60 40 20 M 20 100 Q 70 80 90 40 M 38 70 Q 70 60 70 30" stroke="#D9B56D" stroke-width="1" stroke-linecap="round"/>
+        <ellipse cx="48" cy="50" rx="11" ry="4" transform="rotate(-30 48 50)" fill="#D9B56D" opacity=".5"/>
+        <ellipse cx="68" cy="32" rx="9" ry="3.5" transform="rotate(-15 68 32)" fill="#D9B56D" opacity=".5"/>
+    </svg>
+
     <div class="ba-quote" data-anim="fade-in">
+        <div class="ba-quote__mark" aria-hidden="true">&ldquo;</div>
         <p class="ba-quote__text">
-            "Belleza natural, elegante y atemporal — un ritual cuidado que cambia tu piel sin cambiar tu esencia."
+            Detrás de cada manicure impecable, cada mirada perfecta y cada corte preciso hay un material <em>elegido con criterio</em>. Eso armamos para ti.
         </p>
-        <p class="ba-quote__author">— Belleza Áurea</p>
+        <div class="ba-quote__ornament" aria-hidden="true">
+            <span class="ba-quote__ornament-line"></span>
+            <span class="ba-quote__ornament-dot"></span>
+            <span class="ba-quote__ornament-line"></span>
+        </div>
+        <p class="ba-quote__author">Belleza Áurea</p>
     </div>
 </section>
 
