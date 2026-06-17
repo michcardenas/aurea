@@ -1165,34 +1165,118 @@
         gap: 20px;
     }
 
-    /* Comparison */
+    /* ───────── Comparison — rediseño editorial con jerarquía ───────── */
+    .ba-compare-wrap {
+        position: relative;
+        overflow: hidden;
+    }
     .ba-compare {
         display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 32px;
-        max-width: 980px;
-        margin: 0 auto;
+        grid-template-columns: 1fr auto 1fr;
+        gap: 28px;
+        max-width: 1080px;
+        margin: 56px auto 0;
+        align-items: stretch;
+        position: relative;
+        z-index: 1;
     }
     .ba-compare__col {
-        padding: 40px 36px;
-        border-radius: 2px;
+        position: relative;
+        padding: 44px 38px 40px;
+        border-radius: 18px;
+        transition: transform .4s cubic-bezier(.2,.7,.3,1), box-shadow .4s ease;
     }
+    /* Columna "sin": sobria, casi neutra — debe sentirse "muerta" */
     .ba-compare__col--without {
-        background: #FFFFFF;
-        border: 1px solid rgba(184,169,153,.3);
+        background: linear-gradient(180deg, #FFFFFF 0%, #FBFAF7 100%);
+        border: 1px solid rgba(184,169,153,.22);
+        opacity: .92;
     }
+    /* Columna "con": protagonista — sombra áurea, borde dorado sutil, lift */
     .ba-compare__col--with {
-        background: linear-gradient(160deg, #FBF4E6 0%, #E8CC92 100%);
+        background: linear-gradient(160deg, #FFFFFF 0%, #FBF4E6 55%, #F4E4C5 100%);
+        border: 1px solid rgba(217,181,109,.45);
+        box-shadow: 0 30px 70px -24px rgba(190,154,83,.32),
+                    0 8px 20px -8px rgba(46,42,38,.06);
+        transform: translateY(-6px);
     }
+    .ba-compare__col--with:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 38px 86px -22px rgba(190,154,83,.40),
+                    0 8px 20px -8px rgba(46,42,38,.08);
+    }
+    .ba-compare__col--with::before {
+        content: 'Recomendado';
+        position: absolute;
+        top: -12px; right: 24px;
+        font-size: 10px;
+        font-weight: 600;
+        letter-spacing: .18em;
+        text-transform: uppercase;
+        color: #FFFFFF;
+        background: linear-gradient(135deg, #D9B56D 0%, #BE9A53 100%);
+        padding: 5px 14px;
+        border-radius: 999px;
+        box-shadow: 0 4px 12px rgba(190,154,83,.32);
+    }
+
+    /* Divisor central VS — solo en desktop */
+    .ba-compare__vs {
+        align-self: center;
+        width: 56px;
+        height: 56px;
+        border-radius: 50%;
+        background: #FFFFFF;
+        border: 1px solid rgba(184,169,153,.32);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: 'Playfair Display', serif;
+        font-style: italic;
+        font-size: 18px;
+        font-weight: 600;
+        color: #BE9A53;
+        box-shadow: 0 8px 20px rgba(46,42,38,.06);
+        position: relative;
+    }
+    .ba-compare__vs::before,
+    .ba-compare__vs::after {
+        content: '';
+        position: absolute;
+        width: 28px; height: 1px;
+        background: linear-gradient(90deg, transparent, rgba(217,181,109,.5));
+    }
+    .ba-compare__vs::before { right: 100%; }
+    .ba-compare__vs::after  { left: 100%; background: linear-gradient(90deg, rgba(217,181,109,.5), transparent); }
+
     .ba-compare__label {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
         font-size: 11px;
         letter-spacing: 0.22em;
         text-transform: uppercase;
-        font-weight: 500;
-        margin-bottom: 24px;
+        font-weight: 600;
+        margin-bottom: 28px;
+        padding: 6px 12px 6px 8px;
+        border-radius: 999px;
     }
-    .ba-compare__col--without .ba-compare__label { color: #B8A999; }
-    .ba-compare__col--with .ba-compare__label    { color: #2E2A26; }
+    .ba-compare__label-dot {
+        width: 8px; height: 8px;
+        border-radius: 50%;
+        display: inline-block;
+    }
+    .ba-compare__col--without .ba-compare__label {
+        color: #8E7F6F;
+        background: rgba(184,169,153,.14);
+    }
+    .ba-compare__col--without .ba-compare__label-dot { background: #B8A999; }
+    .ba-compare__col--with .ba-compare__label {
+        color: #2E2A26;
+        background: rgba(217,181,109,.18);
+    }
+    .ba-compare__col--with .ba-compare__label-dot { background: #BE9A53; box-shadow: 0 0 0 3px rgba(217,181,109,.25); }
+
     .ba-compare__list {
         list-style: none;
         padding: 0;
@@ -1200,18 +1284,48 @@
     }
     .ba-compare__list li {
         display: flex;
-        align-items: baseline;
-        gap: 12px;
-        padding: 12px 0;
-        font-size: 15px;
-        color: #2E2A26;
-        line-height: 1.5;
+        align-items: flex-start;
+        gap: 14px;
+        padding: 14px 0;
+        font-size: 14.5px;
+        line-height: 1.55;
+        border-top: 1px solid rgba(184,169,153,.16);
+    }
+    .ba-compare__list li:first-child { border-top: 0; padding-top: 4px; }
+
+    .ba-compare__list li::before {
+        flex-shrink: 0;
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        font-size: 13px;
+        line-height: 1;
+        margin-top: 2px;
+    }
+    .ba-compare__col--without .ba-compare__list li {
+        color: #8E7F6F;
+        text-decoration: line-through;
+        text-decoration-color: rgba(184,169,153,.4);
+        text-decoration-thickness: 1px;
     }
     .ba-compare__col--without .ba-compare__list li::before {
-        content: "×"; color: #B8A999; font-size: 18px;
+        content: '×';
+        background: rgba(184,169,153,.14);
+        color: #8E7F6F;
+    }
+    .ba-compare__col--with .ba-compare__list li {
+        color: #2E2A26;
+        font-weight: 500;
     }
     .ba-compare__col--with .ba-compare__list li::before {
-        content: "✓"; color: #BE9A53; font-weight: 600;
+        content: '✓';
+        background: linear-gradient(135deg, #D9B56D 0%, #BE9A53 100%);
+        color: #FFFFFF;
+        box-shadow: 0 2px 6px rgba(190,154,83,.35);
     }
 
     /* Testimonials */
@@ -1442,7 +1556,9 @@
         .ba-benefits { grid-template-columns: 1fr; gap: 16px; }
         .ba-benefit { padding: 30px 24px 26px; }
         .ba-tests { grid-template-columns: 1fr; }
-        .ba-compare { grid-template-columns: 1fr; }
+        .ba-compare { grid-template-columns: 1fr; gap: 20px; }
+        .ba-compare__vs { display: none; }
+        .ba-compare__col--with { transform: none; }
         .ba-sets__grid { grid-template-columns: 1fr; }
     }
 
@@ -2027,7 +2143,7 @@
      9. COMPARISON — Con vs Sin ritual
      ============================================================ --}}
 @if(!empty($homePage->comparison_without_items) || !empty($homePage->comparison_with_items))
-<section class="ba-section ba-section--cream" aria-labelledby="compare-title">
+<section class="ba-section ba-section--cream ba-compare-wrap" aria-labelledby="compare-title">
     <div class="ba-container">
         <header class="ba-section-head" data-anim="fade-up">
             <span class="ba-section-head__label">{{ $homePage->comparison_label ?? 'El antes y después' }}</span>
@@ -2040,15 +2156,24 @@
 
         <div class="ba-compare">
             <div class="ba-compare__col ba-compare__col--without" data-anim="fade-right">
-                <p class="ba-compare__label">{{ $homePage->comparison_without_label ?? 'Sin ritual' }}</p>
+                <p class="ba-compare__label">
+                    <span class="ba-compare__label-dot"></span>
+                    {{ $homePage->comparison_without_label ?? 'Sin ritual' }}
+                </p>
                 <ul class="ba-compare__list">
                     @foreach(($homePage->comparison_without_items ?? []) as $item)
                         <li>{{ is_array($item) ? ($item['text'] ?? $item[0] ?? '') : $item }}</li>
                     @endforeach
                 </ul>
             </div>
+
+            <div class="ba-compare__vs" aria-hidden="true">vs</div>
+
             <div class="ba-compare__col ba-compare__col--with" data-anim="fade-left">
-                <p class="ba-compare__label">{{ $homePage->comparison_with_label ?? 'Con Belleza Áurea' }}</p>
+                <p class="ba-compare__label">
+                    <span class="ba-compare__label-dot"></span>
+                    {{ $homePage->comparison_with_label ?? 'Con Belleza Áurea' }}
+                </p>
                 <ul class="ba-compare__list">
                     @foreach(($homePage->comparison_with_items ?? []) as $item)
                         <li>{{ is_array($item) ? ($item['text'] ?? $item[0] ?? '') : $item }}</li>
