@@ -2356,37 +2356,26 @@
 </style>
 
 {{-- ============================================================
-     10. TESTIMONIALS
+     10. TESTIMONIALS — desactivado hasta tener reseñas reales del negocio.
+     Solo se renderiza si el admin sube testimonios reales en la BD.
      ============================================================ --}}
-@php
-    $displayTestimonials = $testimonials->count() ? $testimonials->take(3) : collect([
-        (object) ['name' => 'Camila R.', 'role' => 'Editora de moda', 'body' => 'Empecé con el Sérum Áureo y a las cuatro semanas mi piel está visiblemente más luminosa. Es mi ritual sagrado de las mañanas.'],
-        (object) ['name' => 'Valentina M.', 'role' => 'Empresaria', 'body' => 'El Ritual Esencial me cambió la rutina por completo. La sensación de la crema con karité es como un mimo diario. Tres meses y mi piel nunca se vio mejor.'],
-        (object) ['name' => 'Sofía L.', 'role' => 'Maquilladora profesional', 'body' => 'Recomiendo Belleza Áurea a todas mis clientas. Fórmulas limpias, activos en concentración correcta y el packaging es una belleza.'],
-    ]);
-@endphp
-@if($displayTestimonials->count())
+@if($testimonials->count())
 <section class="ba-section" aria-labelledby="tests-title">
     <div class="ba-container">
         <header class="ba-section-head" data-anim="fade-up">
             <span class="ba-section-head__label">Testimonios</span>
-            <h2 id="tests-title" class="ba-section-head__title">Lo que dicen nuestras clientas</h2>
+            <h2 id="tests-title" class="ba-section-head__title">Lo que dicen nuestras clientes</h2>
             <div class="ba-divider"></div>
         </header>
 
         <div class="ba-tests">
-            @foreach($displayTestimonials as $i => $t)
-                @php
-                    $tName = is_object($t) ? $t->name : ($t['name'] ?? '');
-                    $tRole = is_object($t) ? ($t->role ?? '') : ($t['role'] ?? '');
-                    $tBody = is_object($t) ? $t->body : ($t['body'] ?? '');
-                @endphp
+            @foreach($testimonials->take(3) as $i => $t)
                 <article class="ba-test" data-anim="fade-up" style="--stagger: {{ $i }};">
                     <div class="ba-test__mark">"</div>
-                    <p class="ba-test__body">{{ $tBody }}</p>
-                    <p class="ba-test__author">{{ $tName }}</p>
-                    @if($tRole)
-                    <p class="ba-test__role">{{ $tRole }}</p>
+                    <p class="ba-test__body">{{ $t->body }}</p>
+                    <p class="ba-test__author">{{ $t->name }}</p>
+                    @if($t->role ?? null)
+                    <p class="ba-test__role">{{ $t->role }}</p>
                     @endif
                 </article>
             @endforeach
