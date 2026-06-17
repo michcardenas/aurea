@@ -930,34 +930,109 @@
     }
 
     /* Benefits */
+    /* ───────── Benefits — rediseño editorial premium ───────── */
+    .ba-benefits-wrap {
+        position: relative;
+        background: linear-gradient(180deg, #FBF8F2 0%, #F4EFE5 100%);
+        overflow: hidden;
+    }
+    .ba-benefits-wrap::before,
+    .ba-benefits-wrap::after {
+        content: '';
+        position: absolute;
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 0;
+        filter: blur(80px);
+    }
+    .ba-benefits-wrap::before {
+        top: -120px; left: -80px;
+        width: 360px; height: 360px;
+        background: radial-gradient(circle, rgba(217,181,109,.18), transparent 70%);
+    }
+    .ba-benefits-wrap::after {
+        bottom: -140px; right: -100px;
+        width: 420px; height: 420px;
+        background: radial-gradient(circle, rgba(168,178,154,.16), transparent 70%);
+    }
+    .ba-benefits-wrap .ba-container { position: relative; z-index: 1; }
+
     .ba-benefits {
         display: grid;
         grid-template-columns: repeat(4, 1fr);
-        gap: 32px;
+        gap: 24px;
+        margin-top: 56px;
     }
     .ba-benefit {
         position: relative;
-        padding: 32px 24px 32px 0;
-        border-top: 1px solid rgba(184,169,153,.32);
+        background: #FFFFFF;
+        border: 1px solid rgba(184,169,153,.18);
+        border-radius: 14px;
+        padding: 38px 28px 32px;
+        overflow: hidden;
+        transition: transform .35s cubic-bezier(.2,.7,.3,1),
+                    box-shadow .35s ease,
+                    border-color .35s ease;
     }
+    .ba-benefit::before {
+        content: '';
+        position: absolute;
+        top: 0; left: 0; right: 0;
+        height: 3px;
+        background: linear-gradient(90deg, #D9B56D 0%, #BE9A53 50%, #A8B29A 100%);
+        transform: scaleX(0);
+        transform-origin: left center;
+        transition: transform .55s cubic-bezier(.2,.7,.3,1);
+    }
+    .ba-benefit:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 24px 56px -18px rgba(190,154,83,.28),
+                    0 4px 12px rgba(46,42,38,.04);
+        border-color: rgba(217,181,109,.45);
+    }
+    .ba-benefit:hover::before { transform: scaleX(1); }
+
+    .ba-benefit__icon {
+        width: 48px;
+        height: 48px;
+        border-radius: 12px;
+        background: linear-gradient(135deg, #FBF4E6 0%, #F7F3ED 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #BE9A53;
+        margin-bottom: 24px;
+        transition: transform .4s cubic-bezier(.2,.7,.3,1),
+                    background .4s ease,
+                    color .4s ease;
+    }
+    .ba-benefit__icon svg { width: 22px; height: 22px; }
+    .ba-benefit:hover .ba-benefit__icon {
+        background: linear-gradient(135deg, #D9B56D 0%, #BE9A53 100%);
+        color: #FFFFFF;
+        transform: scale(1.08) rotate(-4deg);
+    }
+
     .ba-benefit__num {
         font-family: 'Playfair Display', serif;
-        font-size: 13px;
+        font-size: 12px;
+        letter-spacing: .16em;
         font-style: italic;
-        color: #D9B56D;
-        margin-bottom: 18px;
+        color: #BE9A53;
+        margin-bottom: 8px;
+        text-transform: uppercase;
     }
     .ba-benefit__title {
         font-family: 'Playfair Display', serif;
-        font-size: 20px;
+        font-size: 19px;
         font-weight: 500;
         color: #2E2A26;
-        line-height: 1.2;
-        margin: 0 0 12px;
+        line-height: 1.3;
+        margin: 0 0 14px;
     }
     .ba-benefit__desc {
-        font-size: 14px;
-        line-height: 1.65;
+        font-size: 13.5px;
+        line-height: 1.7;
         color: #6B6157;
         margin: 0;
     }
@@ -1302,8 +1377,8 @@
         .ba-hero__left { padding: 56px 24px 40px; }
         .ba-prods { grid-template-columns: repeat(2, 1fr); gap: 24px 12px; }
         .ba-cats { grid-template-columns: 1fr; }
-        .ba-benefits { grid-template-columns: 1fr; gap: 0; }
-        .ba-benefit { padding: 28px 0; }
+        .ba-benefits { grid-template-columns: 1fr; gap: 16px; }
+        .ba-benefit { padding: 30px 24px 26px; }
         .ba-tests { grid-template-columns: 1fr; }
         .ba-compare { grid-template-columns: 1fr; }
         .ba-sets__grid { grid-template-columns: 1fr; }
@@ -1756,7 +1831,26 @@
     $benefitsCards = collect($homePage->benefits_cards ?? [])->filter(fn ($b) => !empty($b['title'] ?? ''));
 @endphp
 @if($benefitsCards->isNotEmpty())
-<section class="ba-section" aria-labelledby="benefits-title">
+@php
+    // Set de iconos editoriales para cada card. Se mapean por keyword del título;
+    // si no matchea, cae a un icono "spark" neutro.
+    $benefitIcons = [
+        'precio'   => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41 13.42 20.58a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82Z"/><circle cx="7" cy="7" r="1.5" fill="currentColor"/></svg>',
+        'lugar'    => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>',
+        'calidad'  => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m12 2 2.39 7.36H22l-6.18 4.49 2.36 7.27L12 16.65l-6.18 4.47 2.36-7.27L2 9.36h7.61L12 2Z"/></svg>',
+        'despacho' => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7h11v10H3z"/><path d="M14 10h4l3 3v4h-7"/><circle cx="7" cy="18" r="1.6"/><circle cx="17" cy="18" r="1.6"/></svg>',
+    ];
+    $iconDefault = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M5.6 18.4l2.1-2.1M16.3 7.7l2.1-2.1"/></svg>';
+
+    $pickIcon = function (string $title) use ($benefitIcons, $iconDefault) {
+        $t = mb_strtolower($title);
+        foreach ($benefitIcons as $k => $svg) {
+            if (str_contains($t, $k)) return $svg;
+        }
+        return $iconDefault;
+    };
+@endphp
+<section class="ba-section ba-benefits-wrap" aria-labelledby="benefits-title">
     <div class="ba-container">
         <header class="ba-section-head" data-anim="fade-up">
             <span class="ba-section-head__label">{{ $homePage->benefits_label ?? 'Por qué elegirnos' }}</span>
@@ -1770,6 +1864,9 @@
         <div class="ba-benefits">
             @foreach($benefitsCards->values() as $i => $b)
                 <div class="ba-benefit" data-anim="fade-up" style="--stagger: {{ $i }};">
+                    <div class="ba-benefit__icon" aria-hidden="true">
+                        {!! $pickIcon($b['title']) !!}
+                    </div>
                     <div class="ba-benefit__num">— {{ str_pad($i + 1, 2, '0', STR_PAD_LEFT) }}</div>
                     <h3 class="ba-benefit__title">{{ $b['title'] }}</h3>
                     <p class="ba-benefit__desc">{{ $b['description'] ?? '' }}</p>
