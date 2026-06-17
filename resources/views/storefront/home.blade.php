@@ -2186,105 +2186,174 @@
 @endif
 
 {{-- ============================================================
-     9b. MARCAS QUE DISTRIBUIMOS — carrusel infinito de logos
-     SEO: cada logo es un <a> real con anchor text de la marca, lo
-     cual ayuda a indexar /marcas/{slug} y refuerza la autoridad.
+     9b. AUTHORITY / SEO — Tu mayorista de belleza en Colombia
+     Bloque editorial denso para SEO + GEO (citable por IAs) con stat
+     cards de respaldo. Reemplaza el carrusel de marcas mientras solo
+     se trabaja con un proveedor.
      ============================================================ --}}
-@if(($featuredBrands ?? collect())->isNotEmpty())
-<section class="ba-section" aria-labelledby="brands-title" style="padding:clamp(64px,8vw,100px) 0;">
+@php
+    $authStats = [
+        ['num' => (\App\Models\Product::where('is_active', 1)->count() ?: 300), 'suffix' => '+', 'label' => 'Referencias activas', 'detail' => 'Esmaltes, pestañas, peluquería, decoración y herramientas, todas en stock real.'],
+        ['num' => '32', 'suffix' => '', 'label' => 'Departamentos atendidos', 'detail' => 'Despacho con seguimiento a toda Colombia desde nuestra bodega.'],
+        ['num' => '24', 'suffix' => 'h', 'label' => 'Respuesta WhatsApp', 'detail' => 'Resolvemos dudas, novedades y reposiciones sin esperar al lunes.'],
+        ['num' => '100', 'suffix' => '%', 'label' => 'Producto original', 'detail' => 'Solo trabajamos con marcas verificadas y proveedores con trazabilidad.'],
+    ];
+@endphp
+<section class="ba-section ba-authority" aria-labelledby="auth-title">
     <div class="ba-container">
         <header class="ba-section-head" data-anim="fade-up">
-            <span class="ba-section-head__label">Marcas que distribuimos</span>
-            <h2 id="brands-title" class="ba-section-head__title">Trabajamos con las mejores</h2>
-            <p class="ba-section-head__sub">Selección curada de marcas premium con ingredientes botánicos, formulaciones limpias y resultados visibles.</p>
+            <span class="ba-section-head__label">Mayorista en Colombia</span>
+            <h2 id="auth-title" class="ba-section-head__title">Tu distribuidora de productos profesionales de belleza</h2>
             <div class="ba-divider"></div>
         </header>
-    </div>
 
-    {{-- Carrusel infinito, full-bleed --}}
-    <div class="ba-brands-marquee" data-anim="fade-in" style="--stagger: 2;">
-        <div class="ba-brands-track">
-            @for($iter = 0; $iter < 2; $iter++)
-                @foreach($featuredBrands as $brand)
-                    <a href="{{ route('brands.show', $brand->slug) }}"
-                       class="ba-brand-logo"
-                       title="{{ $brand->name }} — {{ $brand->short_description ?? 'Ver productos' }}">
-                        @if($brand->logo_path)
-                            <img src="{{ $brand->logo_url }}" alt="{{ $brand->name }}" loading="lazy">
-                        @else
-                            <span class="ba-brand-logo__text">{{ $brand->name }}</span>
-                        @endif
-                    </a>
-                @endforeach
-            @endfor
+        <div class="ba-authority__body" data-anim="fade-up" style="--stagger: 2;">
+            <p class="ba-authority__lead">
+                Belleza Áurea es la <strong>distribuidora colombiana</strong> donde manicuristas, lashistas, estilistas y dueños de salón
+                arman su pedido completo en un solo lugar — esmaltes, pestañas, herramientas, equipos, peluquería y bioseguridad —
+                con <strong>precios mayoristas reales</strong> y despacho con seguimiento a todo el país.
+            </p>
+            <p class="ba-authority__lead">
+                Curamos cada referencia pensando en el rendimiento en cabina y en el margen de tu negocio. Sin pedido mínimo,
+                sin letra chica y con respaldo directo por WhatsApp cuando lo necesites.
+            </p>
         </div>
-    </div>
 
-    <div class="ba-container" style="text-align:center;margin-top:48px;" data-anim="fade-up">
-        <a href="{{ route('brands.index') }}" class="ba-btn-ghost">Ver todas las marcas</a>
+        <div class="ba-authority__stats">
+            @foreach($authStats as $i => $s)
+                <div class="ba-authority__stat" data-anim="fade-up" style="--stagger: {{ 3 + $i }};">
+                    <div class="ba-authority__num">
+                        <span class="ba-authority__num-val">{{ $s['num'] }}</span><span class="ba-authority__num-suf">{{ $s['suffix'] }}</span>
+                    </div>
+                    <h3 class="ba-authority__stat-label">{{ $s['label'] }}</h3>
+                    <p class="ba-authority__stat-detail">{{ $s['detail'] }}</p>
+                </div>
+            @endforeach
+        </div>
+
+        <div class="ba-authority__cta" data-anim="fade-up" style="--stagger: 8;">
+            <a href="{{ route('products.index') }}" class="ba-btn-primary">
+                <span>Explorar catálogo completo</span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12h14M13 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+            <a href="https://wa.me/573000000000?text=Hola%2C+quiero+armar+un+pedido+mayorista" class="ba-btn-ghost" target="_blank" rel="noopener">
+                Hablar por WhatsApp
+            </a>
+        </div>
     </div>
 </section>
 
 <style>
-    .ba-brands-marquee {
+    .ba-authority {
         position: relative;
+        background: linear-gradient(180deg, #FFFFFF 0%, #FBF8F2 100%);
         overflow: hidden;
-        padding: 32px 0;
-        mask-image: linear-gradient(to right, transparent 0, #000 8%, #000 92%, transparent 100%);
-        -webkit-mask-image: linear-gradient(to right, transparent 0, #000 8%, #000 92%, transparent 100%);
     }
-    .ba-brands-track {
+    .ba-authority::before {
+        content: '';
+        position: absolute;
+        top: 50%; left: 50%;
+        transform: translate(-50%, -50%);
+        width: 600px; height: 600px;
+        background: radial-gradient(circle, rgba(217,181,109,.08), transparent 60%);
+        filter: blur(60px);
+        pointer-events: none;
+        z-index: 0;
+    }
+    .ba-authority > .ba-container { position: relative; z-index: 1; }
+
+    .ba-authority__body {
+        max-width: 820px;
+        margin: 0 auto 64px;
+        text-align: center;
+    }
+    .ba-authority__lead {
+        font-size: clamp(15px, 1.5vw, 17px);
+        line-height: 1.75;
+        color: #4A453F;
+        margin: 0 0 18px;
+    }
+    .ba-authority__lead:last-child { margin-bottom: 0; }
+    .ba-authority__lead strong {
+        color: #2E2A26;
+        font-weight: 600;
+        background: linear-gradient(180deg, transparent 70%, rgba(217,181,109,.22) 70%);
+        padding: 0 2px;
+    }
+
+    .ba-authority__stats {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 24px;
+        margin-bottom: 48px;
+    }
+    .ba-authority__stat {
+        background: #FFFFFF;
+        border: 1px solid rgba(184,169,153,.18);
+        border-radius: 14px;
+        padding: 32px 24px 28px;
+        text-align: center;
+        transition: transform .35s ease, box-shadow .35s ease, border-color .35s ease;
+    }
+    .ba-authority__stat:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 20px 48px -16px rgba(190,154,83,.22);
+        border-color: rgba(217,181,109,.4);
+    }
+    .ba-authority__num {
         display: flex;
-        align-items: center;
-        gap: 72px;
-        white-space: nowrap;
-        animation: ba-brands-scroll 42s linear infinite;
-        width: max-content;
-    }
-    .ba-brands-marquee:hover .ba-brands-track {
-        animation-play-state: paused;
-    }
-    @keyframes ba-brands-scroll {
-        from { transform: translateX(0); }
-        to   { transform: translateX(-50%); }
-    }
-    .ba-brand-logo {
-        display: inline-flex;
-        align-items: center;
+        align-items: baseline;
         justify-content: center;
-        height: 80px;
-        min-width: 140px;
-        padding: 0 8px;
-        text-decoration: none;
-        transition: filter .35s ease, opacity .35s ease, transform .35s ease;
-        filter: grayscale(100%);
-        opacity: .55;
-        flex-shrink: 0;
-    }
-    .ba-brand-logo:hover {
-        filter: none;
-        opacity: 1;
-        transform: scale(1.05);
-    }
-    .ba-brand-logo img {
-        max-height: 60px;
-        max-width: 160px;
-        object-fit: contain;
-        display: block;
-    }
-    .ba-brand-logo__text {
         font-family: 'Playfair Display', serif;
-        font-size: 26px;
+        line-height: 1;
+        margin-bottom: 14px;
+        color: #BE9A53;
+    }
+    .ba-authority__num-val {
+        font-size: clamp(36px, 4.5vw, 56px);
+        font-weight: 500;
+        letter-spacing: -0.02em;
+        background: linear-gradient(135deg, #D9B56D 0%, #BE9A53 70%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+    .ba-authority__num-suf {
+        font-size: clamp(22px, 2.5vw, 32px);
+        font-weight: 500;
+        color: #D9B56D;
+        margin-left: 2px;
+    }
+    .ba-authority__stat-label {
+        font-family: 'Playfair Display', serif;
+        font-size: 16px;
         font-weight: 500;
         color: #2E2A26;
-        letter-spacing: .04em;
-        white-space: nowrap;
+        margin: 0 0 8px;
+        line-height: 1.3;
     }
-    @media (prefers-reduced-motion: reduce) {
-        .ba-brands-track { animation: none; }
+    .ba-authority__stat-detail {
+        font-size: 12.5px;
+        line-height: 1.6;
+        color: #6B6157;
+        margin: 0;
+    }
+
+    .ba-authority__cta {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 14px;
+        flex-wrap: wrap;
+    }
+
+    @media (max-width: 900px) {
+        .ba-authority__stats { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 480px) {
+        .ba-authority__stats { grid-template-columns: 1fr; }
     }
 </style>
-@endif
 
 {{-- ============================================================
      10. TESTIMONIALS
